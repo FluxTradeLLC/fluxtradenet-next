@@ -5,11 +5,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const navLinks = [
-  { label: "Strategies", href: "/#strategies" },
+  { label: "Automated Strategies", href: "/#strategies" },
   { label: "Indicators", href: "/#features" },
   { label: "Platforms", href: "/#platforms" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "https://fluxtrade.net/blog" },
 ];
 
 export function Header() {
