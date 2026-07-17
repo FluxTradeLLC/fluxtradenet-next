@@ -117,7 +117,7 @@ function StrategyCard({
   billingPeriod,
   currency,
 }: StrategyCardProps) {
-  const signupUrl = "https://fluxtrade.net/signup";
+  const signupUrl = "/signup";
   const monthlyPrice = PRICING.MONTHLY.STRATEGY;
 
   return (
@@ -317,7 +317,7 @@ export function PricingContent() {
             match your style. Start with one — add more anytime.
           </p>
           <Link
-            href="https://fluxtrade.net/signup"
+            href="/signup"
             className="btn-primary mt-8 px-10 py-4 text-base"
           >
             Get Started

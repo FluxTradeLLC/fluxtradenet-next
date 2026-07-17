@@ -5,25 +5,25 @@ const strategies = [
     name: "Hydra",
     type: "Renko Patterns",
     tags: ["Renko", "Patterns"],
-    href: "https://fluxtrade.net/backtests/hydra",
+    href: "/backtests/hydra",
   },
   {
     name: "Ignition",
     type: "Opening Range Break",
     tags: ["Volatility", "Breakout"],
-    href: "https://fluxtrade.net/backtests/ignition",
+    href: "/backtests/ignition",
   },
   {
     name: "ORMS",
     type: "Opening Range Momentum Scalping",
     tags: ["Scalping", "Momentum"],
-    href: "https://fluxtrade.net/backtests/orms",
+    href: "/backtests/orms",
   },
   {
     name: "Kraken",
     type: "Compression Breakout",
     tags: ["Breakout", "Volatility"],
-    href: "https://fluxtrade.net/backtests/kraken",
+    href: "/backtests/kraken",
   },
 ];
 
@@ -47,7 +47,7 @@ export function Strategies() {
             </p>
           </div>
           <Link
-            href="https://fluxtrade.net/backtests/explorer"
+            href="/backtests/explorer"
             className="shrink-0 text-sm font-medium text-[#39ff14] transition-colors hover:text-white"
           >
             View all strategies →
@@ -61,11 +61,6 @@ export function Strategies() {
               href={strategy.href}
               className="glass-card group relative rounded-2xl p-6 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(57,255,20,0.08)]"
             >
-              {strategy.badge && (
-                <span className="badge-new absolute right-4 top-4">
-                  {strategy.badge}
-                </span>
-              )}
               <h3 className="text-lg font-semibold text-white group-hover:text-flux-green transition-colors">
                 {strategy.name}
               </h3>

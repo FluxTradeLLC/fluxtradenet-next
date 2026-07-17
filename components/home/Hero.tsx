@@ -60,7 +60,7 @@ export function Hero() {
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
           <Link
-            href="https://fluxtrade.net/signup"
+            href="/signup"
             className="btn-primary group px-8 py-4 text-base"
           >
             Get Started
@@ -75,7 +75,7 @@ export function Hero() {
             </svg>
           </Link>
           <Link
-            href="https://fluxtrade.net/backtests/explorer"
+            href="/backtests/explorer"
             className="btn-secondary px-8 py-4 text-base"
           >
             Explore Backtests

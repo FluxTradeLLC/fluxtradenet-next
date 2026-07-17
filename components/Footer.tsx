@@ -4,18 +4,18 @@ import Link from "next/link";
 const footerLinks = {
     Product: [
     { label: "Pricing", href: "/pricing" },
-    { label: "Backtest Explorer", href: "https://fluxtrade.net/backtests/explorer" },
-    { label: "Live Stream", href: "https://fluxtrade.net/stream" },
+    { label: "Backtest Explorer", href: "/backtests/explorer" },
+    { label: "Live Stream", href: "/stream" },
   ],
   Company: [
-    { label: "Blog", href: "https://fluxtrade.net/blog" },
-    { label: "Affiliates", href: "https://fluxtrade.net/affiliates" },
-    { label: "Support", href: "https://fluxtrade.net/support" },
+    { label: "Blog", href: "/blog" },
+    { label: "Affiliates", href: "/affiliates" },
+    { label: "Support", href: "/support" },
   ],
   Legal: [
-    { label: "Terms", href: "https://fluxtrade.net/terms" },
-    { label: "Policies", href: "https://fluxtrade.net/policies" },
-    { label: "Disclaimers", href: "https://fluxtrade.net/disclaimers" },
+    { label: "Terms", href: "/terms" },
+    { label: "Policies", href: "/policies" },
+    { label: "Disclaimers", href: "/disclaimers" },
   ],
 };
 

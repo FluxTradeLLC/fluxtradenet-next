@@ -17,7 +17,7 @@ export function CTA() {
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
-            href="https://fluxtrade.net/signup"
+            href="/signup"
             className="btn-primary px-10 py-4 text-base"
           >
             Get Started
