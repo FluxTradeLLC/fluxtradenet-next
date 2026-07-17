@@ -13,6 +13,27 @@ export const PRICING = {
   },
 } as const;
 
+export const STRIPE_PRICE_IDS = {
+  MONTHLY: {
+    HYDRA: "price_1Tu0dKDHqntRcM5iI8rIA9Sx",
+    KRAKEN: "price_1Tu0d0DHqntRcM5i6mVv7r4k",
+    IGNITION: "price_1Tu0dXDHqntRcM5iyFoNfoax",
+    ORMS: "price_1Tu0djDHqntRcM5iZw8nDUzv"
+  },
+  QUARTERLY: {
+    HYDRA: "price_1Tu0elDHqntRcM5iaQ1oRPiR",
+    KRAKEN: "price_1Tu0eGDHqntRcM5i4jIagthy",
+    IGNITION: "price_1Tu0f1DHqntRcM5iCTMUOyuD",
+    ORMS: "price_1Tu0fKDHqntRcM5iSGXIjkPq"
+  },
+  YEARLY: {
+    HYDRA: "price_1Tu0esDHqntRcM5iLhauZu7v",
+    KRAKEN: "price_1Tu0eQDHqntRcM5iMsV5AtW2",
+    IGNITION: "price_1Tu0f9DHqntRcM5iAfl18QDg",
+    ORMS: "price_1Tu0fSDHqntRcM5i5j1EF0HB"
+  }
+}
+
 export const CURRENCY_RATES = {
   USD: 1,
   EUR: 0.92,
