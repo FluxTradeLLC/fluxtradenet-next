@@ -17,6 +17,20 @@ import {
 } from "@/components/auth/auth-ui";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const termsRequiredTooltipMessage =
+  "Please agree to the Terms and Conditions to continue";
+
+function TermsRequiredTooltip({ id }: { id: string }) {
+  return (
+    <span
+      id={id}
+      role="tooltip"
+      className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg border border-border bg-surface px-3 py-1.5 text-xs text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100"
+    >
+      {termsRequiredTooltipMessage}
+    </span>
+  );
+}
 
 export function SignUpForm() {
   const { signIn } = useSignIn();
@@ -180,26 +194,34 @@ export function SignUpForm() {
             </span>
           </label>
         </div>
-        <button
-          type="submit"
-          disabled={!acceptedTerms || !email || !password || !!emailError || loading}
-          className="btn-primary w-full rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
-          aria-label="Sign Up"
-        >
-          {loading ? "Creating account..." : "Sign Up"}
-        </button>
+        <div className="group relative w-full">
+          <button
+            type="submit"
+            disabled={!acceptedTerms || !email || !password || !!emailError || loading}
+            className="btn-primary w-full !rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label="Sign Up"
+            aria-describedby={!acceptedTerms ? "signup-submit-tooltip" : undefined}
+          >
+            {loading ? "Creating account..." : "Sign Up"}
+          </button>
+          {!acceptedTerms ? <TermsRequiredTooltip id="signup-submit-tooltip" /> : null}
+        </div>
       </form>
       <AuthDivider />
-      <button
-        type="button"
-        onClick={handleGoogleSubmit}
-        disabled={!acceptedTerms || loading}
-        className="flex w-full items-center justify-center rounded-xl border border-border bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-surface disabled:text-muted"
-        aria-label="Continue with Google"
-      >
-        <GoogleIcon className="mr-2 h-5 w-5" />
-        Continue with Google
-      </button>
+      <div className="group relative w-full">
+        <button
+          type="button"
+          onClick={handleGoogleSubmit}
+          disabled={!acceptedTerms || loading}
+          className="flex w-full items-center justify-center rounded-xl border border-border bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-surface disabled:text-muted"
+          aria-label="Continue with Google"
+          aria-describedby={!acceptedTerms ? "google-signup-tooltip" : undefined}
+        >
+          <GoogleIcon className="mr-2 h-5 w-5" />
+          Continue with Google
+        </button>
+        {!acceptedTerms ? <TermsRequiredTooltip id="google-signup-tooltip" /> : null}
+      </div>
     </AuthCard>
   );
 }

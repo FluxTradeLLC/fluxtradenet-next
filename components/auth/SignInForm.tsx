@@ -109,7 +109,7 @@ export function SignInForm() {
         <button
           type="submit"
           disabled={!email || !password || loading}
-          className="btn-primary w-full rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+          className="btn-primary w-full !rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
           aria-label="Sign In"
         >
           {loading ? "Signing in..." : "Sign In"}
