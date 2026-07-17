@@ -1,0 +1,1978 @@
+{
+  "strategy": "FluxTrade_ORMS",
+  "className": "FluxTrade_ORMS",
+  "description": "Momentum scalping strategy that detects pushing of Morning High upwards (long) or Morning Low downwards (short)",
+  "sourceFile": "strategies/ORMS.cs",
+  "parameterGroups": [
+    {
+      "name": "Risk Management",
+      "properties": [
+        {
+          "property": "UseMaxDailyProfit",
+          "displayName": "Use Max Daily Profit",
+          "description": "Enable daily maximum profit cap (currency)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyProfit",
+          "displayName": "Max Daily Profit ($)",
+          "description": "Currency amount at/above which no more trades will be taken today",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "UseMaxDailyLoss",
+          "displayName": "Use Max Daily Loss",
+          "description": "Enable daily maximum loss cap (currency)",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLoss",
+          "displayName": "Max Daily Loss ($)",
+          "description": "Currency amount at/below which no more trades will be taken today",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "EndDayOnUnrealizedProfit",
+          "displayName": "End day on unrealized profit?",
+          "description": "If enabled, close current trade and stop trading for the day when realized + unrealized PnL breaches daily limits",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "BreakevenProfit",
+          "displayName": "Breakeven Profit (Currency)",
+          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount",
+          "order": 8,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "UseShouldITradeFilter",
+          "displayName": "Use Should I Trade Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Confluence - Day Type / Probe",
+      "properties": [
+        {
+          "property": "DayTypeProbeMode",
+          "displayName": "Day/Probe Mode",
+          "description": "Which Day Type + Probe combination satisfies the confluence: (RANGE & FADE), (TREND & CONTINUATION), or either.",
+          "order": 1,
+          "type": "enum",
+          "enumType": "DayTypeProbeMode",
+          "possibleValues": [
+            {
+              "name": "RangeAndFade",
+              "value": "RangeAndFade"
+            },
+            {
+              "name": "TrendAndContinuation",
+              "value": "TrendAndContinuation"
+            },
+            {
+              "name": "Either",
+              "value": "Either"
+            }
+          ],
+          "default": "DayTypeProbeMode.Either"
+        },
+        {
+          "property": "EnableConfluenceDayTypeProbe",
+          "displayName": "Enable Day/Probe Confluence",
+          "description": "Require the Day Type + Probe combo to align (RANGE+FADE or TREND+CONTINUATION).",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Optional Triggers",
+      "properties": [
+        {
+          "property": "ConsecutiveCandles",
+          "displayName": "Consecutive Candles",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 10
+          },
+          "default": 2
+        },
+        {
+          "property": "UseHTFTrendTrigger",
+          "displayName": "Use HTF Trend Trigger",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "HTFFast",
+          "displayName": "HTF Fast EMA",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 20
+        },
+        {
+          "property": "HTFSlow",
+          "displayName": "HTF Slow EMA",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 50
+        },
+        {
+          "property": "UseVolumeDeltaTrigger",
+          "displayName": "Use Volume Trigger",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "VolLen",
+          "displayName": "Volume MA Length",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 500
+          },
+          "default": 50
+        },
+        {
+          "property": "VolMult",
+          "displayName": "Volume Spike Multiplier",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 10
+          },
+          "default": 1.3
+        },
+        {
+          "property": "UseSqueezeBreakTrigger",
+          "displayName": "Use Squeeze+Break Trigger",
+          "order": 8,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "AtrLen",
+          "displayName": "ATR Length",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 200
+          },
+          "default": 14
+        },
+        {
+          "property": "AtrSmaLen",
+          "displayName": "ATR SMA Length",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 50
+        },
+        {
+          "property": "SqueezeFactor",
+          "displayName": "Squeeze Factor",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 2
+          },
+          "default": 0.8
+        },
+        {
+          "property": "BreakLen",
+          "displayName": "Breakout Lookback",
+          "order": 13,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 200
+          },
+          "default": 20
+        },
+        {
+          "property": "ExtraTicks",
+          "displayName": "Extra Ticks",
+          "order": 14,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 20
+          },
+          "default": 1
+        },
+        {
+          "property": "UseCandleColorTrigger",
+          "displayName": "Use Candle Color Trigger",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Parameters",
+      "properties": [
+        {
+          "property": "TakeShorts",
+          "displayName": "Take Shorts?",
+          "description": "Enable short entries",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "StartHour",
+          "displayName": "Start Hour",
+          "description": "Hour to start tracking morning range (0-23)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "StartMinute",
+          "displayName": "Start Minute",
+          "description": "Minute to start tracking morning range (0-59)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "EndHour",
+          "displayName": "End Hour",
+          "description": "Hour to end tracking morning range (0-23)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "EndMinute",
+          "displayName": "End Minute",
+          "description": "Minute to end tracking morning range (0-59)",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 45
+        },
+        {
+          "property": "SL",
+          "displayName": "Stop Loss (ticks)",
+          "description": "Initial stop loss distance in ticks (also caps trail looseness)",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 10
+        },
+        {
+          "property": "TP",
+          "displayName": "Profit Target (ticks)",
+          "description": "Profit target in ticks",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 20
+        },
+        {
+          "property": "UseCustomTrailStop",
+          "displayName": "Use Custom Trail Stop",
+          "description": "Trail stop by updating SetStopLoss(CalculationMode.Price) from high/low since entry (not SetTrailStop)",
+          "order": 8,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "CustomTrailDistanceTicks",
+          "displayName": "Custom Trail Distance (ticks)",
+          "description": "Stop trails this many ticks behind the favorable extreme since entry",
+          "order": 9,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 10
+        },
+        {
+          "property": "CustomTrailActivationTicks",
+          "displayName": "Custom Trail Activation (ticks)",
+          "description": "Require price to move this many ticks in your favor before trailing begins (0 = immediate)",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "DQ",
+          "displayName": "DQ",
+          "description": "Default Quantity",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "TakeLongs",
+          "displayName": "Take Longs?",
+          "description": "Enable long entries",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Quick Exit",
+      "properties": [
+        {
+          "property": "QuickExitBars",
+          "displayName": "Quick Exit Bars",
+          "description": "Number of bars after entry to check for quick exit",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 5
+        },
+        {
+          "property": "QuickExitOnlyInProfit",
+          "displayName": "Quick Exit Only In Profit",
+          "description": "Only exit if position is in profit when quick exit bars are reached",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "EnableQuickExit",
+          "displayName": "Enable Quick Exit",
+          "description": "Enable quick exit after specified number of bars",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "properties": [
+        {
+          "property": "ChoppinessPeriod",
+          "displayName": "Choppiness Period",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "ChoppinessThreshold",
+          "displayName": "Choppiness Threshold",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 61.8
+        },
+        {
+          "property": "UseMinimumVolumeFilter",
+          "displayName": "Use Minimum Volume Filter",
+          "description": "Only trade when volume meets minimum threshold",
+          "order": 10,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinimumVolume",
+          "displayName": "Minimum Volume",
+          "description": "Minimum volume required to enter a trade",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1000
+        },
+        {
+          "property": "UseRsiFilter",
+          "displayName": "Use RSI Filter",
+          "description": "Enable/disable RSI range filter",
+          "order": 50,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RsiPeriod",
+          "displayName": "RSI Period",
+          "description": "Period for RSI calculation",
+          "order": 51,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "RsiOverbought",
+          "displayName": "RSI Overbought",
+          "description": "RSI level considered overbought",
+          "order": 52,
+          "type": "integer",
+          "constraints": {
+            "min": 50,
+            "max": 100
+          },
+          "default": 70
+        },
+        {
+          "property": "RsiOversold",
+          "displayName": "RSI Oversold",
+          "description": "RSI level considered oversold",
+          "order": 53,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 50
+          },
+          "default": 30
+        },
+        {
+          "property": "ReverseOnRsiExtremes",
+          "displayName": "Reverse on RSI Extremes",
+          "description": "Enter reverse positions on RSI extremes",
+          "order": 54,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseMomentumFilter",
+          "displayName": "Use Momentum Filter",
+          "description": "Require price to be above/below EMA for long/short entries",
+          "order": 60,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "MomentumEmaFast",
+          "displayName": "Momentum EMA Fast",
+          "description": "Fast EMA period for momentum filter",
+          "order": 61,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 9
+        },
+        {
+          "property": "RequireBullishBreakoutBar",
+          "displayName": "Require Bullish/Bearish Bar",
+          "description": "Require close > open for longs, close < open for shorts",
+          "order": 62,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "EnableChoppinessFilter",
+          "displayName": "Enable Choppiness Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Market Regime Filter",
+      "properties": [
+        {
+          "property": "TradeUpTrendHighVol",
+          "displayName": "Trade UpTrend High Vol",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeUpTrendLowVol",
+          "displayName": "Trade UpTrend Low Vol",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeSidewaysHighVol",
+          "displayName": "Trade Sideways High Vol",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeSidewaysLowVol",
+          "displayName": "Trade Sideways Low Vol",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendHighVol",
+          "displayName": "Trade DownTrend High Vol",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendLowVol",
+          "displayName": "Trade DownTrend Low Vol",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseHighImpactEventFilter",
+          "displayName": "Use High Impact Event Filter",
+          "description": "Skip or require high-impact economic events (NFP, FOMC, CPI, etc.)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinHighImpactEvents",
+          "displayName": "Min High Impact Events",
+          "description": "Only trade when day has at least this many high-impact events (0 = off). Set to 1+ to only trade news days.",
+          "order": 8,
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "property": "MaxHighImpactEvents",
+          "displayName": "Max High Impact Events",
+          "description": "Skip trading when event count >= this value (1 = skip busy news days, 0 = no max).",
+          "order": 9,
+          "type": "integer",
+          "default": 1
+        },
+        {
+          "property": "UseMarketRegimeFilter",
+          "displayName": "Use Market Regime Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "AI Filter",
+      "properties": [
+        {
+          "property": "MinProfitProbability",
+          "displayName": "Min Profit Probability",
+          "description": "Minimum AI profit_probability (0-1) required to enter",
+          "order": 1,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 1
+          },
+          "default": 0.65
+        },
+        {
+          "property": "AiFilterProvider",
+          "displayName": "Provider",
+          "description": "AI Provider to use",
+          "order": 2,
+          "type": "enum",
+          "enumType": "Provider",
+          "possibleValues": [
+            {
+              "name": "OpenAI",
+              "value": "OpenAI"
+            },
+            {
+              "name": "Anthropic",
+              "value": "Anthropic"
+            },
+            {
+              "name": "Ollama",
+              "value": "Ollama"
+            }
+          ],
+          "default": "Provider.OpenAI"
+        },
+        {
+          "property": "AiFilterOpenAIModel",
+          "displayName": "OpenAI Model",
+          "description": "OpenAI model to use",
+          "order": 3,
+          "type": "enum",
+          "enumType": "OpenAIModel",
+          "possibleValues": [
+            {
+              "name": "Gpt56Sol",
+              "value": "Gpt56Sol"
+            },
+            {
+              "name": "Gpt56",
+              "value": "Gpt56"
+            },
+            {
+              "name": "Gpt56Terra",
+              "value": "Gpt56Terra"
+            },
+            {
+              "name": "Gpt56Luna",
+              "value": "Gpt56Luna"
+            },
+            {
+              "name": "Gpt55",
+              "value": "Gpt55"
+            },
+            {
+              "name": "Gpt54",
+              "value": "Gpt54"
+            },
+            {
+              "name": "Gpt54Mini",
+              "value": "Gpt54Mini"
+            }
+          ],
+          "default": "OpenAIModel.Gpt56Luna"
+        },
+        {
+          "property": "AiFilterAnthropicModel",
+          "displayName": "Anthropic Model",
+          "description": "Anthropic model to use",
+          "order": 4,
+          "type": "enum",
+          "enumType": "AnthropicModel",
+          "possibleValues": [
+            {
+              "name": "ClaudeFable5",
+              "value": "ClaudeFable5"
+            },
+            {
+              "name": "ClaudeOpus48",
+              "value": "ClaudeOpus48"
+            },
+            {
+              "name": "ClaudeSonnet5",
+              "value": "ClaudeSonnet5"
+            },
+            {
+              "name": "ClaudeHaiku45",
+              "value": "ClaudeHaiku45"
+            },
+            {
+              "name": "ClaudeOpus47",
+              "value": "ClaudeOpus47"
+            },
+            {
+              "name": "ClaudeSonnet46",
+              "value": "ClaudeSonnet46"
+            }
+          ],
+          "default": "AnthropicModel.ClaudeSonnet5"
+        },
+        {
+          "property": "AiFilterCustomModel",
+          "displayName": "Custom Model",
+          "description": "Model name (required for Ollama; overrides enum selection for OpenAI/Anthropic)",
+          "order": 5,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterOllamaBaseUrl",
+          "displayName": "Ollama Base URL",
+          "description": "Base URL for Ollama server (required if Provider is Ollama)",
+          "order": 6,
+          "type": "string",
+          "default": "http://localhost:11434"
+        },
+        {
+          "property": "AiFilterUseEnvironmentApiKeys",
+          "displayName": "Use Environment API Keys",
+          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "AiFilterOpenAIApiKey",
+          "displayName": "OpenAI API Key",
+          "description": "API key for OpenAI (env: FLUXTRADE_OPENAI_API_KEY when Use Environment API Keys is enabled)",
+          "order": 8,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterAnthropicApiKey",
+          "displayName": "Anthropic API Key",
+          "description": "API key for Anthropic (env: FLUXTRADE_ANTHROPIC_API_KEY when Use Environment API Keys is enabled)",
+          "order": 9,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterMaxCompletionTokens",
+          "displayName": "Max Completion Tokens",
+          "description": "Maximum tokens for AI filter completion response",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 10000
+          },
+          "default": 2000
+        },
+        {
+          "property": "AiFilterUsePredictionCache",
+          "displayName": "Use Prediction Cache",
+          "description": "Cache AI filter results to avoid duplicate API calls",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "AiFilterBarEntryDelaySeconds",
+          "displayName": "Bar Entry Delay (seconds)",
+          "description": "Wait this many seconds before making AI filter API call (for cascading multiple accounts)",
+          "order": 12,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        },
+        {
+          "property": "UseChatGptFilter",
+          "displayName": "Use AI Filter",
+          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Confluence - Day Type Settings",
+      "properties": [
+        {
+          "property": "DtPremarketStart",
+          "displayName": "DayType Pre-market Start",
+          "description": "Start of the pre-market window used by the Day Type classifier (ET).",
+          "order": 1,
+          "type": "datetime",
+          "format": "HH:mm or full datetime (ET for session times)",
+          "default": "06:00"
+        },
+        {
+          "property": "DtAtrPeriod",
+          "displayName": "DayType ATR Period (days)",
+          "description": "Daily ATR period used to scale gap, VWAP, and pre-market range thresholds.",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 200
+          },
+          "default": 20
+        },
+        {
+          "property": "DtGapAtrMultiplier",
+          "displayName": "DayType Gap ATR Multiplier",
+          "description": "Flag a significant gap when |open - prior close| exceeds this multiple of daily ATR.",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 10.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "DtTrendConsecutiveBars",
+          "displayName": "DayType Trend Consecutive Bars",
+          "description": "Consecutive higher highs / lower lows in pre-market bars required to lean TREND.",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 3
+        },
+        {
+          "property": "DtUpperPercentile",
+          "displayName": "DayType Upper Percentile",
+          "description": "Open above this percentile of prior-day range biases TREND UP.",
+          "order": 5,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 1.0
+          },
+          "default": 0.7
+        },
+        {
+          "property": "DtLowerPercentile",
+          "displayName": "DayType Lower Percentile",
+          "description": "Open below this percentile of prior-day range biases TREND DOWN.",
+          "order": 6,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 1.0
+          },
+          "default": 0.3
+        },
+        {
+          "property": "DtVwapTrendAtrMult",
+          "displayName": "DayType VWAP Trend ATR Mult",
+          "description": "Open farther than this multiple of ATR from VWAP adds a trend point.",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 10.0
+          },
+          "default": 0.25
+        },
+        {
+          "property": "DtVwapRangeAtrMult",
+          "displayName": "DayType VWAP Range ATR Mult",
+          "description": "Open within this multiple of ATR from VWAP adds a range point.",
+          "order": 8,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 10.0
+          },
+          "default": 0.1
+        },
+        {
+          "property": "DtPremarketRangeTrendAtrMult",
+          "displayName": "DayType PM Range Trend ATR Mult",
+          "description": "Pre-market range wider than this multiple of ATR adds a trend point.",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 10.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "DtPremarketRangeRangeAtrMult",
+          "displayName": "DayType PM Range Range ATR Mult",
+          "description": "Pre-market range tighter than this multiple of ATR adds a range point.",
+          "order": 10,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 10.0
+          },
+          "default": 0.2
+        },
+        {
+          "property": "DtWeightPremarketRange",
+          "displayName": "DayType Weight: PM Range",
+          "order": 11,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "DtWeightGap",
+          "displayName": "DayType Weight: Gap",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 2.0
+        },
+        {
+          "property": "DtWeightPremarketTrend",
+          "displayName": "DayType Weight: PM Trend",
+          "order": 13,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "DtWeightPriorDayPosition",
+          "displayName": "DayType Weight: Prior-day Position",
+          "order": 14,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "DtWeightVwap",
+          "displayName": "DayType Weight: VWAP",
+          "order": 15,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Confluence - Probe Settings",
+      "properties": [
+        {
+          "property": "ProbeTouchToleranceTicks",
+          "displayName": "Probe Touch Tolerance (ticks)",
+          "description": "How close to the opening-range high/low (trade window Start..End) counts as a touch.",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 0
+        },
+        {
+          "property": "UseProbeDelta",
+          "displayName": "Probe Use Delta",
+          "description": "Use bid/ask delta in the probe score. Requires Tick Replay for historical bars.",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ProbeDeltaConfirmThreshold",
+          "displayName": "Probe Delta Confirm Threshold",
+          "description": "Delta (in the push direction) at/above this confirms -> continuation.",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 100.0
+        },
+        {
+          "property": "ProbeDeltaFlatThreshold",
+          "displayName": "Probe Delta Flat Threshold",
+          "description": "If |delta| is below this (or opposes the push), delta is diverging/flat -> fade.",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 50.0
+        },
+        {
+          "property": "ProbeRequireDeltaAcceleration",
+          "displayName": "Probe Require Delta Acceleration",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ProbeSpeedSampleMinutes",
+          "displayName": "Probe Speed Sample Minutes",
+          "description": "Minutes after the open used to measure the average bar duration baseline.",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 60
+          },
+          "default": 5
+        },
+        {
+          "property": "ProbeSpeedFastMultiplier",
+          "displayName": "Probe Speed Fast Multiplier",
+          "description": "Touch bar duration <= this x average counts as a fast push -> continuation.",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 1.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "ProbeSpeedSlowMultiplier",
+          "displayName": "Probe Speed Slow Multiplier",
+          "description": "Touch bar duration >= this x average counts as a slow grind -> fade.",
+          "order": 8,
+          "type": "number",
+          "constraints": {
+            "min": 1.0,
+            "max": 100.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "ProbeWickBodyRatioThreshold",
+          "displayName": "Probe Wick/Body Ratio Threshold",
+          "description": "Level-side wick-to-body ratio at/above this scores fade.",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 2.0
+        },
+        {
+          "property": "ProbeBodyDominantThreshold",
+          "displayName": "Probe Body Dominant Threshold",
+          "description": "Level-side wick-to-body ratio at/below this scores continuation.",
+          "order": 10,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 1.0
+        },
+        {
+          "property": "ProbeVolumeAvgPeriod",
+          "displayName": "Probe Volume Average Period",
+          "description": "Lookback (bars) for the average-volume comparison.",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 100
+          },
+          "default": 5
+        },
+        {
+          "property": "ProbeWeightDelta",
+          "displayName": "Probe Weight: Delta",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 2.0
+        },
+        {
+          "property": "ProbeWeightSpeed",
+          "displayName": "Probe Weight: Speed",
+          "order": 13,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "ProbeWeightBody",
+          "displayName": "Probe Weight: Body",
+          "order": 14,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "ProbeWeightSecondTouch",
+          "displayName": "Probe Weight: Second Touch",
+          "order": 15,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "ProbeWeightLowVolume",
+          "displayName": "Probe Weight: Low Volume",
+          "order": 16,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Confluence",
+      "properties": [
+        {
+          "property": "MinConfluenceCountRequired",
+          "displayName": "Min Confluence Count Required",
+          "description": "0 = off (all enabled confluences must pass). N = at least N enabled confluences must pass.",
+          "order": 99,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 0
+        },
+        {
+          "property": "EnableConfluenceCorrelation",
+          "displayName": "Enable Correlation Confluence",
+          "order": 100,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "CorrelationInstrument",
+          "displayName": "Correlation Instrument (e.g., MES 12-25)",
+          "order": 104,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "EnableConfluenceHTF15Agreement",
+          "displayName": "Enable 15m Color Agreement",
+          "order": 105,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EnableConfluenceVWAP",
+          "displayName": "Enable VWAP Confluence",
+          "order": 106,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EnableConfluenceSmallWick",
+          "displayName": "Enable Small Wick Confluence",
+          "order": 107,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxWickToRangeRatio",
+          "displayName": "Max Wick/Range Ratio",
+          "order": 108,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 1.0
+          },
+          "default": 0.3
+        },
+        {
+          "property": "SmallWickLookbackBars",
+          "displayName": "Small Wick Lookback Bars",
+          "order": 108,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 3
+        },
+        {
+          "property": "EnableConfluenceNearKeyLevel",
+          "displayName": "Enable Near Key Level",
+          "order": 109,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "NearKeyLevelTicks",
+          "displayName": "Near Key Level Ticks",
+          "order": 110,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 1000
+          },
+          "default": 4
+        },
+        {
+          "property": "EnableConfluenceRejection",
+          "displayName": "Enable Clean Continuation/No Reversal",
+          "order": 111,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RejectionWickMultiplier",
+          "displayName": "Rejection Wick Multiplier",
+          "order": 112,
+          "type": "number",
+          "constraints": {
+            "min": 1.0,
+            "max": 5.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "RejectionLookbackBars",
+          "displayName": "Rejection Lookback Bars",
+          "order": 113,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 10
+          },
+          "default": 3
+        },
+        {
+          "property": "MomentumDecelerationThreshold",
+          "displayName": "Momentum Deceleration Threshold",
+          "order": 114,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 1.0
+          },
+          "default": 0.7
+        },
+        {
+          "property": "EnableConfluenceConsecutiveCandles",
+          "displayName": "Enable Consecutive Candles",
+          "order": 120,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ConsecutiveCandlesCount",
+          "displayName": "Consecutive Candles Count",
+          "order": 121,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 2
+        },
+        {
+          "property": "EnableConfluenceVolumeSurge",
+          "displayName": "Enable Volume Surge",
+          "order": 122,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "VolumeSurgeLookback",
+          "displayName": "Volume Surge Lookback",
+          "order": 123,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 20
+          },
+          "default": 5
+        },
+        {
+          "property": "IndecisionLookbackBars",
+          "displayName": "Indecision Lookback Bars",
+          "order": 123,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 3
+        },
+        {
+          "property": "VolumeSurgeMultiplier",
+          "displayName": "Volume Surge Multiplier",
+          "order": 124,
+          "type": "number",
+          "constraints": {
+            "min": 1.0,
+            "max": 5.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "EnableConfluenceRangeExpansion",
+          "displayName": "Enable Range Expansion",
+          "order": 125,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RangeExpansionLookback",
+          "displayName": "Range Expansion Lookback",
+          "order": 126,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 20
+          },
+          "default": 5
+        },
+        {
+          "property": "RangeExpansionMultiplier",
+          "displayName": "Range Expansion Multiplier",
+          "order": 127,
+          "type": "number",
+          "constraints": {
+            "min": 1.0,
+            "max": 5.0
+          },
+          "default": 1.3
+        },
+        {
+          "property": "EnableConfluenceNoIndecision",
+          "displayName": "Enable No Indecision Candles",
+          "order": 128,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EnableConfluenceMomentum",
+          "displayName": "Enable Momentum",
+          "order": 130,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MomentumPeriod",
+          "displayName": "Momentum Period",
+          "order": 131,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 10
+        },
+        {
+          "property": "MomentumMinThreshold",
+          "displayName": "Momentum Min Threshold (Absolute)",
+          "order": 132,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 1000.0
+          },
+          "default": 20
+        },
+        {
+          "property": "EnableConfluenceChangeMomentum",
+          "displayName": "Enable Change in Momentum",
+          "order": 133,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ChangeMomentumBarsAgo",
+          "displayName": "Change Momentum Bars Ago",
+          "order": 134,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 3
+        },
+        {
+          "property": "ChangeMomentumThreshold",
+          "displayName": "Change Momentum Threshold (|\u0394|)",
+          "order": 135,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 1000.0
+          },
+          "default": 30
+        },
+        {
+          "property": "EnableConfluenceROC",
+          "displayName": "Enable ROC",
+          "order": 136,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RocPeriod",
+          "displayName": "ROC Period",
+          "order": 137,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 10
+        },
+        {
+          "property": "RocMinThreshold",
+          "displayName": "ROC Min Threshold (Absolute)",
+          "order": 138,
+          "type": "number",
+          "constraints": {
+            "min": 0.01,
+            "max": 100.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "EnableConfluenceDistanceFromMean",
+          "displayName": "Enable Distance From Mean",
+          "order": 139,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "DistanceFromMeanPoints",
+          "displayName": "Distance From Mean Points",
+          "order": 140,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 1000.0
+          },
+          "default": 5.0
+        },
+        {
+          "property": "EnableConfluenceNotOverextended",
+          "displayName": "Enable Not Overextended",
+          "order": 141,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "NotOverextendedRsiPeriod",
+          "displayName": "Not Overextended RSI Period",
+          "order": 142,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 14
+        },
+        {
+          "property": "NotOverextendedOversoldLevel",
+          "displayName": "Not Overextended Oversold Level",
+          "order": 143,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 30.0
+        },
+        {
+          "property": "NotOverextendedOverboughtLevel",
+          "displayName": "Not Overextended Overbought Level",
+          "order": 144,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 70.0
+        },
+        {
+          "property": "EnableConfluenceStartTime",
+          "displayName": "Enable Confluence Start Time",
+          "order": 145,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ConfluenceStartTime",
+          "displayName": "Confluence Start Time",
+          "order": 146,
+          "type": "datetime",
+          "format": "HH:mm or full datetime (ET for session times)",
+          "default": "09:30"
+        },
+        {
+          "property": "EnableConfluenceFastness",
+          "displayName": "Enable Fastness",
+          "order": 147,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "FastnessAtrPeriod",
+          "displayName": "Fastness ATR Period",
+          "order": 148,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 14
+        },
+        {
+          "property": "FastnessAtrMultiplier",
+          "displayName": "Fastness ATR Multiplier",
+          "order": 149,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 5.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "FastnessSpeedPercentile",
+          "displayName": "Fastness Speed Percentile",
+          "order": 150,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "default": 80.0
+        },
+        {
+          "property": "FastnessSpeedLookback",
+          "displayName": "Fastness Speed Lookback",
+          "order": 151,
+          "type": "integer",
+          "constraints": {
+            "min": 10,
+            "max": 200
+          },
+          "default": 50
+        },
+        {
+          "property": "FastnessVolumeSmaPeriod",
+          "displayName": "Fastness Volume SMA Period",
+          "order": 152,
+          "type": "integer",
+          "constraints": {
+            "min": 5,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "FastnessCloseNearHighPercent",
+          "displayName": "Fastness Close Near High Percent",
+          "order": 153,
+          "type": "number",
+          "constraints": {
+            "min": 0.5,
+            "max": 1.0
+          },
+          "default": 0.85
+        },
+        {
+          "property": "EnableConfluenceSlopeTrending",
+          "displayName": "Enable Slope Trending",
+          "order": 154,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "SlopeTrendingBarsAgo",
+          "displayName": "Slope Trending Bars Ago",
+          "order": 155,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 5
+        },
+        {
+          "property": "SlopeTrendingMinAbsValue",
+          "displayName": "Slope Trending Min Abs Value",
+          "order": 156,
+          "type": "number",
+          "constraints": {
+            "min": 0.01,
+            "max": 100.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "EnableConfluenceTallCandle",
+          "displayName": "Enable Tall Candle",
+          "order": 157,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TallCandleAtrPeriod",
+          "displayName": "Tall Candle ATR Period",
+          "order": 158,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 14
+        },
+        {
+          "property": "TallCandleAtrMultiplier",
+          "displayName": "Tall Candle ATR Multiplier",
+          "order": 159,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 10.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "EnableConfluenceSlopeTrendingOrTallCandle",
+          "displayName": "Enable Slope Trending OR Tall Candle",
+          "order": 160,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EnableConfluenceSlopeTrendingAndTallCandle",
+          "displayName": "Enable Slope Trending AND Tall Candle",
+          "order": 161,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EnableConfluenceNoTrap",
+          "displayName": "Enable No Bull/Bear Trap",
+          "description": "Longs: no bull trap (fake breakout above key level). Shorts: no bear trap (fake breakdown below key level)",
+          "order": 162,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TrapLookbackBars",
+          "displayName": "Trap Lookback Bars",
+          "order": 163,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 100
+          },
+          "default": 10
+        },
+        {
+          "property": "TrapLevelToleranceTicks",
+          "displayName": "Trap Level Tolerance Ticks",
+          "description": "Ticks of tolerance when comparing price to key levels",
+          "order": 164,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 20
+          },
+          "default": 2
+        }
+      ]
+    }
+  ],
+  "totalParameters": 164
+}

@@ -1,5 +1,10 @@
+import Link from "next/link";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
-import { contentBodyClass, contentSectionHeading } from "@/lib/content-ui";
+import {
+  contentBodyClass,
+  contentLinkClass,
+  contentSectionHeading,
+} from "@/lib/content-ui";
 import { s } from "@/lib/strings";
 
 export function DisclaimersContent() {
@@ -29,6 +34,17 @@ export function DisclaimersContent() {
           {s("footer.liveTradingRoomDisclosure")}
         </h2>
         <p className={`${contentBodyClass} mt-4`}>{s("streaming.disclaimer")}</p>
+      </section>
+
+      <section className="mt-10">
+        <h2 className={contentSectionHeading}>{s("strategySettings.title")}</h2>
+        <p className={`${contentBodyClass} mt-4`}>
+          {s("strategySettings.disclosuresIntro")}{" "}
+          <Link href="/strategy-settings" className={contentLinkClass}>
+            {s("strategySettings.disclosuresLink")}
+          </Link>
+          .
+        </p>
       </section>
     </ContentPageLayout>
   );

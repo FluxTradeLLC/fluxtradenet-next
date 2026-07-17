@@ -1,0 +1,820 @@
+{
+  "strategy": "FluxTrade_Ignition",
+  "className": "FluxTrade_Ignition",
+  "description": "Opening Range Breakout strategy with volume confirmation. Trades volume-confirmed breakouts of the first 15 minutes' range, with range-derived targets/stops, configurable per-session trade limits, time filters, and an economic-release-day lockout.",
+  "sourceFile": "strategies/Ignition.cs",
+  "parameterGroups": [
+    {
+      "name": "Parameters",
+      "properties": [
+        {
+          "property": "TakeShorts",
+          "displayName": "Take Shorts?",
+          "description": "Enable short entries",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "OpeningRangeMinutes",
+          "displayName": "Opening Range Minutes",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 15
+        },
+        {
+          "property": "VolumeMultiplier",
+          "displayName": "Volume Multiplier",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 1.5
+        },
+        {
+          "property": "TargetMultiplier",
+          "displayName": "Target Multiplier",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": null
+          },
+          "default": 1.5
+        },
+        {
+          "property": "VolumeLookback",
+          "displayName": "Volume Lookback",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 20
+        },
+        {
+          "property": "IsEconomicReleaseDay",
+          "displayName": "Is Economic Release Day",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "SL",
+          "displayName": "Stop Loss (ticks)",
+          "description": "Initial stop loss distance in ticks when Use Tick SL is enabled",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 10
+        },
+        {
+          "property": "TP",
+          "displayName": "Profit Target (ticks)",
+          "description": "Profit target in ticks when Use Tick TP is enabled",
+          "order": 8,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 20
+        },
+        {
+          "property": "DQ",
+          "displayName": "DQ",
+          "description": "Default Quantity",
+          "order": 9,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "UseTickSL",
+          "displayName": "Use Tick SL",
+          "description": "When enabled, use SL tick stop instead of opening-range midpoint stop",
+          "order": 10,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseTickTP",
+          "displayName": "Use Tick TP",
+          "description": "When enabled, use TP tick target instead of opening-range-based target",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TakeLongs",
+          "displayName": "Take Longs?",
+          "description": "Enable long entries",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Trade Limits",
+      "properties": [
+        {
+          "property": "MaxLongTradesPerSession",
+          "displayName": "Max Long Trades Per Session",
+          "description": "Long-only cap per session (0 = no long-specific cap)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "MaxShortTradesPerSession",
+          "displayName": "Max Short Trades Per Session",
+          "description": "Short-only cap per session (0 = no short-specific cap)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "RequireReentryIntoRange",
+          "displayName": "Require Reentry Into Range",
+          "description": "Require a close back inside the opening range before another entry in that direction",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "MaxTradesPerSession",
+          "displayName": "Max Trades Per Session",
+          "description": "Combined long + short cap per session (0 = no combined cap)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 2
+        }
+      ]
+    },
+    {
+      "name": "Entry Conditions",
+      "properties": [
+        {
+          "property": "RequireCloseBreakout",
+          "displayName": "Require Close Breakout",
+          "description": "Require close beyond the range (off = high/low beyond range is enough)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "OnlyEnterWhenFlat",
+          "displayName": "Only Enter When Flat",
+          "description": "Block new entries while a position is open",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "RequireVolumeConfirmation",
+          "displayName": "Require Volume Confirmation",
+          "description": "Breakout bar volume must exceed the volume SMA threshold",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Trading Window",
+      "properties": [
+        {
+          "property": "StartHour",
+          "displayName": "Start Hour",
+          "description": "Hour to start allowing entries (0-23)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "StartMinute",
+          "displayName": "Start Minute",
+          "description": "Minute to start allowing entries (0-59)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 45
+        },
+        {
+          "property": "EndHour",
+          "displayName": "End Hour",
+          "description": "Hour to stop allowing entries (0-23)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 14
+        },
+        {
+          "property": "EndMinute",
+          "displayName": "End Minute",
+          "description": "Minute to stop allowing entries (0-59)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "UseMandatoryFlatten",
+          "displayName": "Use Mandatory Flatten",
+          "description": "Flatten all positions at the session flatten time and stop new entries",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "FlattenHour",
+          "displayName": "Flatten Hour",
+          "description": "Hour to flatten positions and stop entries (0-23)",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 15
+        },
+        {
+          "property": "FlattenMinute",
+          "displayName": "Flatten Minute",
+          "description": "Minute to flatten positions and stop entries (0-59)",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 45
+        },
+        {
+          "property": "UseTradingWindow",
+          "displayName": "Use Trading Window",
+          "description": "Restrict entries to the configured start/end times",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "properties": [
+        {
+          "property": "UseMaxDailyProfit",
+          "displayName": "Use Max Daily Profit",
+          "description": "Enable daily maximum profit cap (currency)",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyProfit",
+          "displayName": "Max Daily Profit ($)",
+          "description": "Currency amount at/above which no more trades will be taken today",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "UseMaxDailyLoss",
+          "displayName": "Use Max Daily Loss",
+          "description": "Enable daily maximum loss cap (currency)",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLoss",
+          "displayName": "Max Daily Loss ($)",
+          "description": "Currency amount at/below which no more trades will be taken today",
+          "order": 5,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "EndDayOnUnrealizedProfit",
+          "displayName": "End day on unrealized profit?",
+          "description": "If enabled, close current trade and stop trading for the day when realized + unrealized PnL breaches daily limits",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "BreakevenProfit",
+          "displayName": "Breakeven Profit (Currency)",
+          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "Quick Exit",
+      "properties": [
+        {
+          "property": "QuickExitBars",
+          "displayName": "Quick Exit Bars",
+          "description": "Number of bars after entry to check for quick exit",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 5
+        },
+        {
+          "property": "QuickExitOnlyInProfit",
+          "displayName": "Quick Exit Only In Profit",
+          "description": "Only exit if position is in profit when quick exit bars are reached",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "EnableQuickExit",
+          "displayName": "Enable Quick Exit",
+          "description": "Enable quick exit after specified number of bars",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "properties": [
+        {
+          "property": "ChoppinessPeriod",
+          "displayName": "Choppiness Period",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "ChoppinessThreshold",
+          "displayName": "Choppiness Threshold",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 61.8
+        },
+        {
+          "property": "EnableChoppinessFilter",
+          "displayName": "Enable Choppiness Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Market Regime Filter",
+      "properties": [
+        {
+          "property": "TradeUpTrendHighVol",
+          "displayName": "Trade UpTrend High Vol",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeUpTrendLowVol",
+          "displayName": "Trade UpTrend Low Vol",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeSidewaysHighVol",
+          "displayName": "Trade Sideways High Vol",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeSidewaysLowVol",
+          "displayName": "Trade Sideways Low Vol",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendHighVol",
+          "displayName": "Trade DownTrend High Vol",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendLowVol",
+          "displayName": "Trade DownTrend Low Vol",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseHighImpactEventFilter",
+          "displayName": "Use High Impact Event Filter",
+          "description": "Skip or require high-impact economic events (NFP, FOMC, CPI, etc.)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinHighImpactEvents",
+          "displayName": "Min High Impact Events",
+          "description": "Only trade when day has at least this many high-impact events (0 = off). Set to 1+ to only trade news days.",
+          "order": 8,
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "property": "MaxHighImpactEvents",
+          "displayName": "Max High Impact Events",
+          "description": "Skip trading when event count >= this value (1 = skip busy news days, 0 = no max).",
+          "order": 9,
+          "type": "integer",
+          "default": 1
+        },
+        {
+          "property": "UseMarketRegimeFilter",
+          "displayName": "Use Market Regime Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "AI Filter",
+      "properties": [
+        {
+          "property": "MinProfitProbability",
+          "displayName": "Min Profit Probability",
+          "description": "Minimum AI profit_probability (0-1) required to enter",
+          "order": 1,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 1
+          },
+          "default": 0.65
+        },
+        {
+          "property": "AiFilterProvider",
+          "displayName": "Provider",
+          "description": "AI Provider to use",
+          "order": 2,
+          "type": "enum",
+          "enumType": "Provider",
+          "possibleValues": [
+            {
+              "name": "OpenAI",
+              "value": "OpenAI"
+            },
+            {
+              "name": "Anthropic",
+              "value": "Anthropic"
+            },
+            {
+              "name": "Ollama",
+              "value": "Ollama"
+            }
+          ],
+          "default": "Provider.OpenAI"
+        },
+        {
+          "property": "AiFilterOpenAIModel",
+          "displayName": "OpenAI Model",
+          "description": "OpenAI model to use",
+          "order": 3,
+          "type": "enum",
+          "enumType": "OpenAIModel",
+          "possibleValues": [
+            {
+              "name": "Gpt56Sol",
+              "value": "Gpt56Sol"
+            },
+            {
+              "name": "Gpt56",
+              "value": "Gpt56"
+            },
+            {
+              "name": "Gpt56Terra",
+              "value": "Gpt56Terra"
+            },
+            {
+              "name": "Gpt56Luna",
+              "value": "Gpt56Luna"
+            },
+            {
+              "name": "Gpt55",
+              "value": "Gpt55"
+            },
+            {
+              "name": "Gpt54",
+              "value": "Gpt54"
+            },
+            {
+              "name": "Gpt54Mini",
+              "value": "Gpt54Mini"
+            }
+          ],
+          "default": "OpenAIModel.Gpt56Luna"
+        },
+        {
+          "property": "AiFilterAnthropicModel",
+          "displayName": "Anthropic Model",
+          "description": "Anthropic model to use",
+          "order": 4,
+          "type": "enum",
+          "enumType": "AnthropicModel",
+          "possibleValues": [
+            {
+              "name": "ClaudeFable5",
+              "value": "ClaudeFable5"
+            },
+            {
+              "name": "ClaudeOpus48",
+              "value": "ClaudeOpus48"
+            },
+            {
+              "name": "ClaudeSonnet5",
+              "value": "ClaudeSonnet5"
+            },
+            {
+              "name": "ClaudeHaiku45",
+              "value": "ClaudeHaiku45"
+            },
+            {
+              "name": "ClaudeOpus47",
+              "value": "ClaudeOpus47"
+            },
+            {
+              "name": "ClaudeSonnet46",
+              "value": "ClaudeSonnet46"
+            }
+          ],
+          "default": "AnthropicModel.ClaudeSonnet5"
+        },
+        {
+          "property": "AiFilterCustomModel",
+          "displayName": "Custom Model",
+          "description": "Model name (required for Ollama; overrides enum selection for OpenAI/Anthropic)",
+          "order": 5,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterOllamaBaseUrl",
+          "displayName": "Ollama Base URL",
+          "description": "Base URL for Ollama server (required if Provider is Ollama)",
+          "order": 6,
+          "type": "string",
+          "default": "http://localhost:11434"
+        },
+        {
+          "property": "AiFilterUseEnvironmentApiKeys",
+          "displayName": "Use Environment API Keys",
+          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "AiFilterOpenAIApiKey",
+          "displayName": "OpenAI API Key",
+          "description": "API key for OpenAI (env: FLUXTRADE_OPENAI_API_KEY when Use Environment API Keys is enabled)",
+          "order": 8,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterAnthropicApiKey",
+          "displayName": "Anthropic API Key",
+          "description": "API key for Anthropic (env: FLUXTRADE_ANTHROPIC_API_KEY when Use Environment API Keys is enabled)",
+          "order": 9,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterMaxCompletionTokens",
+          "displayName": "Max Completion Tokens",
+          "description": "Maximum tokens for AI filter completion response",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 10000
+          },
+          "default": 2000
+        },
+        {
+          "property": "AiFilterUsePredictionCache",
+          "displayName": "Use Prediction Cache",
+          "description": "Cache AI filter results to avoid duplicate API calls",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "AiFilterBarEntryDelaySeconds",
+          "displayName": "Bar Entry Delay (seconds)",
+          "description": "Wait this many seconds before making AI filter API call (for cascading multiple accounts)",
+          "order": 12,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        },
+        {
+          "property": "UseChatGptFilter",
+          "displayName": "Use AI Filter",
+          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    }
+  ],
+  "totalParameters": 62
+}

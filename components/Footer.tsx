@@ -16,6 +16,7 @@ const footerLinks = {
     { label: "Terms", href: "/terms" },
     { label: "Policies", href: "/policies" },
     { label: "Disclaimers", href: "/disclaimers" },
+    { label: "Strategy Settings", href: "/strategy-settings" },
   ],
 };
 

@@ -41,6 +41,24 @@
     "disclaimer3": "Testimonials appearing on this website may not be representative of other clients or customers and is not a guarantee of future performance or success.",
     "copyright": "Copyright © {{year}}, FluxTrade, LLC. All rights reserved."
   },
+  "strategySettings": {
+    "label": "Disclosures",
+    "title": "Strategy Settings Reference",
+    "description": "Documentation for FluxTrade automated strategy properties — what each parameter does, its type, default value, and allowed range.",
+    "disclosuresIntro": "Each FluxTrade strategy exposes configurable properties in NinjaTrader. Use this reference to understand what those settings control before you run live or backtest.",
+    "disclosuresLink": "View the full strategy settings reference",
+    "backtestLink": "Learn what these {{strategy}} settings mean",
+    "sourceFile": "Source file",
+    "property": "property",
+    "properties": "properties",
+    "table": {
+      "property": "Property",
+      "type": "Type",
+      "default": "Default",
+      "range": "Range / Values",
+      "description": "Description"
+    }
+  },
   "stickyCTA": {
     "ninjaTrader": "NinjaTrader",
     "tradingView": "TradingView",

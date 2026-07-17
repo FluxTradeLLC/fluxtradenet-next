@@ -1,4 +1,8 @@
+import Link from "next/link";
 import { toTitleCase, type SettingsSection } from "@/lib/backtests";
+import { contentLinkClass } from "@/lib/content-ui";
+import { getStrategySettingsHref } from "@/lib/strategy-settings";
+import { s } from "@/lib/strings";
 
 type BacktestStrategySettingsProps = {
   strategy: string;
@@ -35,8 +39,8 @@ export function BacktestStrategySettings({
       </summary>
 
       <div className="mt-6 space-y-6 border-t border-border pt-6">
-        {sections.map((section) => (
-          <div key={section.title || section.rows[0]?.item}>
+        {sections.map((section, sectionIndex) => (
+          <div key={`${sectionIndex}-${section.title || section.rows[0]?.item}`}>
             {section.title ? (
               <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#39ff14]">
                 {section.title}
@@ -45,9 +49,9 @@ export function BacktestStrategySettings({
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
                 <tbody>
-                  {section.rows.map((row) => (
+                  {section.rows.map((row, rowIndex) => (
                     <tr
-                      key={`${section.title}-${row.item}`}
+                      key={`${sectionIndex}-${rowIndex}-${row.item}`}
                       className="border-b border-border/60 last:border-b-0"
                     >
                       <td className="whitespace-nowrap py-2 pr-6 align-top text-muted">
@@ -63,6 +67,16 @@ export function BacktestStrategySettings({
             </div>
           </div>
         ))}
+        <p className="pt-2">
+          <Link
+            href={getStrategySettingsHref(strategy)}
+            className={contentLinkClass}
+          >
+            {s("strategySettings.backtestLink", {
+              strategy: toTitleCase(strategy),
+            })}
+          </Link>
+        </p>
       </div>
     </details>
   );

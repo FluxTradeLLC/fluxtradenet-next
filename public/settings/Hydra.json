@@ -1,0 +1,1904 @@
+{
+  "strategy": "FluxTrade_Hydra",
+  "className": "FluxTrade_Hydra",
+  "description": "Trades ABC trend continuation: an impulse leg (A), a counter-trend pullback (B), then enters on the resumption (C). Works long and short.",
+  "sourceFile": "strategies/Hydra.cs",
+  "parameterGroups": [
+    {
+      "name": "Parameters",
+      "properties": [
+        {
+          "property": "TakeLongs",
+          "displayName": "Take Longs",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TakeShorts",
+          "displayName": "Take Shorts",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "DQ",
+          "displayName": "Default Quantity",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        }
+      ]
+    },
+    {
+      "name": "1. Entry Mode",
+      "properties": [
+        {
+          "property": "EntryMode",
+          "displayName": "Entry Mode",
+          "description": "ABC = trend continuation; ABCD = ABC with measured-move leg-D target; DoublePullback = ABAB'C double-pullback filter; NInRowBreakout = enter on brick N+1 after N consecutive same-direction bricks; NBrickReversal = enter on the flip after N same-direction bricks; PullbackContinuation = lean trend+small pullback resume; ExhaustionFade = fade an extended run on the first opposite brick; FailedReversalSpring = enter with trend after a one-brick fake reversal fails; RenkoSwingStructure = Dow-theory HH/HL swing structure from brick reversals, enter on break after N confirmed pairs",
+          "order": 0,
+          "type": "enum",
+          "enumType": "FluxTradeEntryMode",
+          "possibleValues": [
+            {
+              "name": "ABC",
+              "value": "ABC"
+            },
+            {
+              "name": "ABCD",
+              "value": "ABCD"
+            },
+            {
+              "name": "DoublePullback",
+              "value": "DoublePullback"
+            },
+            {
+              "name": "PullbackContinuation",
+              "value": "PullbackContinuation"
+            },
+            {
+              "name": "NBrickReversal",
+              "value": "NBrickReversal"
+            },
+            {
+              "name": "MarketStructureBreak",
+              "value": "MarketStructureBreak"
+            },
+            {
+              "name": "ConsolidationBreakout",
+              "value": "ConsolidationBreakout"
+            },
+            {
+              "name": "ThreeBrickThrust",
+              "value": "ThreeBrickThrust"
+            },
+            {
+              "name": "DoubleTopBottom",
+              "value": "DoubleTopBottom"
+            },
+            {
+              "name": "ExhaustionFade",
+              "value": "ExhaustionFade"
+            },
+            {
+              "name": "FailedReversalSpring",
+              "value": "FailedReversalSpring"
+            },
+            {
+              "name": "RenkoSwingStructure",
+              "value": "RenkoSwingStructure"
+            },
+            {
+              "name": "NInRowBreakout",
+              "value": "NInRowBreakout"
+            }
+          ],
+          "default": "FluxTradeEntryMode.ABC"
+        }
+      ]
+    },
+    {
+      "name": "2. ABC Pattern",
+      "properties": [
+        {
+          "property": "LegBMinBars",
+          "displayName": "Leg B Min Bars",
+          "description": "Minimum bars in the counter-trend pullback (B)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 3
+        },
+        {
+          "property": "LegBMaxBars",
+          "displayName": "Leg B Max Bars",
+          "description": "Maximum bars in the counter-trend pullback (B)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 6
+        },
+        {
+          "property": "LegCMinBars",
+          "displayName": "Leg C Min Bars",
+          "description": "Bars of resumption (C) required before entering",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "LegCMaxBars",
+          "displayName": "Leg C Max Bars",
+          "description": "Don't chase: only enter while C run is at or below this many bars",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "UseRetraceFilter",
+          "displayName": "Use Retrace Filter",
+          "description": "Require Leg B retracement of Leg A to fall within the min/max band",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "MinRetracePercent",
+          "displayName": "Min Retrace %",
+          "description": "Leg B must retrace at least this % of Leg A",
+          "order": 6,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "MaxRetracePercent",
+          "displayName": "Max Retrace %",
+          "description": "Leg B must retrace no more than this % of Leg A (stay below 100 to keep the ABC valid)",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 80
+        },
+        {
+          "property": "LegAMinBars",
+          "displayName": "Leg A Min Bars",
+          "description": "Minimum bars in the initial trend leg (A)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 5
+        }
+      ]
+    },
+    {
+      "name": "2a. ABCD Measured Move",
+      "properties": [
+        {
+          "property": "AbcdLegDRatio",
+          "displayName": "Leg D Ratio",
+          "description": "Projected leg-D target = leg-A size x this from entry (ABCD mode; uses ABC Pattern leg settings for entry)",
+          "order": 0,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        }
+      ]
+    },
+    {
+      "name": "2b. Double Pullback (ABAB'C)",
+      "properties": [
+        {
+          "property": "AbabLegBMinBars",
+          "displayName": "Leg B Min Bars",
+          "description": "Minimum bars in the first counter-trend pullback (B) (DoublePullback mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 3
+        },
+        {
+          "property": "AbabLegBMaxBars",
+          "displayName": "Leg B Max Bars",
+          "description": "Maximum bars in the first counter-trend pullback (B) (DoublePullback mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 6
+        },
+        {
+          "property": "AbabBriefMinBars",
+          "displayName": "Brief Resume Min Bars",
+          "description": "Minimum bars in the brief trend re-continuation between B and B' (DoublePullback mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "AbabBriefMaxBars",
+          "displayName": "Brief Resume Max Bars",
+          "description": "Maximum bars in the brief trend re-continuation between B and B' (DoublePullback mode)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 3
+        },
+        {
+          "property": "AbabLegBPrimeMinBars",
+          "displayName": "Leg B' Min Bars",
+          "description": "Minimum bars in the second (shallower) pullback (B') (DoublePullback mode)",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "AbabLegBPrimeMaxBars",
+          "displayName": "Leg B' Max Bars",
+          "description": "Maximum bars in the second (shallower) pullback (B') (DoublePullback mode)",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 3
+        },
+        {
+          "property": "AbabLegCMinBars",
+          "displayName": "Leg C Min Bars",
+          "description": "Bars of final resumption (C) required before entering (DoublePullback mode)",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "AbabLegCMaxBars",
+          "displayName": "Leg C Max Bars",
+          "description": "Don't chase: only enter while C run is at or below this many bars (DoublePullback mode)",
+          "order": 8,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "AbabRequireShallowerBPrime",
+          "displayName": "Require Shallower B'",
+          "description": "Require the second pullback (B') to hold above the first pullback low (long) / below the first pullback high (short) (DoublePullback mode)",
+          "order": 9,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "AbabLegAMinBars",
+          "displayName": "Leg A Min Bars",
+          "description": "Minimum bars in the initial trend leg (A) (DoublePullback mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 5
+        }
+      ]
+    },
+    {
+      "name": "2d. N-Brick Reversal",
+      "properties": [
+        {
+          "property": "NBrickReversalMaxCount",
+          "displayName": "Reversal Max Brick Count",
+          "description": "Only take the flip while the exhausted run is at or below this many bricks/bars \u2014 skips over-extended runs (0 = no cap). (NBrickReversal mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "NBrickReversalMinRunTicks",
+          "displayName": "Reversal Min Run (Ticks)",
+          "description": "The exhausted run must span at least this many ticks to count as real exhaustion (0 = off). (NBrickReversal mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "NBrickReversalTargetMult",
+          "displayName": "Reversal Target Multiplier",
+          "description": "Structural target = exhausted-run size x this, projected from entry (used when Use Structural Target is on). (NBrickReversal mode)",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "NBrickReversalCount",
+          "displayName": "Reversal Brick Count",
+          "description": "Consecutive same-direction bricks/bars required before the flip entry (NBrickReversal mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 4
+        }
+      ]
+    },
+    {
+      "name": "2c. Pullback Continuation",
+      "properties": [
+        {
+          "property": "PullbackTrendMaxBars",
+          "displayName": "Max Trend Bars",
+          "description": "Skip the setup if the trend leg exceeds this many bricks/bars \u2014 avoids chasing exhausted trends (0 = no cap). (PullbackContinuation mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "PullbackMinBars",
+          "displayName": "Min Pullback Bars",
+          "description": "Minimum counter-trend bricks/bars in the pullback (PullbackContinuation mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "PullbackMaxBars",
+          "displayName": "Max Pullback Bars",
+          "description": "Maximum counter-trend bricks/bars in the pullback (PullbackContinuation mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "PullbackResumeBars",
+          "displayName": "Resume Bars",
+          "description": "Bars of resumption (C) in the trend direction required before entering (PullbackContinuation mode)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "PullbackTargetMult",
+          "displayName": "Pullback Target Multiplier",
+          "description": "Structural target = trend-leg (A) size x this, projected from entry (used when Use Structural Target is on). (PullbackContinuation mode)",
+          "order": 5,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "PullbackTrendBars",
+          "displayName": "Trend Bars",
+          "description": "Minimum trend bricks/bars before the pullback (PullbackContinuation mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 5
+        }
+      ]
+    },
+    {
+      "name": "2e. Market Structure (BOS)",
+      "properties": [
+        {
+          "property": "BosBreakBufferTicks",
+          "displayName": "Break Buffer (Ticks)",
+          "description": "Require price to close this many ticks beyond the swing level to confirm a break \u2014 filters marginal pokes (0 = exact break). (MarketStructureBreak mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "BosMinSwingTicks",
+          "displayName": "Min Swing Size (Ticks)",
+          "description": "Skip the break unless the swing range (pivot high to pivot low) is at least this many ticks \u2014 filters noise (0 = off). (MarketStructureBreak mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "BosTargetMult",
+          "displayName": "Target Multiplier",
+          "description": "Measured-move target = swing range x this beyond the break level (used when Use Structural Target is on). (MarketStructureBreak mode)",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "BosSwingStrength",
+          "displayName": "Swing Strength (Bars)",
+          "description": "Counter-move (in bricks/bars) needed to confirm a swing pivot (MarketStructureBreak mode). 1 = every reversal is a pivot.",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        }
+      ]
+    },
+    {
+      "name": "2f. Consolidation Box",
+      "properties": [
+        {
+          "property": "BoxMaxHeightTicks",
+          "displayName": "Box Max Height (Ticks)",
+          "description": "Range only counts as a box if its high-to-low height is at or below this many ticks (ConsolidationBreakout mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 20
+        },
+        {
+          "property": "BoxTargetMultiplier",
+          "displayName": "Box Target Multiplier",
+          "description": "Profit target = box height x this multiplier, a measured move (ConsolidationBreakout mode)",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "BoxMinHeightTicks",
+          "displayName": "Box Min Height (Ticks)",
+          "description": "Range only counts as a box if its high-to-low height is at least this many ticks \u2014 skips ultra-tight noise (0 = off). (ConsolidationBreakout mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "BoxBreakBufferTicks",
+          "displayName": "Box Break Buffer (Ticks)",
+          "description": "Require price to close this many ticks beyond the box edge to confirm the breakout (0 = exact break). (ConsolidationBreakout mode)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "BoxLookbackBars",
+          "displayName": "Box Lookback (Bars)",
+          "description": "Number of bars defining the consolidation range (ConsolidationBreakout mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 10
+        }
+      ]
+    },
+    {
+      "name": "2g. Three-Brick Thrust",
+      "properties": [
+        {
+          "property": "ThrustExactCount",
+          "displayName": "Thrust Exact Count",
+          "description": "On = fire only on exactly Thrust Bricks (fresh ignition). Off = fire on Thrust Bricks or more consecutive bars. (ThreeBrickThrust mode)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "ThrustMinTicks",
+          "displayName": "Thrust Min Size (Ticks)",
+          "description": "The thrust run must span at least this many ticks to qualify \u2014 filters weak thrusts (0 = off). (ThreeBrickThrust mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "ThrustTargetMult",
+          "displayName": "Thrust Target Multiplier",
+          "description": "Measured-move target = thrust size x this, projected from entry (used when Use Structural Target is on). (ThreeBrickThrust mode)",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "ThrustBricks",
+          "displayName": "Thrust Bricks",
+          "description": "Consecutive same-direction bricks/bars (after an opposite bar) that define a momentum thrust (ThreeBrickThrust mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 3
+        }
+      ]
+    },
+    {
+      "name": "2h. Double Top/Bottom",
+      "properties": [
+        {
+          "property": "DoubleToleranceTicks",
+          "displayName": "Equality Tolerance (Ticks)",
+          "description": "Two swing lows (or highs) count as 'equal' if within this many ticks (DoubleTopBottom mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 4
+        },
+        {
+          "property": "DoubleBreakBufferTicks",
+          "displayName": "Break Buffer (Ticks)",
+          "description": "Require price to close this many ticks beyond the neckline (middle pivot) to confirm the break (0 = exact break). (DoubleTopBottom mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "DoubleMinHeightTicks",
+          "displayName": "Min Pattern Height (Ticks)",
+          "description": "Neckline-to-lows/highs height must be at least this many ticks \u2014 skips shallow, low-payoff patterns (0 = off). (DoubleTopBottom mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "DoubleTargetMult",
+          "displayName": "Target Multiplier",
+          "description": "Measured-move target = pattern height x this beyond the neckline (used when Use Structural Target is on). (DoubleTopBottom mode)",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "DoubleSwingStrength",
+          "displayName": "Swing Strength (Bars)",
+          "description": "Counter-move (in bricks/bars) needed to confirm a swing pivot (DoubleTopBottom mode). 1 = every reversal is a pivot.",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        }
+      ]
+    },
+    {
+      "name": "2i. Exhaustion Fade",
+      "properties": [
+        {
+          "property": "ExhaustionFadeMaxBricks",
+          "displayName": "Max Exhaustion Bricks",
+          "description": "Only fade while the exhausted run is at or below this many bricks/bars \u2014 skips over-extended runs (0 = no cap). (ExhaustionFade mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "ExhaustionFadeMinRunTicks",
+          "displayName": "Min Run (Ticks)",
+          "description": "The exhausted run must span at least this many ticks to count as real exhaustion (0 = off). (ExhaustionFade mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "ExhaustionFadeTargetMult",
+          "displayName": "Target Multiplier",
+          "description": "Structural target = exhausted-run size x this, projected from entry (used when Use Structural Target is on). (ExhaustionFade mode)",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 0.5
+        },
+        {
+          "property": "ExhaustionFadeMaxStopTicks",
+          "displayName": "Max Stop (Ticks)",
+          "description": "Cap the structural stop to this many ticks from entry \u2014 keeps the fade stop tight (0 = use fade-brick extreme only). (ExhaustionFade mode)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 12
+        },
+        {
+          "property": "ExhaustionFadeMinBricks",
+          "displayName": "Min Exhaustion Bricks",
+          "description": "Consecutive same-direction bricks/bars required before the fade entry (ExhaustionFade mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 7
+        }
+      ]
+    },
+    {
+      "name": "2j. Failed Reversal / Spring",
+      "properties": [
+        {
+          "property": "SpringMaxTrendBricks",
+          "displayName": "Max Trend Bricks",
+          "description": "Skip the setup if the trend leg exceeds this many bricks/bars (0 = no cap). (FailedReversalSpring mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "SpringMaxFakeBricks",
+          "displayName": "Max Fake Bricks",
+          "description": "Maximum consecutive opposite bricks allowed for the failed reversal \u2014 1 = single-brick spring only (FailedReversalSpring mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "SpringMinTrendTicks",
+          "displayName": "Min Trend (Ticks)",
+          "description": "The trend leg must span at least this many ticks before the fake reversal (0 = off). (FailedReversalSpring mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "SpringTargetMult",
+          "displayName": "Target Multiplier",
+          "description": "Structural target = trend-leg size x this, projected from entry (used when Use Structural Target is on). (FailedReversalSpring mode)",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "SpringMinTrendBricks",
+          "displayName": "Min Trend Bricks",
+          "description": "Minimum same-direction bricks/bars in the trend leg before the fake reversal (FailedReversalSpring mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 5
+        }
+      ]
+    },
+    {
+      "name": "2k. HH/HL Renko Structure",
+      "properties": [
+        {
+          "property": "HhHlPairsRequired",
+          "displayName": "HH/HL Pairs Required",
+          "description": "Consecutive higher-high + higher-low (or lower-low + lower-high) swing pairs required before a break entry \u2014 ABC generalized to N legs (RenkoSwingStructure mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "HhHlBreakBufferTicks",
+          "displayName": "Break Buffer (Ticks)",
+          "description": "Require price to close this many ticks beyond the prior swing level to confirm the break (0 = exact break). (RenkoSwingStructure mode)",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "HhHlMinSwingTicks",
+          "displayName": "Min Swing Size (Ticks)",
+          "description": "Skip the break unless the latest swing range (pivot high to pivot low) is at least this many ticks (0 = off). (RenkoSwingStructure mode)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "HhHlTargetMult",
+          "displayName": "Target Multiplier",
+          "description": "Measured-move target = swing range x this beyond the break level (used when Use Structural Target is on). (RenkoSwingStructure mode)",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 100
+          },
+          "default": 1.0
+        },
+        {
+          "property": "HhHlSwingStrength",
+          "displayName": "Swing Strength (Bars)",
+          "description": "Counter-move (in bricks/bars) needed to confirm a swing pivot (RenkoSwingStructure mode). 1 = every reversal is a pivot.",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        }
+      ]
+    },
+    {
+      "name": "2l. N-in-a-Row Breakout",
+      "properties": [
+        {
+          "property": "NInRowBrickSizeTicks",
+          "displayName": "Brick Size (Ticks)",
+          "description": "Renko brick size in ticks \u2014 when set, the N+1 run must span at least (N+1) x this many ticks (0 = off, chart brick size only). (NInRowBreakout mode)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "NInRowCount",
+          "displayName": "N (Consecutive Bricks)",
+          "description": "Consecutive same-direction bricks required for trend confirmation; entry fires on brick N+1 (NInRowBreakout mode)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 3
+        }
+      ]
+    },
+    {
+      "name": "Trade Window",
+      "properties": [
+        {
+          "property": "StartHour",
+          "displayName": "Start Hour",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "StartMinute",
+          "displayName": "Start Minute",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "EndHour",
+          "displayName": "End Hour",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 16
+        },
+        {
+          "property": "EndMinute",
+          "displayName": "End Minute",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        },
+        {
+          "property": "TradeMonday",
+          "displayName": "Trade Monday",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeTuesday",
+          "displayName": "Trade Tuesday",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeWednesday",
+          "displayName": "Trade Wednesday",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeThursday",
+          "displayName": "Trade Thursday",
+          "order": 8,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeFriday",
+          "displayName": "Trade Friday",
+          "order": 9,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "UseTimeWindow",
+          "displayName": "Use Time Window",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Risk",
+      "properties": [
+        {
+          "property": "StopLossTicks",
+          "displayName": "Stop Loss (Ticks)",
+          "description": "Fallback stop distance when structural stop is off or invalid",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 16
+        },
+        {
+          "property": "MaxStopDistanceTicks",
+          "displayName": "Max Stop Distance (Ticks)",
+          "description": "Hard cap on how far the stop may sit from entry. A far-away structural stop gets rejected by the broker's price-band limits, leaving the position unprotected. If the structural stop exceeds this, it is clamped in tight. 0 = no cap (dangerous with structural stops).",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 80
+        },
+        {
+          "property": "UseStructuralTarget",
+          "displayName": "Use Structural Target",
+          "description": "Target the pattern's structural level (Leg A extreme, swing pivot, measured move, etc.) instead of fixed ticks",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "StructuralTargetBufferTicks",
+          "displayName": "Structural Target Buffer (Ticks)",
+          "description": "Take profit this many ticks before the structural target level",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "UseStructuralStop",
+          "displayName": "Use Structural Stop",
+          "description": "Place the stop just beyond the Leg B extreme instead of a fixed tick distance",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "StructuralStopBufferTicks",
+          "displayName": "Structural Stop Buffer (Ticks)",
+          "description": "Extra ticks beyond the Leg B extreme for the structural stop",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "UseCustomTrailStop",
+          "displayName": "Use Custom Trail Stop",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "CustomTrailDistanceTicks",
+          "displayName": "Custom Trail Distance (Ticks)",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 10
+        },
+        {
+          "property": "CustomTrailActivationTicks",
+          "displayName": "Custom Trail Activation (Ticks)",
+          "description": "Require price to move this many ticks in your favor before trailing begins (0 = immediate)",
+          "order": 8,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "ProfitTargetTicks",
+          "displayName": "Profit Target (Ticks)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 24
+        }
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "properties": [
+        {
+          "property": "UseMaxDailyProfit",
+          "displayName": "Use Max Daily Profit",
+          "description": "Enable daily maximum profit cap (currency)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyProfit",
+          "displayName": "Max Daily Profit ($)",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "UseMaxDailyLoss",
+          "displayName": "Use Max Daily Loss",
+          "description": "Enable daily maximum loss cap (currency)",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLoss",
+          "displayName": "Max Daily Loss ($)",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "EndDayOnUnrealizedProfit",
+          "displayName": "End day on unrealized profit?",
+          "description": "Close current trade and stop trading when realized + unrealized PnL breaches daily limits",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseTieredProfitLock",
+          "displayName": "Use Tiered Profit Lock",
+          "description": "Dynamically raise the daily loss floor as profit accumulates",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "Tier1ProfitThreshold",
+          "displayName": "Tier 1 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 1 Floor",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 150
+        },
+        {
+          "property": "Tier1Floor",
+          "displayName": "Tier 1 Floor ($)",
+          "description": "Daily loss floor once Tier 1 is reached. Use 0 for breakeven, negative to allow a small drawback.",
+          "order": 8,
+          "type": "number",
+          "default": 0
+        },
+        {
+          "property": "Tier2ProfitThreshold",
+          "displayName": "Tier 2 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 2 Floor",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 300
+        },
+        {
+          "property": "Tier2Floor",
+          "displayName": "Tier 2 Floor ($)",
+          "description": "Daily loss floor once Tier 2 is reached.",
+          "order": 10,
+          "type": "number",
+          "default": 150
+        },
+        {
+          "property": "Tier3ProfitThreshold",
+          "displayName": "Tier 3 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 3 Floor (0 = disabled)",
+          "order": 11,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "Tier3Floor",
+          "displayName": "Tier 3 Floor ($)",
+          "description": "Daily loss floor once Tier 3 is reached.",
+          "order": 12,
+          "type": "number",
+          "default": 0
+        },
+        {
+          "property": "UseMaxDailyLosses",
+          "displayName": "Use Max Daily Losses",
+          "description": "Halt trading after N consecutive losing trades in the same day",
+          "order": 13,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLosses",
+          "displayName": "Max Daily Losses",
+          "description": "Number of losing trades per day before trading is halted",
+          "order": 14,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "UseMaxDailyTrades",
+          "displayName": "Use Max Daily Trades",
+          "description": "Limit the number of entries per calendar day",
+          "order": 15,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyTrades",
+          "displayName": "Max Daily Trades",
+          "description": "Maximum entries per calendar day",
+          "order": 16,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 4
+        },
+        {
+          "property": "BreakevenProfit",
+          "displayName": "Breakeven Profit (Currency)",
+          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount (0 = off)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "Quick Exit",
+      "properties": [
+        {
+          "property": "QuickExitBars",
+          "displayName": "Quick Exit Bars",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 5
+        },
+        {
+          "property": "QuickExitOnlyInProfit",
+          "displayName": "Quick Exit Only In Profit",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "EnableQuickExit",
+          "displayName": "Enable Quick Exit",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "properties": [
+        {
+          "property": "ChoppinessPeriod",
+          "displayName": "Choppiness Period",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "ChoppinessThreshold",
+          "displayName": "Choppiness Threshold",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 61.8
+        },
+        {
+          "property": "UseMinimumVolumeFilter",
+          "displayName": "Use Minimum Volume Filter",
+          "order": 10,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinimumVolume",
+          "displayName": "Minimum Volume",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1000
+        },
+        {
+          "property": "UseRsiFilter",
+          "displayName": "Use RSI Filter",
+          "order": 50,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RsiPeriod",
+          "displayName": "RSI Period",
+          "order": 51,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "RsiOverbought",
+          "displayName": "RSI Overbought",
+          "order": 52,
+          "type": "integer",
+          "constraints": {
+            "min": 50,
+            "max": 100
+          },
+          "default": 70
+        },
+        {
+          "property": "RsiOversold",
+          "displayName": "RSI Oversold",
+          "order": 53,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 50
+          },
+          "default": 30
+        },
+        {
+          "property": "ReverseOnRsiExtremes",
+          "displayName": "Reverse on RSI Extremes",
+          "order": 54,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseEmaFilter",
+          "displayName": "Use EMA Filter",
+          "description": "Longs only when price is above EMA; shorts only when price is below EMA",
+          "order": 55,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EmaFilterPeriod",
+          "displayName": "EMA Filter Period",
+          "order": 56,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 50
+        },
+        {
+          "property": "UseMomentumFilter",
+          "displayName": "Use Momentum Filter (set to false for NBrickReversal, ExhaustionFade, and DoubleTopBottom modes)",
+          "description": "Require price above/below EMA and closing in trade direction",
+          "order": 60,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "MomentumEmaFast",
+          "displayName": "Momentum EMA Fast",
+          "order": 61,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 9
+        },
+        {
+          "property": "RequireBullishBreakoutBar",
+          "displayName": "Require Bullish/Bearish Bar",
+          "description": "Require close > open for longs, close < open for shorts",
+          "order": 62,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "EnableChoppinessFilter",
+          "displayName": "Enable Choppiness Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Market Regime Filter",
+      "properties": [
+        {
+          "property": "TradeUpTrendHighVol",
+          "displayName": "Trade UpTrend High Vol",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeUpTrendLowVol",
+          "displayName": "Trade UpTrend Low Vol",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeSidewaysHighVol",
+          "displayName": "Trade Sideways High Vol",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeSidewaysLowVol",
+          "displayName": "Trade Sideways Low Vol",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendHighVol",
+          "displayName": "Trade DownTrend High Vol",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendLowVol",
+          "displayName": "Trade DownTrend Low Vol",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseHighImpactEventFilter",
+          "displayName": "Use High Impact Event Filter",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinHighImpactEvents",
+          "displayName": "Min High Impact Events",
+          "order": 8,
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "property": "MaxHighImpactEvents",
+          "displayName": "Max High Impact Events",
+          "order": 9,
+          "type": "integer",
+          "default": 1
+        },
+        {
+          "property": "UseMarketRegimeFilter",
+          "displayName": "Use Market Regime Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "AI Filter",
+      "properties": [
+        {
+          "property": "MinProfitProbability",
+          "displayName": "Min Profit Probability",
+          "description": "Minimum AI profit_probability (0-1) required to enter",
+          "order": 1,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 1
+          },
+          "default": 0.65
+        },
+        {
+          "property": "AiFilterProvider",
+          "displayName": "Provider",
+          "description": "AI Provider to use",
+          "order": 2,
+          "type": "enum",
+          "enumType": "Provider",
+          "possibleValues": [
+            {
+              "name": "OpenAI",
+              "value": "OpenAI"
+            },
+            {
+              "name": "Anthropic",
+              "value": "Anthropic"
+            },
+            {
+              "name": "Ollama",
+              "value": "Ollama"
+            }
+          ],
+          "default": "Provider.OpenAI"
+        },
+        {
+          "property": "AiFilterOpenAIModel",
+          "displayName": "OpenAI Model",
+          "description": "OpenAI model to use",
+          "order": 3,
+          "type": "enum",
+          "enumType": "OpenAIModel",
+          "possibleValues": [
+            {
+              "name": "Gpt56Sol",
+              "value": "Gpt56Sol"
+            },
+            {
+              "name": "Gpt56",
+              "value": "Gpt56"
+            },
+            {
+              "name": "Gpt56Terra",
+              "value": "Gpt56Terra"
+            },
+            {
+              "name": "Gpt56Luna",
+              "value": "Gpt56Luna"
+            },
+            {
+              "name": "Gpt55",
+              "value": "Gpt55"
+            },
+            {
+              "name": "Gpt54",
+              "value": "Gpt54"
+            },
+            {
+              "name": "Gpt54Mini",
+              "value": "Gpt54Mini"
+            }
+          ],
+          "default": "OpenAIModel.Gpt56Luna"
+        },
+        {
+          "property": "AiFilterAnthropicModel",
+          "displayName": "Anthropic Model",
+          "description": "Anthropic model to use",
+          "order": 4,
+          "type": "enum",
+          "enumType": "AnthropicModel",
+          "possibleValues": [
+            {
+              "name": "ClaudeFable5",
+              "value": "ClaudeFable5"
+            },
+            {
+              "name": "ClaudeOpus48",
+              "value": "ClaudeOpus48"
+            },
+            {
+              "name": "ClaudeSonnet5",
+              "value": "ClaudeSonnet5"
+            },
+            {
+              "name": "ClaudeHaiku45",
+              "value": "ClaudeHaiku45"
+            },
+            {
+              "name": "ClaudeOpus47",
+              "value": "ClaudeOpus47"
+            },
+            {
+              "name": "ClaudeSonnet46",
+              "value": "ClaudeSonnet46"
+            }
+          ],
+          "default": "AnthropicModel.ClaudeSonnet5"
+        },
+        {
+          "property": "AiFilterCustomModel",
+          "displayName": "Custom Model",
+          "description": "Model name (required for Ollama; overrides enum selection for OpenAI/Anthropic)",
+          "order": 5,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterOllamaBaseUrl",
+          "displayName": "Ollama Base URL",
+          "description": "Base URL for Ollama server (required if Provider is Ollama)",
+          "order": 6,
+          "type": "string",
+          "default": "http://localhost:11434"
+        },
+        {
+          "property": "AiFilterUseEnvironmentApiKeys",
+          "displayName": "Use Environment API Keys",
+          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "AiFilterOpenAIApiKey",
+          "displayName": "OpenAI API Key",
+          "description": "API key for OpenAI (env: FLUXTRADE_OPENAI_API_KEY when Use Environment API Keys is enabled)",
+          "order": 8,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterAnthropicApiKey",
+          "displayName": "Anthropic API Key",
+          "description": "API key for Anthropic (env: FLUXTRADE_ANTHROPIC_API_KEY when Use Environment API Keys is enabled)",
+          "order": 9,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterMaxCompletionTokens",
+          "displayName": "Max Completion Tokens",
+          "description": "Maximum tokens for AI filter completion response",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 10000
+          },
+          "default": 2000
+        },
+        {
+          "property": "AiFilterUsePredictionCache",
+          "displayName": "Use Prediction Cache",
+          "description": "Cache AI filter results to avoid duplicate API calls",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "AiFilterBarEntryDelaySeconds",
+          "displayName": "Bar Entry Delay (seconds)",
+          "description": "Wait this many seconds before making AI filter API call (for cascading multiple accounts)",
+          "order": 12,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        },
+        {
+          "property": "UseChatGptFilter",
+          "displayName": "Use AI Filter",
+          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    }
+  ],
+  "totalParameters": 146
+}
