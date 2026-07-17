@@ -1,28 +1,15 @@
 export type BillingPeriod = "monthly" | "quarterly" | "yearly";
-export type PlanKey =
-  | "STRATEGIES_SINGLE"
-  | "STRATEGIES_NT_AND_TV"
-  | "INDICATORS_SINGLE"
-  | "INDICATORS_NT_AND_TV";
+export type PlanKey = "STRATEGY";
 
 export const PRICING = {
   MONTHLY: {
-    STRATEGIES_SINGLE: 99,
-    STRATEGIES_NT_AND_TV: 119,
-    INDICATORS_SINGLE: 49,
-    INDICATORS_NT_AND_TV: 69,
+    STRATEGY: 99,
   },
   QUARTERLY: {
-    STRATEGIES_SINGLE: 265,
-    STRATEGIES_NT_AND_TV: 320,
-    INDICATORS_SINGLE: 130,
-    INDICATORS_NT_AND_TV: 185,
+    STRATEGY: 265,
   },
   YEARLY: {
-    STRATEGIES_SINGLE: 990,
-    STRATEGIES_NT_AND_TV: 1190,
-    INDICATORS_SINGLE: 490,
-    INDICATORS_NT_AND_TV: 690,
+    STRATEGY: 990,
   },
 } as const;
 

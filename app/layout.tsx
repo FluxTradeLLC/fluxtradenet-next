@@ -12,13 +12,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://fluxtrade.net"),
   title: "FluxTrade — Advanced Trading Software & Strategies",
   description:
-    "Prop-firm friendly trading systems built for consistency, risk management, and discipline. Automated strategies and professional indicators for NinjaTrader and TradingView.",
+    "Prop-firm friendly trading systems built for consistency, risk management, and discipline. Automated strategies and professional indicators for NinjaTrader.",
   keywords: [
     "FluxTrade",
     "trading software",
     "automated trading",
     "NinjaTrader",
-    "TradingView",
     "prop firm trading",
     "backtested strategies",
   ],

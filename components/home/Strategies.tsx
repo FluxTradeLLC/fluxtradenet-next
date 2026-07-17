@@ -2,41 +2,28 @@ import Link from "next/link";
 
 const strategies = [
   {
-    name: "Flux Trident",
-    type: "Multi-timeframe Confluence",
-    tags: ["Trend", "Momentum"],
-    href: "https://fluxtrade.net/backtests/flux-trident",
+    name: "Hydra",
+    type: "Renko Patterns",
+    tags: ["Renko", "Patterns"],
+    href: "https://fluxtrade.net/backtests/hydra",
   },
   {
-    name: "Flux Lightning",
-    type: "High-Speed Momentum",
+    name: "Ignition",
+    type: "Opening Range Break",
+    tags: ["Volatility", "Breakout"],
+    href: "https://fluxtrade.net/backtests/ignition",
+  },
+  {
+    name: "ORMS",
+    type: "Opening Range Momentum Scalping",
     tags: ["Scalping", "Momentum"],
-    href: "https://fluxtrade.net/backtests/flux-lightning",
+    href: "https://fluxtrade.net/backtests/orms",
   },
   {
-    name: "Flux Signal",
-    type: "Trend Reversal & Continuation",
-    tags: ["Signals", "Trend"],
-    href: "https://fluxtrade.net/backtests/flux-signal-strat",
-  },
-  {
-    name: "Centauri",
-    type: "Prop Firm Focused",
-    tags: ["Prop-firm-safe", "Conservative"],
-    href: "https://fluxtrade.net/backtests/centauri",
-    badge: "NEW",
-  },
-  {
-    name: "ORB",
-    type: "Opening Range Breakout",
-    tags: ["Volatility", "Scalping"],
-    href: "https://fluxtrade.net/backtests/orb",
-  },
-  {
-    name: "Cointegrated Pairs",
-    type: "Statistical Arbitrage",
-    tags: ["Mean Reversion", "Conservative"],
-    href: "https://fluxtrade.net/backtests/cointegrated-pairs",
+    name: "Kraken",
+    type: "Compression Breakout",
+    tags: ["Breakout", "Volatility"],
+    href: "https://fluxtrade.net/backtests/kraken",
   },
 ];
 
@@ -55,8 +42,8 @@ export function Strategies() {
               Backtested. Battle-ready.
             </h2>
             <p className="mt-4 text-lg text-muted">
-              30+ automated strategies with full backtest transparency. Filter
-              by style, risk profile, and prop firm compatibility.
+              Four automated strategies with full backtest transparency — from
+              Renko patterns to opening range momentum and compression breakouts.
             </p>
           </div>
           <Link
@@ -67,7 +54,7 @@ export function Strategies() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {strategies.map((strategy) => (
             <Link
               key={strategy.name}

@@ -6,8 +6,7 @@ import { useState } from "react";
 
 const navLinks = [
   { label: "Automated Strategies", href: "/#strategies" },
-  { label: "Indicators", href: "/#features" },
-  { label: "Platforms", href: "/#platforms" },
+  { label: "FREE Indicators", href: "/#features" },
   { label: "Pricing", href: "/pricing" },
 ];
 
@@ -58,7 +57,7 @@ export function Header() {
             href="https://fluxtrade.net/signup"
             className="btn-primary px-5 py-2 text-sm"
           >
-            Start Free Trial
+            Get Started
           </Link>
         </div>
 
@@ -110,7 +109,7 @@ export function Header() {
               className="btn-primary py-3 text-center text-sm"
               onClick={() => setMenuOpen(false)}
             >
-              Start Free Trial
+              Get Started
             </Link>
           </div>
         </nav>

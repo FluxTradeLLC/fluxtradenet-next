@@ -55,9 +55,9 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m0 0v12m0-12h3.75m-3.75 0v12m0 0h3.75m-3.75 0H7.5m9.75 0h3.75M16.5 6v12m0 0h3.75m-3.75 0H16.5" />
       </svg>
     ),
-    title: "Dual Platform Support",
+    title: "Built for NinjaTrader",
     description:
-      "Run the same edge on NinjaTrader and TradingView. One subscription, two platforms.",
+      "Official NinjaTrader ecosystem vendor. Strategies and indicators designed for serious backtesting and live execution.",
   },
 ];
 

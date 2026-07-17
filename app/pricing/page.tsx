@@ -6,11 +6,10 @@ import { PricingContent } from "@/components/pricing/PricingContent";
 export const metadata: Metadata = {
   title: "Pricing — Trading Software Subscriptions",
   description:
-    "Choose the perfect FluxTrade subscription plan for your trading needs. Access automated strategies, indicators, and professional trading tools for NinjaTrader and TradingView.",
+    "Choose the perfect FluxTrade subscription plan for your trading needs. Access automated strategies, indicators, and professional trading tools for NinjaTrader.",
   keywords: [
     "trading software pricing",
     "ninjatrader subscription",
-    "tradingview strategies pricing",
     "automated trading subscription",
     "prop firm trading tools pricing",
   ],

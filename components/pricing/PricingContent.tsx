@@ -15,18 +15,42 @@ import {
   getPriceForPlan,
 } from "@/lib/pricing";
 
+const strategies = [
+  {
+    name: "Hydra",
+    type: "Renko Patterns",
+    tags: ["Renko", "Patterns"],
+  },
+  {
+    name: "Ignition",
+    type: "Opening Range Break",
+    tags: ["Volatility", "Breakout"],
+  },
+  {
+    name: "ORMS",
+    type: "Opening Range Momentum Scalping",
+    tags: ["Scalping", "Momentum"],
+  },
+  {
+    name: "Kraken",
+    type: "Compression Breakout",
+    tags: ["Breakout", "Volatility"],
+  },
+];
+
+const includedFeatures = [
+  "Full automated strategy access for NinjaTrader",
+  "All indicators included free",
+  "Direct access to new features",
+  "Priority updates",
+  "24/7 customer support",
+  "Full backtest data",
+];
+
 function CheckIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-
-function XIcon({ className = "h-5 w-5" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   );
 }
@@ -78,252 +102,95 @@ function PriceDisplay({
   );
 }
 
-type PlanCardProps = {
-  title: string;
-  subtitle: string;
-  monthlyPrice: number;
-  planKey: PlanKey;
-  features: string[];
-  badges?: string[];
-  highlighted?: boolean;
-  mostPopular?: boolean;
+type StrategyCardProps = {
+  name: string;
+  type: string;
+  tags: string[];
   billingPeriod: BillingPeriod;
   currency: Currency;
 };
 
-function PlanCard({
-  title,
-  subtitle,
-  monthlyPrice,
-  planKey,
-  features,
-  badges = [],
-  highlighted = false,
-  mostPopular = false,
+function StrategyCard({
+  name,
+  type,
+  tags,
   billingPeriod,
   currency,
-}: PlanCardProps) {
+}: StrategyCardProps) {
   const signupUrl = "https://fluxtrade.net/signup";
-  const trialLabel =
-    billingPeriod === "monthly"
-      ? "Start 30-day free trial"
-      : "Subscribe now";
+  const monthlyPrice = PRICING.MONTHLY.STRATEGY;
 
-  const card = (
-    <div
-      className={`relative flex h-full flex-col rounded-2xl p-8 ${
-        highlighted
-          ? "border border-flux-green/40 bg-gradient-to-b from-flux-green/10 to-surface"
-          : "glass-card"
-      }`}
-    >
-      {mostPopular && (
-        <div className="badge-new absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1">
-          MOST POPULAR
-        </div>
-      )}
+  return (
+    <div className="glass-card flex h-full flex-col rounded-2xl px-8 py-6">
+      <div className="mb-4 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span key={tag} className="chip">
+            {tag}
+          </span>
+        ))}
+      </div>
 
-      {badges.length > 0 && (
-        <div className="mb-4 flex flex-wrap justify-center gap-2">
-          {badges.map((badge) => (
-            <span key={badge} className="chip">
-              {badge}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <h3 className="text-center text-xl font-bold text-white">{title}</h3>
-      <p className="mt-1 text-center text-sm text-muted">{subtitle}</p>
+      <h3 className="text-xl font-bold text-white">{name}</h3>
+      <p className="mt-1 text-sm text-muted">{type}</p>
 
       <div className="my-6">
         <PriceDisplay
           monthlyPrice={monthlyPrice}
-          planKey={planKey}
+          planKey="STRATEGY"
           billingPeriod={billingPeriod}
           currency={currency}
         />
       </div>
 
-      <ul className="mb-8 flex-1 space-y-3">
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-sm text-muted">
-            <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#39ff14]" />
-            <span>{feature}</span>
-          </li>
-        ))}
+      <ul className="mb-6 flex-1 space-y-2">
+        <li className="flex items-start gap-2 text-sm text-muted">
+          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#39ff14]" />
+          <span>Full {name} strategy access</span>
+        </li>
+        <li className="flex items-start gap-2 text-sm text-muted">
+          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#39ff14]" />
+          <span>All indicators included free</span>
+        </li>
       </ul>
 
-      {planKey.includes("SINGLE") && !planKey.includes("AND") ? (
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
-            <Link
-              href={signupUrl}
-              className="btn-primary rounded-lg py-3 text-center text-xs sm:text-sm"
-            >
-              {billingPeriod === "monthly" ? "Trial · NT" : "Subscribe · NT"}
-            </Link>
-            <Link
-              href={signupUrl}
-              className="btn-primary rounded-lg py-3 text-center text-xs sm:text-sm"
-            >
-              {billingPeriod === "monthly" ? "Trial · TV" : "Subscribe · TV"}
-            </Link>
-          </div>
-          <p className="text-center text-xs text-muted/70">
-            No commitment. Cancel anytime.
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          <Link
-            href={signupUrl}
-            className="btn-primary block rounded-lg py-3 text-center text-sm"
-          >
-            {trialLabel}
-          </Link>
-          <p className="text-center text-xs text-muted/70">
-            No commitment. Cancel anytime.
-          </p>
-        </div>
-      )}
+      <div className="flex flex-col items-center space-y-3">
+        <Link
+          href={signupUrl}
+          className="btn-primary rounded-lg px-8 py-3 text-sm"
+        >
+          Get Started
+        </Link>
+        <p className="text-center text-xs text-muted/70">
+          No commitment. Cancel anytime.
+        </p>
+      </div>
     </div>
   );
-
-  if (highlighted) {
-    return (
-      <div className="relative rounded-2xl p-[1px] bg-gradient-to-b from-flux-green/60 via-flux-green/20 to-transparent shadow-[0_0_40px_rgba(57,255,20,0.15)]">
-        {card}
-      </div>
-    );
-  }
-
-  return card;
 }
 
-function ComparisonTable() {
-  const cols = [
-    { label: "Indicators", sub: "Single Platform" },
-    { label: "Indicators", sub: "Both Platforms" },
-    { label: "Strategies", sub: "Single Platform", border: true },
-    { label: "Strategies", sub: "Both Platforms", highlight: true, border: true },
-  ];
-
-  const rows: {
-    feature: string;
-    values: ("check" | "x" | string)[];
-    highlightLast?: boolean;
-  }[] = [
-    {
-      feature: "Access to all indicators",
-      values: ["check", "check", "check", "check"],
-    },
-    {
-      feature: "Platform access",
-      values: ["Single", "Both Platforms", "Single", "Both Platforms"],
-    },
-    {
-      feature: "Access to automated strategies",
-      values: ["x", "x", "Strategies", "Strategies"],
-    },
-    {
-      feature: "24/7 customer support",
-      values: ["check", "check", "check", "check"],
-    },
-    {
-      feature: "Direct access to new features",
-      values: ["check", "check", "check", "check"],
-    },
-    {
-      feature: "Priority updates",
-      values: ["x", "x", "x", "Priority updates"],
-      highlightLast: true,
-    },
-  ];
-
+function IncludedFeaturesTable() {
   return (
     <div className="overflow-x-auto rounded-2xl border border-border">
-      <table className="w-full min-w-[640px] border-collapse text-sm">
+      <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b border-border bg-surface-elevated">
-            <th className="p-4 text-left font-semibold text-white">Features</th>
-            {cols.map((col, i) => (
-              <th
-                key={i}
-                className={`p-4 text-center font-semibold ${
-                  col.highlight
-                    ? "bg-[#39ff14]/10 text-white"
-                    : "text-white"
-                } ${col.border ? "border-l border-[#39ff14]/20" : ""}`}
-              >
-                {col.label}
-                <br />
-                <span className="text-xs font-normal text-muted">{col.sub}</span>
-                {col.highlight && (
-                  <>
-                    <br />
-                    <span className="mt-1 inline-block text-xs font-bold text-[#39ff14]">
-                      MOST POPULAR
-                    </span>
-                  </>
-                )}
-              </th>
-            ))}
+            <th className="p-4 text-left font-semibold text-white">
+              Included with every strategy
+            </th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, rowIndex) => (
+          {includedFeatures.map((feature, index) => (
             <tr
-              key={row.feature}
+              key={feature}
               className={
-                rowIndex < rows.length - 1 ? "border-b border-border" : ""
+                index < includedFeatures.length - 1 ? "border-b border-border" : ""
               }
             >
-              <td className="p-4 font-medium text-white">{row.feature}</td>
-              {row.values.map((value, colIndex) => {
-                const isHighlightCol = colIndex === 3;
-                const cellClass = `p-4 text-center ${
-                  colIndex >= 2 ? "border-l border-flux-green/20" : ""
-                } ${isHighlightCol ? "bg-[#39ff14]/10" : ""}`;
-
-                if (value === "check") {
-                  return (
-                    <td key={colIndex} className={cellClass}>
-                      <CheckIcon className="mx-auto h-5 w-5 text-[#39ff14]" />
-                    </td>
-                  );
-                }
-                if (value === "x") {
-                  return (
-                    <td key={colIndex} className={cellClass}>
-                      <XIcon className="mx-auto h-5 w-5 text-muted/40" />
-                    </td>
-                  );
-                }
-                if (value === "Strategies" || value === "Priority updates") {
-                  return (
-                    <td key={colIndex} className={cellClass}>
-                      <span className="chip px-3 py-1">
-                        {value}
-                      </span>
-                    </td>
-                  );
-                }
-                if (value === "Both Platforms") {
-                  return (
-                    <td key={colIndex} className={cellClass}>
-                      <span className="chip px-3 py-1">
-                        Both Platforms
-                      </span>
-                    </td>
-                  );
-                }
-                return (
-                  <td key={colIndex} className={`${cellClass} text-muted`}>
-                    {value}
-                  </td>
-                );
-              })}
+              <td className="flex items-center gap-3 p-4 font-medium text-white">
+                <CheckIcon className="h-5 w-5 shrink-0 text-[#39ff14]" />
+                {feature}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -353,13 +220,11 @@ export function PricingContent() {
             Pricing
           </p>
           <h1 className="mt-3 text-4xl font-bold italic tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Choose your plan
+            Mix & match strategies
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted">
-            Unlock the full potential of FluxTrade with our tailored plans.{" "}
-            <span className="font-semibold text-[#39ff14]">
-              Monthly plans include a 30-day free trial!
-            </span>
+            Each automated strategy is {formatCurrency(PRICING.MONTHLY.STRATEGY, "USD")}/mo.
+            Subscribe to only what you need — all indicators are free.
           </p>
         </div>
       </section>
@@ -411,100 +276,51 @@ export function PricingContent() {
 
       <section className="pb-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <p className="mb-6 text-center text-sm font-semibold uppercase tracking-widest text-muted">
+          <p className="mb-2 text-center text-sm font-semibold uppercase tracking-widest text-muted">
             Automated Strategies
           </p>
-          <div className="grid gap-6 md:grid-cols-2">
-            <PlanCard
-              title="Automated Strategies"
-              subtitle="Single Platform"
-              monthlyPrice={PRICING.MONTHLY.STRATEGIES_SINGLE}
-              planKey="STRATEGIES_SINGLE"
-              features={[
-                "Includes indicators for chosen platform",
-                "Access to all automated strategies",
-                "Direct access to new features",
-              ]}
-              badges={["Automated Strategies"]}
-              billingPeriod={billingPeriod}
-              currency={currency}
-            />
-            <PlanCard
-              title="Automated Strategies"
-              subtitle="Both Platforms"
-              monthlyPrice={PRICING.MONTHLY.STRATEGIES_NT_AND_TV}
-              planKey="STRATEGIES_NT_AND_TV"
-              features={[
-                "Includes indicators for both platforms",
-                "NinjaTrader and TradingView",
-                "Access to all automated strategies",
-              ]}
-              badges={["Automated Strategies", "Both Platforms", "Priority Updates"]}
-              highlighted
-              mostPopular
-              billingPeriod={billingPeriod}
-              currency={currency}
-            />
-          </div>
-
-          <p className="mb-6 mt-12 text-center text-sm font-semibold uppercase tracking-widest text-muted">
-            Indicators
+          <p className="mx-auto mb-10 max-w-2xl text-center text-muted">
+            Pick one strategy or stack as many as you want. Want Hydra and Kraken?
+            That&apos;s {formatCurrency(PRICING.MONTHLY.STRATEGY * 2, currency, currency !== "USD")}/mo.
           </p>
-          <div className="grid gap-6 md:grid-cols-2">
-            <PlanCard
-              title="Indicators"
-              subtitle="Single Platform"
-              monthlyPrice={PRICING.MONTHLY.INDICATORS_SINGLE}
-              planKey="INDICATORS_SINGLE"
-              features={[
-                "Access to all our indicators",
-                "24/7 customer support",
-                "Cancel anytime",
-              ]}
-              billingPeriod={billingPeriod}
-              currency={currency}
-            />
-            <PlanCard
-              title="Indicators"
-              subtitle="Both Platforms"
-              monthlyPrice={PRICING.MONTHLY.INDICATORS_NT_AND_TV}
-              planKey="INDICATORS_NT_AND_TV"
-              features={[
-                "Access to all our indicators",
-                "NinjaTrader and TradingView",
-                "Cancel anytime",
-              ]}
-              badges={["Both Platforms"]}
-              billingPeriod={billingPeriod}
-              currency={currency}
-            />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {strategies.map((strategy) => (
+              <StrategyCard
+                key={strategy.name}
+                name={strategy.name}
+                type={strategy.type}
+                tags={strategy.tags}
+                billingPeriod={billingPeriod}
+                currency={currency}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       <section className="border-t border-border bg-surface py-20">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <h2 className="mb-10 text-center text-2xl font-bold italic text-white sm:text-3xl">
-            Compare plans & features
+            What&apos;s included
           </h2>
-          <ComparisonTable />
+          <IncludedFeaturesTable />
         </div>
       </section>
 
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
           <h2 className="text-2xl font-bold italic text-white sm:text-3xl">
-            Not sure which plan fits?
+            Not sure which strategy fits?
           </h2>
           <p className="mt-4 text-muted">
-            Start with a free 30-day trial on any monthly plan. Explore every
-            strategy and indicator before you commit.
+            Browse backtests for each strategy and subscribe to the ones that
+            match your style. Start with one — add more anytime.
           </p>
           <Link
             href="https://fluxtrade.net/signup"
             className="btn-primary mt-8 px-10 py-4 text-base"
           >
-            Start free trial
+            Get Started
           </Link>
         </div>
       </section>

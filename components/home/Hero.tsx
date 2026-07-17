@@ -63,7 +63,7 @@ export function Hero() {
             href="https://fluxtrade.net/signup"
             className="btn-primary group px-8 py-4 text-base"
           >
-            Start Free 30-Day Trial
+            Get Started
             <svg
               className="h-4 w-4 transition-transform group-hover:translate-x-1"
               fill="none"
@@ -84,9 +84,9 @@ export function Hero() {
 
         <div className="mt-16 grid w-full max-w-3xl grid-cols-3 gap-6 border-t border-border pt-10">
           {[
-            { value: "30+", label: "Strategies" },
+            { value: "4", label: "Strategies" },
             { value: "10+", label: "Indicators" },
-            { value: "30 days", label: "Free Trial" },
+            { value: "24/7", label: "Support" },
           ].map((stat) => (
             <div key={stat.label}>
               <div className="text-2xl font-bold text-[#39ff14] sm:text-3xl">
