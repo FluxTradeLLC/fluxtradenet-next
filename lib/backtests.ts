@@ -12,6 +12,23 @@ export const BACKTEST_SLUGS: Record<string, string> = {
   orms: "orms.csv",
 };
 
+export const SETTINGS_FILES: Record<string, string> = {
+  hydra: "hydra-settings.csv",
+  ignition: "ignition-settinga.csv",
+  kraken: "kraken-settings.csv",
+  orms: "orms-settings.csv",
+};
+
+export type SettingsRow = {
+  item: string;
+  value: string;
+};
+
+export type SettingsSection = {
+  title: string;
+  rows: SettingsRow[];
+};
+
 export type BacktestCurrency =
   | "USD"
   | "EUR"
@@ -64,6 +81,39 @@ export type TradeRow = {
 
 export function getCsvFilename(slug: string): string | undefined {
   return BACKTEST_SLUGS[slug];
+}
+
+export function getSettingsFilename(strategy: string): string | undefined {
+  return SETTINGS_FILES[strategy];
+}
+
+export function parseSettingsRows(
+  rows: Record<string, string>[]
+): SettingsSection[] {
+  const sections: SettingsSection[] = [];
+  let current: SettingsSection = { title: "", rows: [] };
+
+  for (const row of rows) {
+    const item = (row.Item || row.item || "").trim();
+    const value = (row.Value || row.value || "").trim();
+    if (!item) continue;
+
+    if (!value) {
+      if (current.title || current.rows.length > 0) {
+        sections.push(current);
+      }
+      current = { title: item, rows: [] };
+      continue;
+    }
+
+    current.rows.push({ item, value });
+  }
+
+  if (current.title || current.rows.length > 0) {
+    sections.push(current);
+  }
+
+  return sections;
 }
 
 export function slugToDisplayName(slug: string): string {

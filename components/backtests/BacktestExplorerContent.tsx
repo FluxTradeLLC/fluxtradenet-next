@@ -24,10 +24,14 @@ import {
   formatNumber,
   formatPrice,
   formatTimestamp,
+  getSettingsFilename,
+  parseSettingsRows,
   parseTradeRows,
   toTitleCase,
+  type SettingsSection,
   type TradeRow,
 } from "@/lib/backtests";
+import { BacktestStrategySettings } from "@/components/backtests/BacktestStrategySettings";
 
 const selectClassName =
   "w-full rounded-xl border border-border bg-surface-elevated px-4 py-2.5 text-sm text-white transition-colors focus:border-[#39ff14]/50 focus:outline-none focus:ring-1 focus:ring-[#39ff14]/30";
@@ -57,6 +61,9 @@ export function BacktestExplorerContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [allData, setAllData] = useState<TradeRow[]>([]);
+  const [settingsByStrategy, setSettingsByStrategy] = useState<
+    Record<string, SettingsSection[]>
+  >({});
   const [loading, setLoading] = useState(true);
   const [selectedStrategy, setSelectedStrategy] = useState("All");
   const [selectedInstrument, setSelectedInstrument] = useState("All");
@@ -82,7 +89,7 @@ export function BacktestExplorerContent() {
 
     const loadAllData = async () => {
       setLoading(true);
-      const promises = BACKTEST_FILES.map(async (file) => {
+      const tradePromises = BACKTEST_FILES.map(async (file) => {
         try {
           const response = await fetch(`/backtests/${file}`);
           const csv = await response.text();
@@ -101,9 +108,41 @@ export function BacktestExplorerContent() {
         }
       });
 
-      const results = await Promise.all(promises);
+      const settingsPromises = BACKTEST_FILES.map(async (file) => {
+        const strategy = file.replace(".csv", "");
+        const settingsFile = getSettingsFilename(strategy);
+        if (!settingsFile) return [strategy, []] as const;
+
+        try {
+          const response = await fetch(`/settings/${settingsFile}`);
+          if (!response.ok) {
+            console.error(`Error loading ${settingsFile}: ${response.status}`);
+            return [strategy, []] as const;
+          }
+
+          const csv = await response.text();
+          return new Promise<readonly [string, SettingsSection[]]>((resolve) => {
+            Papa.parse<Record<string, string>>(csv, {
+              header: true,
+              complete: (results) => {
+                resolve([strategy, parseSettingsRows(results.data)]);
+              },
+            });
+          });
+        } catch (error) {
+          console.error(`Error loading ${settingsFile}:`, error);
+          return [strategy, []] as const;
+        }
+      });
+
+      const [tradeResults, settingsResults] = await Promise.all([
+        Promise.all(tradePromises),
+        Promise.all(settingsPromises),
+      ]);
+
       if (!cancelled) {
-        setAllData(results.flat());
+        setAllData(tradeResults.flat());
+        setSettingsByStrategy(Object.fromEntries(settingsResults));
         setLoading(false);
       }
     };
@@ -140,6 +179,16 @@ export function BacktestExplorerContent() {
       return true;
     });
   }, [allData, selectedStrategy, selectedInstrument, selectedSession]);
+
+  const visibleSettingsStrategies = useMemo(() => {
+    if (selectedStrategy !== "All") {
+      return settingsByStrategy[selectedStrategy] ? [selectedStrategy] : [];
+    }
+
+    return BACKTEST_FILES.map((file) => file.replace(".csv", "")).filter(
+      (strategy) => (settingsByStrategy[strategy]?.length ?? 0) > 0
+    );
+  }, [selectedStrategy, settingsByStrategy]);
 
   const equityCurveData = useMemo(() => {
     const sorted = [...filteredData]
@@ -348,6 +397,18 @@ export function BacktestExplorerContent() {
             </div>
           </div>
         </div>
+
+        {visibleSettingsStrategies.length > 0 && (
+          <div className="mb-8 space-y-4">
+            {visibleSettingsStrategies.map((strategy) => (
+              <BacktestStrategySettings
+                key={strategy}
+                strategy={strategy}
+                sections={settingsByStrategy[strategy] ?? []}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-5">
           <StatCard label="Total Trades" value={stats.totalTrades.toLocaleString()} />
