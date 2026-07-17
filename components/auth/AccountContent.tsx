@@ -1,9 +1,12 @@
 "use client";
 
+import { useAppAuth } from "@/hooks/useAppAuth";
+import { useProtectedApiReady } from "@/hooks/useProtectedApiReady";
 import Link from "next/link";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { getUserEmail } from "@/lib/auth-cookies";
 import { SignInForm } from "@/components/auth/SignInForm";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { SignUpForm } from "@/components/auth/SignUpForm";
@@ -12,13 +15,15 @@ type Tab = "signin" | "signup";
 
 function AccountDashboard() {
   const { user } = useUser();
+  const apiReady = useProtectedApiReady();
   const [isPaid, setIsPaid] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
 
-  const displayEmail = user?.primaryEmailAddress?.emailAddress ?? null;
+  const displayEmail =
+    user?.primaryEmailAddress?.emailAddress ?? getUserEmail();
 
   useEffect(() => {
-    if (!displayEmail) {
+    if (!displayEmail || !apiReady) {
       return;
     }
 
@@ -34,7 +39,7 @@ function AccountDashboard() {
     };
 
     fetchSubscriptionStatus();
-  }, [displayEmail]);
+  }, [displayEmail, apiReady]);
 
   const handleCustomerPortal = async () => {
     if (!displayEmail) {
@@ -176,13 +181,13 @@ function AccountLoading() {
 }
 
 export function AccountContent() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isAuthenticated } = useAppAuth();
 
   if (!isLoaded) {
     return <AccountLoading />;
   }
 
-  if (isSignedIn) {
+  if (isAuthenticated) {
     return <AccountDashboard />;
   }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { AuthSessionMonitor } from "@/components/auth/AuthSessionMonitor";
 import { ClerkSessionSync } from "@/components/auth/ClerkSessionSync";
 import "./globals.css";
 
@@ -57,6 +58,7 @@ export default function RootLayout({
           signUpForceRedirectUrl="/account"
         >
           <ClerkSessionSync />
+          <AuthSessionMonitor />
           {children}
         </ClerkProvider>
       </body>

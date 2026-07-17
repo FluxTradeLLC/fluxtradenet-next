@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppAuth } from "@/hooks/useAppAuth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,6 +14,7 @@ const navLinks = [
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoaded, isAuthenticated } = useAppAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-black/80 backdrop-blur-xl">
@@ -48,18 +50,26 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link
-            href="/signin"
-            className="text-sm text-muted transition-colors hover:text-white"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/signup"
-            className="btn-primary px-5 py-2 text-sm"
-          >
-            Get Started
-          </Link>
+          {isLoaded && isAuthenticated ? (
+            <Link href="/account" className="btn-primary px-5 py-2 text-sm">
+              Account
+            </Link>
+          ) : isLoaded ? (
+            <>
+              <Link
+                href="/signin"
+                className="text-sm text-muted transition-colors hover:text-white"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                className="btn-primary px-5 py-2 text-sm"
+              >
+                Get Started
+              </Link>
+            </>
+          ) : null}
         </div>
 
         <button
@@ -98,20 +108,32 @@ export function Header() {
               </Link>
             ))}
             <hr className="border-border" />
-            <Link
-              href="/signin"
-              className="text-base text-muted"
-              onClick={() => setMenuOpen(false)}
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="btn-primary py-3 text-center text-sm"
-              onClick={() => setMenuOpen(false)}
-            >
-              Get Started
-            </Link>
+            {isLoaded && isAuthenticated ? (
+              <Link
+                href="/account"
+                className="btn-primary py-3 text-center text-sm"
+                onClick={() => setMenuOpen(false)}
+              >
+                Account
+              </Link>
+            ) : isLoaded ? (
+              <>
+                <Link
+                  href="/signin"
+                  className="text-base text-muted"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="btn-primary py-3 text-center text-sm"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Get Started
+                </Link>
+              </>
+            ) : null}
           </div>
         </nav>
       )}

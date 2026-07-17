@@ -4,6 +4,7 @@ import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
+import { startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
@@ -37,6 +38,7 @@ export function SignInForm() {
       });
 
       setUserEmail(email);
+      startAuthSession();
       window.location.href = "/account";
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Sign in failed");

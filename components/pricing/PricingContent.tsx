@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
+import { useAppAuth } from "@/hooks/useAppAuth";
 import { useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import {
@@ -222,7 +222,7 @@ function IncludedFeaturesTable() {
 }
 
 export function PricingContent() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isAuthenticated } = useAppAuth();
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
   const [currency, setCurrency] = useState<Currency>("USD");
   const [selectedStrategies, setSelectedStrategies] = useState<StrategyKey[]>([]);
@@ -260,7 +260,7 @@ export function PricingContent() {
       return;
     }
 
-    if (!isSignedIn) {
+    if (!isAuthenticated) {
       window.location.href = `/signin?redirect_url=${encodeURIComponent("/pricing")}`;
       return;
     }
@@ -343,7 +343,7 @@ export function PricingContent() {
                 }`}
               >
                 {period.label}
-                {period.badge && billingPeriod !== period.key && (
+                {period.badge && (
                   <span className="chip px-2 py-0.5 text-xs">
                     {period.badge}
                   </span>
@@ -424,7 +424,7 @@ export function PricingContent() {
             >
               {checkoutLoading
                 ? "Starting checkout..."
-                : isSignedIn
+                : isAuthenticated
                   ? "Subscribe"
                   : "Sign in to subscribe"}
             </button>

@@ -1,3 +1,5 @@
+import { emitAuthSessionExpired, getAuthToken } from "@/lib/auth-cookies";
+
 const API_BASE = `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/api`;
 
 export class ApiError extends Error {
@@ -20,6 +22,11 @@ export async function apiFetch<T>(
     headers.set("Content-Type", "application/json");
   }
 
+  const token = getAuthToken();
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
   const response = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers,
@@ -31,10 +38,19 @@ export async function apiFetch<T>(
   };
 
   if (!response.ok) {
-    throw new ApiError(
-      response.status,
-      data.error ?? "Request failed",
-    );
+    const errorMessage =
+      typeof data.error === "string" ? data.error : "Request failed";
+
+    if (
+      response.status === 401 &&
+      !path.includes("/users/logout") &&
+      typeof window !== "undefined" &&
+      !errorMessage.includes("No token provided")
+    ) {
+      emitAuthSessionExpired();
+    }
+
+    throw new ApiError(response.status, errorMessage);
   }
 
   return data;

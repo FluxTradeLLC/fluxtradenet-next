@@ -2,8 +2,7 @@
 
 import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
-import { ApiError, apiFetch } from "@/lib/api";
-import { clearAuthCookies, clearUserEmail } from "@/lib/auth-cookies";
+import { performLogout } from "@/lib/auth-session";
 
 export function SignOutButton() {
   const { signOut } = useClerk();
@@ -15,13 +14,9 @@ export function SignOutButton() {
     setLoading(true);
 
     try {
-      await apiFetch("/users/logout", { method: "POST" });
-      await signOut();
-      clearAuthCookies();
-      clearUserEmail();
-      window.location.href = "/";
+      await performLogout(signOut);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Logout failed");
+      setError(err instanceof Error ? err.message : "Logout failed");
       setLoading(false);
     }
   };

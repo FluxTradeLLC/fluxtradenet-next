@@ -2,7 +2,8 @@
 
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
-import { setAuthToken, setUserEmail } from "@/lib/auth-cookies";
+import { setUserEmail } from "@/lib/auth-cookies";
+import { setAuthToken } from "@/lib/auth-session";
 
 export function ClerkSessionSync() {
   const { isLoaded, isSignedIn, getToken } = useAuth();
