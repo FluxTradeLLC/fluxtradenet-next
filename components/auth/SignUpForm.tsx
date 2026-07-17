@@ -1,8 +1,10 @@
 "use client";
 
+import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
-import { setAuthToken, setUserEmail } from "@/lib/auth-cookies";
+import { setUserEmail } from "@/lib/auth-cookies";
+import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -15,11 +17,8 @@ import {
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-type LoginResponse = {
-  token?: string;
-};
-
 export function SignUpForm() {
+  const { signIn } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -66,16 +65,12 @@ export function SignUpForm() {
 
       setUserEmail(email);
 
-      const loginData = await apiFetch<LoginResponse>("/users/login", {
+      await apiFetch("/users/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
 
-      if (loginData.token) {
-        setAuthToken(loginData.token);
-      }
-
-      window.location.reload();
+      window.location.href = "/account";
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Registration failed");
       setLoading(false);
@@ -87,10 +82,17 @@ export function SignUpForm() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<{ url: string }>("/users/login/google");
-      window.location.href = data.url;
+      const { redirectUrl, redirectCallbackUrl } = getClerkOAuthRedirectUrls();
+
+      await signIn.sso({
+        strategy: "oauth_google",
+        redirectUrl,
+        redirectCallbackUrl,
+      });
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Google sign in failed");
+      const message =
+        err instanceof Error ? err.message : "Google sign in failed";
+      setError(message);
       setLoading(false);
     }
   };

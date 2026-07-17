@@ -1,10 +1,12 @@
 "use client";
 
+import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { clearAuthCookies, clearUserEmail } from "@/lib/auth-cookies";
 
 export function SignOutButton() {
+  const { signOut } = useClerk();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,9 +16,10 @@ export function SignOutButton() {
 
     try {
       await apiFetch("/users/logout", { method: "POST" });
+      await signOut();
       clearAuthCookies();
       clearUserEmail();
-      window.location.reload();
+      window.location.href = "/";
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Logout failed");
       setLoading(false);

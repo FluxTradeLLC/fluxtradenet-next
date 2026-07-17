@@ -1,8 +1,10 @@
 "use client";
 
+import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
+import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -17,6 +19,7 @@ type LoginResponse = {
 };
 
 export function SignInForm() {
+  const { signIn } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,7 +37,7 @@ export function SignInForm() {
       });
 
       setUserEmail(email);
-      window.location.reload();
+      window.location.href = "/account";
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Sign in failed");
     } finally {
@@ -47,10 +50,17 @@ export function SignInForm() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<{ url: string }>("/users/login/google");
-      window.location.href = data.url;
+      const { redirectUrl, redirectCallbackUrl } = getClerkOAuthRedirectUrls();
+
+      await signIn.sso({
+        strategy: "oauth_google",
+        redirectUrl,
+        redirectCallbackUrl,
+      });
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Google sign in failed");
+      const message =
+        err instanceof Error ? err.message : "Google sign in failed";
+      setError(message);
       setLoading(false);
     }
   };

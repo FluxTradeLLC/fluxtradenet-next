@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkSessionSync } from "@/components/auth/ClerkSessionSync";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,12 +48,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={`${inter.variable} h-full antialiased`}>
-        <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ClerkProvider
+          signInFallbackRedirectUrl="/account"
+          signUpFallbackRedirectUrl="/account"
+          signInForceRedirectUrl="/account"
+          signUpForceRedirectUrl="/account"
+        >
+          <ClerkSessionSync />
           {children}
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

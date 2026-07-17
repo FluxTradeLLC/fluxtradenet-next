@@ -1,36 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { getUserEmail } from "@/lib/auth-cookies";
 import { SignInForm } from "@/components/auth/SignInForm";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { SignUpForm } from "@/components/auth/SignUpForm";
 
 type Tab = "signin" | "signup";
 
-export function AccountContent() {
-  const [activeTab, setActiveTab] = useState<Tab>("signin");
-  const [hasSession, setHasSession] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+function AccountDashboard() {
+  const { user } = useUser();
   const [isPaid, setIsPaid] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
 
-  useEffect(() => {
-    const email = getUserEmail();
-    setHasSession(!!email);
+  const displayEmail = user?.primaryEmailAddress?.emailAddress ?? null;
 
-    if (!email) {
+  useEffect(() => {
+    if (!displayEmail) {
       return;
     }
-
-    setUserEmail(email);
 
     const fetchSubscriptionStatus = async () => {
       try {
         const data = await apiFetch<{ paid: boolean }>(
-          `/payment/subscription-status/${encodeURIComponent(email)}`,
+          `/payment/subscription-status/${encodeURIComponent(displayEmail)}`,
         );
         setIsPaid(data.paid);
       } catch (error) {
@@ -39,11 +34,10 @@ export function AccountContent() {
     };
 
     fetchSubscriptionStatus();
-  }, []);
+  }, [displayEmail]);
 
   const handleCustomerPortal = async () => {
-    const email = getUserEmail();
-    if (!email) {
+    if (!displayEmail) {
       return;
     }
 
@@ -52,7 +46,7 @@ export function AccountContent() {
     try {
       const data = await apiFetch<{ url: string }>("/payment/customer-portal", {
         method: "POST",
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: displayEmail }),
       });
       window.location.href = data.url;
     } catch (error) {
@@ -61,57 +55,58 @@ export function AccountContent() {
     }
   };
 
-  if (hasSession) {
-    return (
-      <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
-        <div className="pointer-events-none absolute inset-0 grid-pattern opacity-40" />
-        <div className="glow-orb absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 opacity-30" />
+  return (
+    <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
+      <div className="pointer-events-none absolute inset-0 grid-pattern opacity-40" />
+      <div className="glow-orb absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 opacity-30" />
 
-        <div className="relative mx-auto max-w-lg px-6 text-center lg:px-8">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Account
-          </h1>
-          {userEmail ? (
-            <p className="mt-4 text-lg text-muted">Logged in as: {userEmail}</p>
+      <div className="relative mx-auto max-w-lg px-6 text-center lg:px-8">
+        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+          Account
+        </h1>
+        {displayEmail ? (
+          <p className="mt-4 text-lg text-muted">Logged in as: {displayEmail}</p>
+        ) : null}
+
+        <div className="mt-8 flex flex-col items-center gap-8">
+          {!isPaid ? (
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-white">Sign up for a plan</h2>
+              <Link href="/pricing" className="btn-primary inline-flex px-6 py-2.5 text-sm">
+                Select a Plan
+              </Link>
+            </div>
           ) : null}
 
-          <div className="mt-8 flex flex-col items-center gap-8">
-            {!isPaid ? (
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold text-white">Sign up for a plan</h2>
-                <p className="text-muted">Each plan offers a 30 day free trial!</p>
-                <Link href="/pricing" className="btn-primary inline-flex px-6 py-2.5 text-sm">
-                  Select a Plan
-                </Link>
-              </div>
-            ) : null}
+          <div className="space-y-3">
+            <h2 className="text-2xl font-bold text-white">Subscription Settings</h2>
+            <p className="text-sm text-muted">
+              Log into the Stripe customer portal to manage your subscription, update your
+              payment method, or cancel your subscription.
+            </p>
+            <button
+              type="button"
+              onClick={handleCustomerPortal}
+              disabled={portalLoading}
+              className="btn-primary rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+              aria-label="Manage subscription settings in Stripe customer portal"
+            >
+              {portalLoading ? "Opening portal..." : "Subscription Settings"}
+            </button>
+          </div>
 
-            <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-white">Subscription Settings</h2>
-              <p className="text-sm text-muted">
-                Log into the Stripe customer portal to manage your subscription, update your
-                payment method, or cancel your subscription.
-              </p>
-              <button
-                type="button"
-                onClick={handleCustomerPortal}
-                disabled={portalLoading}
-                className="btn-primary rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
-                aria-label="Manage subscription settings in Stripe customer portal"
-              >
-                {portalLoading ? "Opening portal..." : "Subscription Settings"}
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-white">Sign Out</h2>
-              <SignOutButton />
-            </div>
+          <div className="space-y-3">
+            <h2 className="text-2xl font-bold text-white">Sign Out</h2>
+            <SignOutButton />
           </div>
         </div>
-      </section>
-    );
-  }
+      </div>
+    </section>
+  );
+}
+
+function AccountAuthForms() {
+  const [activeTab, setActiveTab] = useState<Tab>("signin");
 
   return (
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
@@ -168,4 +163,28 @@ export function AccountContent() {
       </div>
     </section>
   );
+}
+
+function AccountLoading() {
+  return (
+    <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
+      <div className="relative mx-auto max-w-lg px-6 text-center lg:px-8">
+        <p className="text-muted">Loading account...</p>
+      </div>
+    </section>
+  );
+}
+
+export function AccountContent() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) {
+    return <AccountLoading />;
+  }
+
+  if (isSignedIn) {
+    return <AccountDashboard />;
+  }
+
+  return <AccountAuthForms />;
 }
