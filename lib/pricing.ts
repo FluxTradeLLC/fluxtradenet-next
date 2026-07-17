@@ -1,5 +1,20 @@
 export type BillingPeriod = "monthly" | "quarterly" | "yearly";
 export type PlanKey = "STRATEGY";
+export type StrategyKey = "HYDRA" | "KRAKEN" | "IGNITION" | "ORMS";
+
+export const STRATEGY_KEYS: StrategyKey[] = [
+  "HYDRA",
+  "KRAKEN",
+  "IGNITION",
+  "ORMS",
+];
+
+export const STRATEGY_NAME_TO_KEY: Record<string, StrategyKey> = {
+  Hydra: "HYDRA",
+  Ignition: "IGNITION",
+  ORMS: "ORMS",
+  Kraken: "KRAKEN",
+};
 
 export const PRICING = {
   MONTHLY: {
@@ -54,6 +69,34 @@ export const STRIPE_PRICE_IDS = {
       ORMS: "price_1Tu0lNDHqntRcM5i9Q3bm1Yn"
     }
   }
+}
+
+export function getStripeEnv(): "LOCAL" | "PRODUCTION" {
+  return process.env.NEXT_PUBLIC_STRIPE_ENV === "PRODUCTION"
+    ? "PRODUCTION"
+    : "LOCAL";
+}
+
+export function getPriceIdForStrategy(
+  strategyKey: StrategyKey,
+  billingPeriod: BillingPeriod,
+): string {
+  const periodKey = billingPeriod.toUpperCase() as keyof typeof STRIPE_PRICE_IDS.LOCAL;
+  return STRIPE_PRICE_IDS[getStripeEnv()][periodKey][strategyKey];
+}
+
+export function getPriceForSelectedStrategies(
+  strategyKeys: StrategyKey[],
+  billingPeriod: BillingPeriod,
+): number {
+  const monthlyPrice = PRICING.MONTHLY.STRATEGY;
+  const perStrategyPrice = getPriceForPlan(
+    "STRATEGY",
+    monthlyPrice,
+    billingPeriod,
+  );
+
+  return perStrategyPrice * strategyKeys.length;
 }
 
 export const CURRENCY_RATES = {
