@@ -3,24 +3,28 @@ import Link from "next/link";
 const strategies = [
   {
     name: "Hydra",
+    icon: "/icons/hydra.svg",
     type: "Renko Patterns",
     tags: ["Renko", "Patterns"],
     href: "/backtests/hydra",
   },
   {
     name: "Ignition",
+    icon: "/icons/ignition.svg",
     type: "Opening Range Break",
     tags: ["Volatility", "Breakout"],
     href: "/backtests/ignition",
   },
   {
     name: "ORMS",
+    icon: "/icons/orms.svg",
     type: "Opening Range Momentum Scalping",
     tags: ["Scalping", "Momentum"],
     href: "/backtests/orms",
   },
   {
     name: "Kraken",
+    icon: "/icons/kraken.svg",
     type: "Compression Breakout",
     tags: ["Breakout", "Volatility"],
     href: "/backtests/kraken",
@@ -59,13 +63,20 @@ export function Strategies() {
             <Link
               key={strategy.name}
               href={strategy.href}
-              className="glass-card group relative rounded-2xl p-6 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(57,255,20,0.08)]"
+              className="glass-card group relative flex flex-col items-center rounded-2xl p-6 text-center transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(57,255,20,0.08)]"
             >
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-[#39ff14]/30 bg-black p-2 transition-colors group-hover:border-[#39ff14]/50">
+                <img
+                  src={strategy.icon}
+                  alt=""
+                  className="h-full w-full object-contain"
+                />
+              </div>
               <h3 className="text-lg font-semibold text-white group-hover:text-flux-green transition-colors">
                 {strategy.name}
               </h3>
               <p className="mt-1 text-sm text-muted">{strategy.type}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
                 {strategy.tags.map((tag) => (
                   <span
                     key={tag}
@@ -75,7 +86,7 @@ export function Strategies() {
                   </span>
                 ))}
               </div>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-[#39ff14] opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-flux-green-dim transition-colors group-hover:text-[#39ff14]">
                 View backtest
                 <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
