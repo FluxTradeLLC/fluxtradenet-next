@@ -14,23 +14,45 @@ export const PRICING = {
 } as const;
 
 export const STRIPE_PRICE_IDS = {
-  MONTHLY: {
-    HYDRA: "price_1Tu0dKDHqntRcM5iI8rIA9Sx",
-    KRAKEN: "price_1Tu0d0DHqntRcM5i6mVv7r4k",
-    IGNITION: "price_1Tu0dXDHqntRcM5iyFoNfoax",
-    ORMS: "price_1Tu0djDHqntRcM5iZw8nDUzv"
+  LOCAL: {
+    MONTHLY: {
+      HYDRA: "price_1Tu0dKDHqntRcM5iI8rIA9Sx",
+      KRAKEN: "price_1Tu0d0DHqntRcM5i6mVv7r4k",
+      IGNITION: "price_1Tu0dXDHqntRcM5iyFoNfoax",
+      ORMS: "price_1Tu0djDHqntRcM5iZw8nDUzv"
+    },
+    QUARTERLY: {
+      HYDRA: "price_1Tu0elDHqntRcM5iaQ1oRPiR",
+      KRAKEN: "price_1Tu0eGDHqntRcM5i4jIagthy",
+      IGNITION: "price_1Tu0f1DHqntRcM5iCTMUOyuD",
+      ORMS: "price_1Tu0fKDHqntRcM5iSGXIjkPq"
+    },
+    YEARLY: {
+      HYDRA: "price_1Tu0esDHqntRcM5iLhauZu7v",
+      KRAKEN: "price_1Tu0eQDHqntRcM5iMsV5AtW2",
+      IGNITION: "price_1Tu0f9DHqntRcM5iAfl18QDg",
+      ORMS: "price_1Tu0fSDHqntRcM5i5j1EF0HB"
+    }
   },
-  QUARTERLY: {
-    HYDRA: "price_1Tu0elDHqntRcM5iaQ1oRPiR",
-    KRAKEN: "price_1Tu0eGDHqntRcM5i4jIagthy",
-    IGNITION: "price_1Tu0f1DHqntRcM5iCTMUOyuD",
-    ORMS: "price_1Tu0fKDHqntRcM5iSGXIjkPq"
-  },
-  YEARLY: {
-    HYDRA: "price_1Tu0esDHqntRcM5iLhauZu7v",
-    KRAKEN: "price_1Tu0eQDHqntRcM5iMsV5AtW2",
-    IGNITION: "price_1Tu0f9DHqntRcM5iAfl18QDg",
-    ORMS: "price_1Tu0fSDHqntRcM5i5j1EF0HB"
+  PRODUCTION: {
+    MONTHLY: {
+      HYDRA: "price_1Tu0lLDHqntRcM5i1p9fwD8t",
+      KRAKEN: "price_1Tu0lIDHqntRcM5iWFvcmiST",
+      IGNITION: "price_1Tu0lMDHqntRcM5iJbHIcUiQ",
+      ORMS: "price_1Tu0lNDHqntRcM5i9SlN91I7"
+    },
+    QUARTERLY: {
+      HYDRA: "price_1Tu0lLDHqntRcM5ijNndAMg7",
+      KRAKEN: "price_1Tu0lIDHqntRcM5ioEjAXouI",
+      IGNITION: "price_1Tu0lMDHqntRcM5ieX72NfcH",
+      ORMS: "price_1Tu0lNDHqntRcM5i4yEiVh3t"
+    },
+    YEARLY: {
+      HYDRA: "price_1Tu0lIDHqntRcM5iM6WX9wUO",
+      KRAKEN: "price_1Tu0eQDHqntRcM5iMsV5AtW2",
+      IGNITION: "price_1Tu0lMDHqntRcM5idXWBeE53",
+      ORMS: "price_1Tu0lNDHqntRcM5i9Q3bm1Yn"
+    }
   }
 }
 
