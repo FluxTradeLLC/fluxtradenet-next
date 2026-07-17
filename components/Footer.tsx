@@ -8,7 +8,7 @@ const footerLinks = {
     { label: "Live Stream", href: "/stream" },
   ],
   Company: [
-    { label: "Blog", href: "/blog" },
+    // { label: "Blog", href: "/blog" },
     { label: "Affiliates", href: "/affiliates" },
     { label: "Support", href: "/support" },
   ],
