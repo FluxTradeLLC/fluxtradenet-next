@@ -1,0 +1,65 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Prop Firm Pitfalls",
+  "cta": {
+    "button": "Find Better Alternatives",
+    "description": "Explore our pricing options that give you access to proven strategies without the restrictive drawdown rules and profit splits of prop firms.",
+    "heading": "Find Better Alternatives"
+  },
+  "sections": {
+    "drawdownIllusion": {
+      "heading": "The Drawdown Illusion",
+      "content": "Prop firms advertise drawdown limits like \"5% maximum drawdown\" or \"10% trailing drawdown,\" which sound reasonable. But these limits are calculated in ways that make them much more restrictive than they appear. Understanding how drawdowns are calculated is crucial to avoiding this trap."
+    },
+    "dailyDrawdownLimits": {
+      "heading": "Daily Drawdown Limits",
+      "content": "Many prop firms have daily drawdown limits—if your account drops by a certain percentage in a single day, you're out. This sounds fair, but consider this scenario: You start the day with a $10,000 account. You make $500 in the morning, bringing your balance to $10,500. Then you lose $600 in the afternoon. Your account is now $9,900—still above your starting balance—but many firms calculate the daily drawdown from the day's peak, not the starting balance. That $600 loss from $10,500 might violate your daily limit even though you're still profitable."
+    },
+    "trailingDrawdowns": {
+      "heading": "Trailing Drawdowns: The Moving Target",
+      "content": "Trailing drawdowns are even more insidious. As you profit, your drawdown limit moves up with your account balance. For example, if you start with a $10,000 account and a 10% trailing drawdown, your limit starts at $9,000. But if you profit to $11,000, your new limit becomes $9,900. If you then drop back to $10,000, you've violated the trailing drawdown even though you're still profitable overall."
+    },
+    "hiddenRules": {
+      "heading": "The Hidden Rules",
+      "intro": "Prop firms often have additional drawdown rules buried in their terms:",
+      "points": {
+        "openingBalance": {
+          "label": "Opening Balance Drawdown:",
+          "text": "Some calculate from your opening balance each day, not your peak"
+        },
+        "equityVsBalance": {
+          "label": "Equity vs. Balance:",
+          "text": "Drawdowns calculated on equity (including open positions) vs. balance"
+        },
+        "weekendGaps": {
+          "label": "Weekend Gaps:",
+          "text": "Gaps over weekends can trigger drawdown violations"
+        },
+        "multipleAccounts": {
+          "label": "Multiple Account Rules:",
+          "text": "If you have multiple accounts, losses in one can affect others"
+        }
+      }
+    },
+    "whyDesignExists": {
+      "heading": "Why This Design Exists",
+      "content": "Prop firms design these rules to maximize failure rates. They profit from challenge fees, not from successful traders. The more traders fail, the more money they make. Trailing drawdowns are particularly effective at this—they create a moving target that becomes harder to hit as you profit, ensuring most traders eventually fail."
+    },
+    "realWorldExample": {
+      "heading": "Real-World Example",
+      "content": "Imagine you start a $10,000 challenge with a 10% trailing drawdown. You trade well and reach $12,000. Your trailing drawdown limit is now $10,800. You have a bad day and drop to $10,500. You're still up $500 from your start, but you've violated the trailing drawdown and failed the challenge. This is how trailing drawdowns catch even profitable traders."
+    },
+    "howToProtect": {
+      "heading": "How to Protect Yourself",
+      "content": "The best protection is understanding exactly how your drawdown is calculated. Read the fine print carefully. But even then, these rules are designed to be restrictive. Consider alternatives that don't have these traps—options that give you more control over your trading and better economics."
+    }
+  },
+  "seo": {
+    "description": "Prop firms set drawdown limits that seem generous on paper but are actually designed to catch you off guard. Understand how daily drawdowns, trailing drawdowns, and hidden rules can end your challenge prematurely.",
+    "keywords": "prop firm drawdown, trailing drawdown, daily drawdown, prop firm rules, drawdown limits, prop firm challenges",
+    "title": "The Prop Firm Drawdown Trap"
+  },
+  "subtitle": "Prop firms set drawdown limits that seem generous on paper but are actually designed to catch you off guard. Understand how daily drawdowns, trailing drawdowns, and hidden rules can end your challenge prematurely.",
+  "title": "The Prop Firm Drawdown Trap"
+}
+

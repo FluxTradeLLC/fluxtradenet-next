@@ -1,0 +1,59 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Strategy Intro",
+  "cta": {
+    "button": "Explore Performance Data",
+    "description": "See how Flux Signal performs across different market conditions and timeframes in our comprehensive backtest analysis.",
+    "heading": "Explore Performance Data"
+  },
+  "sections": {
+    "foundation": {
+      "content": "Flux Signal is designed to catch trend changes early, giving traders an edge by entering positions before the majority of market participants recognize the shift. The strategy combines proprietary signal generation with traditional technical analysis principles.",
+      "heading": "The Foundation of Flux Signal"
+    },
+    "howItIdentifies": {
+      "heading": "How It Identifies Opportunities",
+      "intro": "The strategy monitors multiple market factors simultaneously:",
+      "points": {
+        "earlyReversal": {
+          "label": "Early Reversal Signals:",
+          "text": "Detects potential trend reversals before they become obvious"
+        },
+        "continuation": {
+          "label": "Continuation Patterns:",
+          "text": "Identifies when trends are likely to continue rather than reverse"
+        },
+        "momentum": {
+          "label": "Momentum Shifts:",
+          "text": "Captures changes in market momentum that precede price movements"
+        },
+        "volume": {
+          "label": "Volume Confirmation:",
+          "text": "Uses volume analysis to validate signal strength"
+        }
+      }
+    },
+    "entryCriteria": {
+      "heading": "Entry Criteria",
+      "intro": "Flux Signal doesn't rely on a single indicator. Instead, it requires multiple conditions to align:",
+      "points": [
+        "Proprietary signal indicator must show a clear signal",
+        "Price action must confirm the signal direction",
+        "Volume should support the move",
+        "Risk-reward ratio must meet minimum thresholds"
+      ]
+    },
+    "earlyDetection": {
+      "content": "Getting into trades early means better entry prices and improved risk-reward ratios. Flux Signal's ability to identify opportunities before they become obvious gives traders a significant advantage, especially in fast-moving markets where late entries can result in poor risk-reward setups.",
+      "heading": "Why Early Detection Matters"
+    }
+  },
+  "seo": {
+    "description": "The Flux Signal strategy uses proprietary indicators to identify early trend reversals and continuation patterns. Learn the core concepts and entry criteria that make this strategy effective.",
+    "keywords": "flux signal, trading strategy, trend reversal, continuation patterns, trading signals, automated trading, technical analysis",
+    "title": "Flux Signal Strategy - Early Trend Reversal Detection"
+  },
+  "subtitle": "The Flux Signal strategy uses proprietary indicators to identify early trend reversals and continuation patterns. This article breaks down the core concepts and entry criteria that make this strategy effective.",
+  "title": "Understanding Flux Signal Strategy"
+}
+

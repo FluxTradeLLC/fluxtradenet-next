@@ -1,0 +1,84 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Strategy Intro",
+  "cta": {
+    "button": "Check Strategy Performance",
+    "description": "See how our cointegrated pairs strategy performs with detailed backtest results across different market conditions.",
+    "heading": "Check Strategy Performance"
+  },
+  "sections": {
+    "commonPairs": {
+      "heading": "Common Pairs in Futures",
+      "intro": "Some popular futures pairs include:",
+      "pairs": [
+        "Crude oil vs. Natural gas",
+        "Gold vs. Silver",
+        "Different equity index futures",
+        "Related agricultural commodities",
+        "Currency pairs with economic relationships"
+      ]
+    },
+    "howToIdentifyPairs": {
+      "heading": "How to Identify Pairs",
+      "intro": "Not all asset pairs are suitable for trading. Good pairs have:",
+      "points": [
+        "High historical correlation (typically above 0.7)",
+        "Cointegration confirmed by statistical tests",
+        "Regular mean reversion behavior",
+        "Sufficient liquidity for both assets",
+        "Similar contract sizes or proper hedging ratios"
+      ]
+    },
+    "riskManagement": {
+      "content": "While pairs trading is less risky than directional trading, it's not risk-free. The main risk is that the relationship breaks down permanently—what was once cointegrated may no longer be. Proper position sizing, stop losses, and monitoring the relationship are essential.",
+      "heading": "Risk Management"
+    },
+    "tradingProcess": {
+      "heading": "The Trading Process",
+      "intro": "When the spread between two cointegrated assets widens beyond historical norms, you:",
+      "steps": [
+        "Buy the underperforming asset (it's likely to catch up)",
+        "Short the outperforming asset (it's likely to pull back)",
+        "Wait for the spread to revert to its mean",
+        "Close both positions when the relationship normalizes"
+      ]
+    },
+    "understandingCointegration": {
+      "content": "Cointegration means two assets have a long-term equilibrium relationship. Even if their prices drift apart temporarily, they tend to return to their historical relationship. This creates trading opportunities when the spread between the two assets becomes too wide—you can bet it will revert to the mean.",
+      "heading": "Understanding Cointegration"
+    },
+    "whatIsPairsTrading": {
+      "content": "Pairs trading is a market-neutral strategy that involves buying one asset while simultaneously selling another related asset. The goal isn't to profit from the direction of either asset individually, but from the relationship between them. When two assets are cointegrated, they move together over time, but their prices can temporarily diverge.",
+      "heading": "What is Pairs Trading?"
+    },
+    "whyLessRisky": {
+      "heading": "Why It's Less Risky",
+      "intro": "Pairs trading offers several advantages over directional trading:",
+      "points": {
+        "lowerCorrelation": {
+          "label": "Lower Correlation to Market:",
+          "text": "Works in up, down, and sideways markets"
+        },
+        "marketNeutral": {
+          "label": "Market Neutral:",
+          "text": "Profits come from the relationship, not market direction"
+        },
+        "reducedVolatility": {
+          "label": "Reduced Volatility:",
+          "text": "Long and short positions offset each other"
+        },
+        "statisticalEdge": {
+          "label": "Statistical Edge:",
+          "text": "Based on mean reversion, a proven market phenomenon"
+        }
+      }
+    }
+  },
+  "seo": {
+    "description": "Pairs trading isn't just for institutions. Learn how cointegrated pairs trading works, why it's less risky than directional trading, and how to identify profitable pair opportunities in futures markets.",
+    "keywords": "pairs trading, cointegrated pairs, statistical arbitrage, pairs trading strategy, market neutral trading, futures trading",
+    "title": "Cointegrated Pairs Trading Explained"
+  },
+  "subtitle": "Pairs trading isn't just for institutions. Learn how cointegrated pairs trading works, why it's less risky than directional trading, and how to identify profitable pair opportunities in futures markets.",
+  "title": "Cointegrated Pairs Trading Explained"
+}

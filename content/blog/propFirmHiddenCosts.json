@@ -1,0 +1,65 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Prop Firm Pitfalls",
+  "cta": {
+    "button": "Compare Pricing Options",
+    "description": "See how our pricing compares to prop firm challenges. Get access to proven strategies without the hidden fees and profit splits.",
+    "heading": "Compare Pricing Options"
+  },
+  "sections": {
+    "challengeFeeTrap": {
+      "heading": "The Challenge Fee Trap",
+      "content": "Most prop firms charge an upfront fee for their challenges—typically $50 to $500 or more. What many traders don't realize is that if you fail the challenge, you lose this fee entirely. Some firms offer \"retakes\" at a discount, but these costs add up quickly. After multiple failed attempts, you could spend thousands before ever getting funded."
+    },
+    "hiddenFees": {
+      "heading": "Hidden Fees You Didn't Know About",
+      "intro": "Beyond the challenge fee, many prop firms have additional costs:",
+      "points": {
+        "platformFees": {
+          "label": "Platform Fees:",
+          "text": "Monthly charges for using their trading platform"
+        },
+        "dataFees": {
+          "label": "Data Fees:",
+          "text": "Costs for real-time market data feeds"
+        },
+        "withdrawalFees": {
+          "label": "Withdrawal Fees:",
+          "text": "Charges when you want to withdraw profits"
+        },
+        "inactivityFees": {
+          "label": "Inactivity Fees:",
+          "text": "Penalties for not trading enough"
+        },
+        "accountMaintenance": {
+          "label": "Account Maintenance:",
+          "text": "Ongoing costs just to keep your account active"
+        }
+      }
+    },
+    "profitSplitReality": {
+      "heading": "The Profit Split Reality",
+      "content": "Even when you pass the challenge and get funded, prop firms take a significant cut of your profits—typically 50% to 80%. This means if you make $10,000, you might only see $2,000 to $5,000. When you factor in all the fees and the profit split, the effective cost of trading with prop firms can be much higher than advertised."
+    },
+    "unrealisticProfitTargets": {
+      "heading": "Unrealistic Profit Targets",
+      "content": "Many prop firm challenges require you to hit profit targets within strict timeframes—often 8% to 10% in 30 days. While this sounds achievable, it's actually an aggressive target that forces traders to take excessive risk. This pressure often leads to overtrading and poor decision-making, which is exactly what the prop firm wants—they profit from your failures."
+    },
+    "trueCostCalculation": {
+      "heading": "The True Cost Calculation",
+      "content": "Let's say you pay $300 for a challenge and fail three times before passing. That's $900 in challenge fees. Then you pay $100/month in platform and data fees. After a year, you've spent $2,100 just to trade. If you make $20,000 in profits but the firm takes 70%, you keep $6,000. Your net profit is $3,900—but you've also spent countless hours and emotional energy."
+    },
+    "betterAlternatives": {
+      "heading": "Better Alternatives",
+      "content": "Instead of paying prop firms for the privilege of trading their capital, consider alternatives that give you more control and better economics. With proven strategies and proper risk management, you can build your own trading account without the hidden costs and restrictions of prop firms."
+    }
+  },
+  "seo": {
+    "description": "Many traders don't realize the true cost of prop firm challenges until it's too late. From hidden fees to unrealistic profit targets, learn about the common pitfalls that can derail your funded account journey.",
+    "keywords": "prop firm challenges, prop firm fees, funded trading, prop firm hidden costs, trading challenges, prop firm pitfalls",
+    "title": "The Hidden Costs of Prop Firm Challenges"
+  },
+  "subtitle": "Many traders don't realize the true cost of prop firm challenges until it's too late. From hidden fees to unrealistic profit targets, learn about the common pitfalls that can derail your funded account journey.",
+  "title": "The Hidden Costs of Prop Firm Challenges"
+}
+

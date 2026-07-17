@@ -1,0 +1,91 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Prop Firm Pitfalls",
+  "cta": {
+    "button": "View All Strategies",
+    "description": "Explore our comprehensive library of backtested strategies. Each strategy includes detailed performance metrics and clear trading rules.",
+    "heading": "View All Strategies"
+  },
+  "sections": {
+    "shockingFailureRate": {
+      "heading": "The Shocking Failure Rate",
+      "content": "Industry data shows that 90-95% of traders fail prop firm challenges. This isn't by accident—prop firms design their rules to maximize failure rates. They profit from challenge fees, not from successful traders. Understanding why traders fail is the first step to avoiding these pitfalls."
+    },
+    "psychologicalTraps": {
+      "heading": "Psychological Traps",
+      "intro": "The pressure of prop firm challenges creates several psychological traps:",
+      "points": {
+        "timePressure": {
+          "label": "Time Pressure:",
+          "text": "Strict deadlines force traders to take trades they wouldn't normally take"
+        },
+        "fearOfFailure": {
+          "label": "Fear of Failure:",
+          "text": "The cost of failing creates anxiety that leads to poor decisions"
+        },
+        "overtrading": {
+          "label": "Overtrading:",
+          "text": "Traders feel they must trade constantly to hit profit targets"
+        },
+        "revengeTrading": {
+          "label": "Revenge Trading:",
+          "text": "After losses, traders try to \"make it back\" quickly, leading to bigger losses"
+        }
+      }
+    },
+    "riskManagementMistakes": {
+      "heading": "Risk Management Mistakes",
+      "intro": "Prop firm rules often encourage poor risk management:",
+      "points": {
+        "dailyLossLimits": {
+          "label": "Daily Loss Limits:",
+          "text": "Force traders to stop trading after small losses, preventing recovery"
+        },
+        "trailingDrawdowns": {
+          "label": "Trailing Drawdowns:",
+          "text": "Move against you as you profit, creating a moving target"
+        },
+        "profitTargetPressure": {
+          "label": "Profit Target Pressure:",
+          "text": "Forces traders to risk more than they should to hit targets"
+        },
+        "noFlexibility": {
+          "label": "No Flexibility:",
+          "text": "Rigid rules don't account for market conditions"
+        }
+      }
+    },
+    "strategyFlaws": {
+      "heading": "Strategy Flaws",
+      "intro": "Many traders enter prop firm challenges without proven strategies. They rely on:",
+      "points": {
+        "untestedMethods": "Untested trading methods they saw on YouTube",
+        "indicators": "Indicators that look good but haven't been backtested",
+        "conditionalStrategies": "Strategies that work in some conditions but fail in others",
+        "noClearRules": "No clear entry and exit rules"
+      }
+    },
+    "howToAvoidFailure": {
+      "heading": "How to Avoid Failure",
+      "intro": "The key to success is using proven, backtested strategies with clear rules. Instead of guessing what might work, use strategies that have been tested across thousands of trades and various market conditions. This gives you:",
+      "points": {
+        "realisticExpectations": "Realistic expectations about win rates and profit factors",
+        "clearCriteria": "Clear entry and exit criteria",
+        "provenRiskManagement": "Proven risk management rules",
+        "confidence": "Confidence in your approach"
+      }
+    },
+    "backtestAdvantage": {
+      "heading": "The Backtest Advantage",
+      "content": "Backtested strategies remove the guesswork. You know exactly how a strategy performs before risking real money. You understand its win rate, average win/loss, maximum drawdown, and profit factor. This knowledge gives you the confidence to stick with the strategy during drawdowns and the discipline to follow the rules."
+    }
+  },
+  "seo": {
+    "description": "Over 90% of prop firm traders fail their challenges. Discover the psychological traps, risk management mistakes, and strategy flaws that lead to failure—and how proven backtested strategies can give you an edge.",
+    "keywords": "prop firm failure, prop firm traders, trading challenges, prop firm success, trading psychology, risk management",
+    "title": "Why Most Prop Firm Traders Fail (And How to Avoid It)"
+  },
+  "subtitle": "Over 90% of prop firm traders fail their challenges. Discover the psychological traps, risk management mistakes, and strategy flaws that lead to failure—and how proven backtested strategies can give you an edge.",
+  "title": "Why Most Prop Firm Traders Fail (And How to Avoid It)"
+}
+

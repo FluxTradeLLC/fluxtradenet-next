@@ -10,6 +10,9 @@ const navLinks = [
   { label: "FREE Indicators", href: "/#features" },
   { label: "Backtest Explorer", href: "/backtests/explorer" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Affiliates", href: "/affiliates" },
+  { label: "Support", href: "/support" },
+  { label: "Live Stream", href: "/stream" },
 ];
 
 export function Header() {

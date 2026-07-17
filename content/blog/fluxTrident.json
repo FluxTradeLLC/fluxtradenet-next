@@ -1,0 +1,54 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Strategy Intro",
+  "cta": {
+    "button": "View Backtest Results",
+    "description": "Check out the comprehensive backtest results for Flux Trident to see how this strategy performs across different market conditions.",
+    "heading": "Ready to See the Results?"
+  },
+  "sections": {
+    "whatIsFluxTrident": {
+      "content": "The Flux Trident strategy is built on the principle of confluence—combining multiple signals from different timeframes and indicators to increase the probability of successful trades. Unlike single-indicator strategies that can give false signals, Flux Trident requires alignment across multiple factors before entering a position.",
+      "heading": "What is Flux Trident?"
+    },
+    "coreComponents": {
+      "heading": "Core Components",
+      "intro": "The strategy incorporates three main \"prongs\" of analysis:",
+      "points": [
+        {
+          "label": "Trend Identification:",
+          "text": "Determines the overall market direction using multiple timeframe analysis"
+        },
+        {
+          "label": "Momentum Confirmation:",
+          "text": "Uses proprietary momentum indicators to confirm entry timing"
+        },
+        {
+          "label": "Entry Precision:",
+          "text": "Combines price action with volume analysis for optimal entry points"
+        }
+      ]
+    },
+    "whyItWorks": {
+      "content": "By requiring confluence across multiple timeframes and indicators, Flux Trident filters out low-probability setups. This approach reduces false signals and improves win rate while maintaining favorable risk-reward ratios. The strategy adapts to different market conditions, whether trending or ranging.",
+      "heading": "Why It Works"
+    },
+    "keyAdvantages": {
+      "heading": "Key Advantages",
+      "points": [
+        "Systematic approach reduces emotional trading decisions",
+        "Multi-timeframe analysis provides better entry timing",
+        "Works across various market conditions",
+        "Backtested performance shows consistent results"
+      ]
+    }
+  },
+  "seo": {
+    "description": "Flux Trident is a multi-timeframe confluence strategy that combines trend analysis with momentum indicators. Learn how this systematic approach identifies high-probability entries across various market conditions.",
+    "keywords": "flux trident, trading strategy, multi-timeframe analysis, confluence trading, trend following, momentum indicators, automated trading",
+    "title": "Flux Trident Strategy - Multi-Timeframe Confluence Trading"
+  },
+  "subtitle": "Flux Trident is a multi-timeframe confluence strategy that combines trend analysis with momentum indicators. This systematic approach identifies high-probability entries across various market conditions.",
+  "title": "Introduction to Flux Trident Strategy"
+}
+

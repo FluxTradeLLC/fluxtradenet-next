@@ -1,0 +1,96 @@
+{
+  "backToBlog": "Back to Blog",
+  "category": "Strategy Intro",
+  "cta": {
+    "button": "Review Backtest Results",
+    "description": "See how the ORB strategy performs across different market conditions with our comprehensive backtest analysis.",
+    "heading": "Review Backtest Results"
+  },
+  "sections": {
+    "whatIsOpeningRange": {
+      "heading": "What is the Opening Range?",
+      "content": "The opening range is the high and low price established during the first hour (or first 30 minutes) of trading. This range is significant because it represents the initial battle between buyers and sellers after the market opens. The first hour often sets the tone for the day, making it a critical period for traders."
+    },
+    "whyMatters": {
+      "heading": "Why the Opening Range Matters",
+      "intro": "The opening range is important for several reasons:",
+      "points": {
+        "highVolatility": {
+          "label": "High Volatility:",
+          "text": "The first hour typically has the highest volume and volatility"
+        },
+        "institutionalActivity": {
+          "label": "Institutional Activity:",
+          "text": "Large players often establish positions early in the day"
+        },
+        "priceDiscovery": {
+          "label": "Price Discovery:",
+          "text": "The market is discovering fair value after overnight news and events"
+        },
+        "momentum": {
+          "label": "Momentum:",
+          "text": "Breakouts from the opening range often continue throughout the day"
+        }
+      }
+    },
+    "howItWorks": {
+      "heading": "How ORB Strategy Works",
+      "intro": "The ORB strategy is straightforward:",
+      "points": [
+        "Identify the Range: Mark the high and low of the first hour",
+        "Wait for Breakout: Wait for price to break above the high or below the low",
+        "Enter on Confirmation: Enter when the breakout is confirmed with volume",
+        "Manage Risk: Place stops just inside the opening range",
+        "Take Profits: Use targets based on the range size or key support/resistance"
+      ]
+    },
+    "successFactors": {
+      "heading": "Key Success Factors",
+      "intro": "Not all opening range breakouts are created equal. High-probability setups have:",
+      "points": {
+        "volumeConfirmation": {
+          "label": "Volume Confirmation:",
+          "text": "Breakouts with high volume are more likely to continue"
+        },
+        "clearDirection": {
+          "label": "Clear Direction:",
+          "text": "Strong, decisive breaks are better than weak, choppy moves"
+        },
+        "marketContext": {
+          "label": "Market Context:",
+          "text": "Consider overnight news and pre-market activity"
+        },
+        "timeOfBreakout": {
+          "label": "Time of Breakout:",
+          "text": "Earlier breakouts (within the first hour) tend to be stronger"
+        }
+      }
+    },
+    "riskManagement": {
+      "heading": "Risk Management",
+      "content": "The opening range provides natural stop-loss levels. If price breaks above the range and you go long, your stop should be just below the range high. If the breakout fails and price returns inside the range, you exit. This creates a clear risk-reward setup where your risk is defined by the range size."
+    },
+    "commonMistakes": {
+      "heading": "Common Mistakes",
+      "intro": "Traders often fail with ORB because they:",
+      "points": [
+        "Enter before confirmation, getting caught in false breakouts",
+        "Use ranges that are too wide, leading to poor risk-reward",
+        "Ignore volume, trading low-probability setups",
+        "Don't account for market context and overnight news"
+      ]
+    },
+    "adaptingToConditions": {
+      "heading": "Adapting to Market Conditions",
+      "content": "The ORB strategy works best in trending markets with clear direction. In choppy, range-bound markets, breakouts often fail. Understanding market conditions and adapting your approach—or skipping trades when conditions aren't favorable—is key to long-term success with this strategy."
+    }
+  },
+  "seo": {
+    "description": "The Opening Range Breakout (ORB) strategy capitalizes on the first hour's volatility. This article explains how to identify high-probability breakouts and manage risk when trading the market open.",
+    "keywords": "ORB strategy, opening range breakout, trading strategy, market open trading, volatility trading, breakout trading",
+    "title": "ORB Strategy: Trading the Opening Range Breakout"
+  },
+  "subtitle": "The Opening Range Breakout (ORB) strategy capitalizes on the first hour's volatility. This article explains how to identify high-probability breakouts and manage risk when trading the market open.",
+  "title": "ORB Strategy: Trading the Opening Range"
+}
+
