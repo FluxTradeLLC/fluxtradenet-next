@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
-import { setAuthToken, setUserEmail } from "@/lib/auth-cookies";
+import { setUserEmail } from "@/lib/auth-cookies";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -13,7 +13,6 @@ import {
 } from "@/components/auth/auth-ui";
 
 type LoginResponse = {
-  token?: string;
   user?: { email?: string };
 };
 
@@ -29,14 +28,10 @@ export function SignInForm() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<LoginResponse>("/users/login", {
+      await apiFetch<LoginResponse>("/users/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
-
-      if (data.token) {
-        setAuthToken(data.token);
-      }
 
       setUserEmail(email);
       window.location.reload();
