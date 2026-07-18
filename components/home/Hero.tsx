@@ -21,7 +21,7 @@ export function Hero() {
       <div className="pointer-events-none absolute -top-32 left-1/2 h-[600px] w-[600px] -translate-x-1/2 glow-orb animate-pulse-glow" />
       <div className="pointer-events-none absolute top-1/3 right-0 h-[400px] w-[400px] glow-orb opacity-50" />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-24 pt-16 text-center lg:px-8 lg:pt-24">
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-24 pt-16 text-center lg:px-8 lg:pt-8">
         <div className="mb-8 pill-outline">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#02C064] opacity-75" />
