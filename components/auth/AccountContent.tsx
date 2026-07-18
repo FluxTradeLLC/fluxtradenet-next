@@ -42,7 +42,7 @@ function AccountDashboard() {
   }, [displayEmail, apiReady]);
 
   const handleCustomerPortal = async () => {
-    if (!displayEmail) {
+    if (!displayEmail || !isPaid) {
       return;
     }
 
@@ -92,9 +92,10 @@ function AccountDashboard() {
             <button
               type="button"
               onClick={handleCustomerPortal}
-              disabled={portalLoading}
+              disabled={portalLoading || !isPaid}
               className="btn-primary rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
               aria-label="Manage subscription settings in Stripe customer portal"
+              aria-disabled={!isPaid}
             >
               {portalLoading ? "Opening portal..." : "Subscription Settings"}
             </button>
