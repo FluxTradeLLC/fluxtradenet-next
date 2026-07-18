@@ -42,7 +42,7 @@ export function BacktestStrategySettings({
         {sections.map((section, sectionIndex) => (
           <div key={`${sectionIndex}-${section.title || section.rows[0]?.item}`}>
             {section.title ? (
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#39ff14]">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#02C064]">
                 {section.title}
               </h3>
             ) : null}

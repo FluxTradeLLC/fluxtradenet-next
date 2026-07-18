@@ -31,7 +31,7 @@ export function BlogPostShell({
       <div className="relative mx-auto max-w-4xl px-6 lg:px-8">
         <Link
           href="/blog"
-          className="mb-8 inline-flex items-center text-sm text-flux-green transition-colors hover:text-flux-green-dim"
+          className="mb-8 inline-flex items-center text-sm text-flux-green-icon transition-colors hover:text-flux-green-icon/80"
         >
           <svg
             className="mr-2 h-5 w-5"

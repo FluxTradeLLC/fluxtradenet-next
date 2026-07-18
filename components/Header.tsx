@@ -45,7 +45,7 @@ export function Header() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm text-muted transition-colors hover:text-[#39ff14]"
+              className="text-sm text-muted transition-colors hover:text-[#02C064]"
             >
               {link.label}
             </Link>
@@ -104,7 +104,7 @@ export function Header() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-base text-muted transition-colors hover:text-[#39ff14]"
+                className="text-base text-muted transition-colors hover:text-[#02C064]"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}

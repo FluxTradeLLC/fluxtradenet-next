@@ -101,7 +101,7 @@ function PriceDisplay({
         </span>
         <span className="text-base text-muted">{periodLabel}</span>
       </div>
-      <span className="text-sm font-semibold text-[#39ff14]">
+      <span className="text-sm font-semibold text-[#02C064]">
         Save {discountPercent.toFixed(0)}%
       </span>
     </div>
@@ -136,7 +136,7 @@ function StrategyCard({
       aria-pressed={selected}
       className={`glass-card flex h-full w-full flex-col rounded-2xl px-8 py-6 text-left transition-all ${
         selected
-          ? "ring-2 ring-[#39ff14] ring-offset-2 ring-offset-background"
+          ? "ring-2 ring-[#02C064] ring-offset-2 ring-offset-background"
           : "hover:border-flux-green/30"
       }`}
     >
@@ -151,7 +151,7 @@ function StrategyCard({
         <span
           className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
             selected
-              ? "border-[#39ff14] bg-[#39ff14] text-black"
+              ? "border-[#02C064] bg-[#02C064] text-black"
               : "border-border text-muted"
           }`}
           aria-hidden="true"
@@ -174,11 +174,11 @@ function StrategyCard({
 
       <ul className="mb-2 flex-1 space-y-2">
         <li className="flex items-start gap-2 text-sm text-muted">
-          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#39ff14]" />
+          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-flux-green-icon" />
           <span>Full {name} strategy access</span>
         </li>
         <li className="flex items-start gap-2 text-sm text-muted">
-          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#39ff14]" />
+          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-flux-green-icon" />
           <span>All indicators included free</span>
         </li>
       </ul>
@@ -210,7 +210,7 @@ function IncludedFeaturesTable() {
               }
             >
               <td className="flex items-center gap-3 p-4 font-medium text-white">
-                <CheckIcon className="h-5 w-5 shrink-0 text-[#39ff14]" />
+                <CheckIcon className="h-5 w-5 shrink-0 text-flux-green-icon" />
                 {feature}
               </td>
             </tr>
@@ -338,7 +338,7 @@ export function PricingContent() {
                 onClick={() => setBillingPeriod(period.key)}
                 className={`flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all ${
                   billingPeriod === period.key
-                    ? "bg-[#39ff14] text-black"
+                    ? "bg-[#02C064] text-black"
                     : "text-white/70 hover:text-white"
                 }`}
               >

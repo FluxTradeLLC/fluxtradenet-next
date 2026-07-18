@@ -34,7 +34,7 @@ import {
 import { BacktestStrategySettings } from "@/components/backtests/BacktestStrategySettings";
 
 const selectClassName =
-  "w-full rounded-xl border border-border bg-surface-elevated px-4 py-2.5 text-sm text-white transition-colors focus:border-[#39ff14]/50 focus:outline-none focus:ring-1 focus:ring-[#39ff14]/30";
+  "w-full rounded-xl border border-border bg-surface-elevated px-4 py-2.5 text-sm text-white transition-colors focus:border-[#02C064]/50 focus:outline-none focus:ring-1 focus:ring-[#02C064]/30";
 
 function StatCard({
   label,
@@ -412,12 +412,12 @@ export function BacktestExplorerContent() {
 
         <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-5">
           <StatCard label="Total Trades" value={stats.totalTrades.toLocaleString()} />
-          <StatCard label="Win Rate" value={`${stats.winRate}%`} valueClassName="text-[#39ff14]" />
+          <StatCard label="Win Rate" value={`${stats.winRate}%`} valueClassName="text-[#02C064]" />
           <StatCard
             label="Total Profit"
             value={formatCurrency(parseFloat(stats.totalProfit))}
             valueClassName={
-              parseFloat(stats.totalProfit) >= 0 ? "text-[#39ff14]" : "text-red-400"
+              parseFloat(stats.totalProfit) >= 0 ? "text-[#02C064]" : "text-red-400"
             }
           />
           <StatCard
@@ -432,7 +432,7 @@ export function BacktestExplorerContent() {
           <StatCard
             label="Avg Win"
             value={formatCurrency(parseFloat(stats.avgWin))}
-            valueClassName="text-[#39ff14]"
+            valueClassName="text-[#02C064]"
           />
           <StatCard
             label="Avg Loss"
@@ -442,7 +442,7 @@ export function BacktestExplorerContent() {
           <StatCard
             label="Largest Win"
             value={formatCurrency(parseFloat(stats.largestWin))}
-            valueClassName="text-[#39ff14]"
+            valueClassName="text-[#02C064]"
           />
           <StatCard
             label="Largest Loss"
@@ -460,8 +460,8 @@ export function BacktestExplorerContent() {
                   <AreaChart data={equityCurveData}>
                     <defs>
                       <linearGradient id="colorEquity" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#39ff14" stopOpacity={0.35} />
-                        <stop offset="95%" stopColor="#39ff14" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#02C064" stopOpacity={0.35} />
+                        <stop offset="95%" stopColor="#02C064" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" />
@@ -483,7 +483,7 @@ export function BacktestExplorerContent() {
                     <Area
                       type="monotone"
                       dataKey="equity"
-                      stroke="#39ff14"
+                      stroke="#02C064"
                       fillOpacity={1}
                       fill="url(#colorEquity)"
                       name={`Equity (${selectedCurrency})`}
@@ -548,7 +548,7 @@ export function BacktestExplorerContent() {
                     <YAxis stroke="#b8b8c0" fontSize={12} />
                     <Tooltip contentStyle={chartTooltipStyle} labelStyle={{ color: "#fff" }} />
                     <Legend />
-                    <Bar dataKey="count" fill="#39ff14" name="Trade Count" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="count" fill="#02C064" name="Trade Count" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -601,7 +601,7 @@ export function BacktestExplorerContent() {
                     <td
                       className={`whitespace-nowrap px-4 py-3 font-medium ${
                         row.direction === "Long"
-                          ? "text-[#39ff14]"
+                          ? "text-[#02C064]"
                           : row.direction === "Short"
                             ? "text-red-400"
                             : "text-muted"
@@ -633,14 +633,14 @@ export function BacktestExplorerContent() {
                     <td className="whitespace-nowrap px-4 py-3 text-white">{row.session}</td>
                     <td
                       className={`whitespace-nowrap px-4 py-3 font-medium ${
-                        row.profit >= 0 ? "text-[#39ff14]" : "text-red-400"
+                        row.profit >= 0 ? "text-[#02C064]" : "text-red-400"
                       }`}
                     >
                       {formatCurrency(row.profit)}
                     </td>
                     <td
                       className={`whitespace-nowrap px-4 py-3 font-medium ${
-                        row.cumProfit >= 0 ? "text-[#39ff14]" : "text-red-400"
+                        row.cumProfit >= 0 ? "text-[#02C064]" : "text-red-400"
                       }`}
                     >
                       {formatCurrency(row.cumProfit)}

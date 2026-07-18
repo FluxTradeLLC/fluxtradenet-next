@@ -84,7 +84,7 @@ export function BlogContent() {
             <p className="mt-3 leading-relaxed text-muted">{article.excerpt}</p>
             <Link
               href={article.link}
-              className="group mt-5 inline-flex items-center font-semibold text-flux-green transition-colors hover:text-flux-green-dim"
+              className="group mt-5 inline-flex items-center font-semibold text-flux-green-icon transition-colors hover:text-flux-green-icon/80"
             >
               <span>{s("blog.readFullArticle")}</span>
               <svg

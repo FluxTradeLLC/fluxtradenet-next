@@ -24,8 +24,8 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-24 pt-16 text-center lg:px-8 lg:pt-24">
         <div className="mb-8 pill-outline">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#39ff14] opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#39ff14]" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#02C064] opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#02C064]" />
           </span>
           Official NinjaTrader Ecosystem Vendor
         </div>
@@ -47,7 +47,7 @@ export function Hero() {
           <br />
           <span className="flex items-center justify-center gap-3 sm:gap-4">
             Gain an
-            <LightningBolt className="h-10 w-5 text-flux-green sm:h-14 sm:w-7" />
+            <LightningBolt className="h-10 w-5 text-flux-green-icon sm:h-14 sm:w-7" />
             <span className="text-gradient">edge</span>
           </span>
         </h1>
@@ -89,7 +89,7 @@ export function Hero() {
             { value: "24/7", label: "Support" },
           ].map((stat) => (
             <div key={stat.label}>
-              <div className="text-2xl font-bold text-[#39ff14] sm:text-3xl">
+              <div className="text-2xl font-bold text-[#02C064] sm:text-3xl">
                 {stat.value}
               </div>
               <div className="mt-1 text-xs text-muted sm:text-sm">{stat.label}</div>

@@ -52,7 +52,9 @@ const features = [
   {
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m0 0v12m0-12h3.75m-3.75 0v12m0 0h3.75m-3.75 0H7.5m9.75 0h3.75M16.5 6v12m0 0h3.75m-3.75 0H16.5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m18 15 4-4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756l-1.772 1.772a6 6 0 0 0 0 8.49L10.5 15" />
       </svg>
     ),
     title: "Built for NinjaTrader",
@@ -82,9 +84,9 @@ export function Features() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="glass-card group rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(57,255,20,0.08)]"
+              className="glass-card group rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)]"
             >
-              <div className="mb-5 inline-flex rounded-xl border border-[#39ff14]/30 bg-[#111111] p-3 text-[#39ff14] transition-colors group-hover:border-[#39ff14]/50">
+              <div className="mb-5 inline-flex rounded-xl border border-flux-green-icon/30 bg-[#111111] p-3 text-flux-green-icon transition-colors group-hover:border-flux-green-icon/50">
                 {feature.icon}
               </div>
               <h3 className="text-lg font-semibold text-white">{feature.title}</h3>

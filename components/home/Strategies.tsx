@@ -52,7 +52,7 @@ export function Strategies() {
           </div>
           <Link
             href="/backtests/explorer"
-            className="shrink-0 text-sm font-medium text-[#39ff14] transition-colors hover:text-white"
+            className="shrink-0 text-sm font-medium text-[#02C064] transition-colors hover:text-white"
           >
             View all strategies →
           </Link>
@@ -63,9 +63,9 @@ export function Strategies() {
             <Link
               key={strategy.name}
               href={strategy.href}
-              className="glass-card group relative flex flex-col items-center rounded-2xl p-6 text-center transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(57,255,20,0.08)]"
+              className="glass-card group relative flex flex-col items-center rounded-2xl p-6 text-center transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)]"
             >
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-[#39ff14]/30 bg-black p-2 transition-colors group-hover:border-[#39ff14]/50">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2 transition-colors group-hover:border-flux-green-icon/50">
                 <img
                   src={strategy.icon}
                   alt=""
@@ -86,9 +86,9 @@ export function Strategies() {
                   </span>
                 ))}
               </div>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-flux-green-dim transition-colors group-hover:text-[#39ff14]">
+              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-flux-green-dim transition-colors group-hover:text-flux-green-icon">
                 View backtest
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="h-3 w-3 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>

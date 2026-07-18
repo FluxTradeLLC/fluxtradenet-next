@@ -69,7 +69,7 @@ export function StreamingContent() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:border-flux-green/40 hover:text-flux-green"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:border-flux-green-icon/40 hover:text-flux-green-icon"
                 aria-label={link.label}
               >
                 <svg
