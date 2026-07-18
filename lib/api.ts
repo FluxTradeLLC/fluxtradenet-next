@@ -44,6 +44,7 @@ export async function apiFetch<T>(
     if (
       response.status === 401 &&
       !path.includes("/users/logout") &&
+      !path.includes("/subscription-status") &&
       typeof window !== "undefined" &&
       !errorMessage.includes("No token provided")
     ) {

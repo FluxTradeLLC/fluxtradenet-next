@@ -4,7 +4,7 @@ import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
-import { startAuthSession } from "@/lib/auth-session";
+import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
@@ -81,10 +81,14 @@ export function SignUpForm() {
       setUserEmail(email);
       startAuthSession();
 
-      await apiFetch("/users/login", {
+      const loginData = await apiFetch<{ token?: string }>("/users/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
+
+      if (loginData.token) {
+        setAuthToken(loginData.token);
+      }
 
       window.location.href = "/account";
     } catch (err) {

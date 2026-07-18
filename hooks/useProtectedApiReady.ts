@@ -15,18 +15,8 @@ export function useProtectedApiReady() {
       return;
     }
 
-    if (hasPasswordSession()) {
-      setReady(true);
-      return;
-    }
-
     if (!isSignedIn) {
-      setReady(false);
-      return;
-    }
-
-    if (getAuthToken()) {
-      setReady(true);
+      setReady(hasPasswordSession() && Boolean(getAuthToken()));
       return;
     }
 
