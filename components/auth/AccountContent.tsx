@@ -102,6 +102,17 @@ function AccountDashboard() {
           </div>
 
           <div className="space-y-3">
+            <h2 className="text-2xl font-bold text-white">Downloads</h2>
+            <p className="text-sm text-muted">
+              Download your strategy files, chart templates, and the free indicators pack
+              for NinjaTrader. Setup instructions are included on the downloads page.
+            </p>
+            <Link href="/downloads" className="btn-primary inline-flex px-6 py-2.5 text-sm">
+              Downloads
+            </Link>
+          </div>
+
+          <div className="space-y-3">
             <h2 className="text-2xl font-bold text-white">Sign Out</h2>
             <SignOutButton />
           </div>

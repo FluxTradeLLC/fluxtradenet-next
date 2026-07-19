@@ -4,6 +4,7 @@ import {
   contentBodyClass,
   contentCardClass,
   contentLinkClass,
+  contentSectionHeading,
   contentSubheading,
 } from "@/lib/content-ui";
 import { STRATEGY_DOWNLOADS } from "@/lib/downloads";
@@ -91,6 +92,73 @@ export function DownloadsContent() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-16 space-y-10">
+        <h2 className={contentSectionHeading}>Setup instructions</h2>
+
+        <section>
+          <h3 className={contentSubheading}>
+            How to get and set up your free indicators pack
+          </h3>
+          <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
+            <li>
+              Visit the{" "}
+              <Link href="/downloads/indicator-pack" className={contentLinkClass}>
+                Indicator Pack page
+              </Link>{" "}
+              to get access to the indicators pack and download it using the link
+              provided
+            </li>
+            <li>Open NinjaTrader</li>
+            <li>
+              Go to{" "}
+              <strong className="text-white">Tools &gt; Import &gt; NinjaScript Add-On</strong>{" "}
+              and select the ZIP file and click Import
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3 className={contentSubheading}>How to get and set up a strategy file</h3>
+          <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
+            <li>
+              <Link href="/signin" className={contentLinkClass}>
+                Sign in
+              </Link>{" "}
+              with the account you used to purchase the strategies
+            </li>
+            <li>
+              Download the strategy file(s) above
+            </li>
+            <li>Open NinjaTrader</li>
+            <li>
+              Go to{" "}
+              <strong className="text-white">Tools &gt; Import &gt; NinjaScript Add-On</strong>{" "}
+              and select the ZIP file and click Import
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h3 className={contentSubheading}>How to get and set up a templates file</h3>
+          <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
+            <li>
+              Download the templates file above
+            </li>
+            <li>Open NinjaTrader</li>
+            <li>
+              Go to{" "}
+              <strong className="text-white">Tools &gt; Import &gt; Backup File</strong>{" "}
+              and select the <strong className="text-white">.nt8backup</strong> file and
+              click Import
+            </li>
+            <li>
+              NinjaTrader will automatically close, even when it imports successfully
+            </li>
+            <li>Re-open NinjaTrader</li>
+          </ol>
+        </section>
       </div>
     </ContentPageLayout>
   );
