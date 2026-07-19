@@ -10,6 +10,7 @@ import {
   getUserEmail,
   setAuthExpiresAt,
 } from "@/lib/auth-cookies";
+import { clearCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 
 export function isSessionExpired() {
   const expiresAt = getAuthExpiresAt();
@@ -67,6 +68,8 @@ export async function performLogout(
   clearAuthCookies();
   clearUserEmail();
   clearAuthExpiresAt();
+  clearCachedAuthUi();
+  emitAuthUiChanged();
 
   if (typeof window !== "undefined") {
     window.location.href = "/";

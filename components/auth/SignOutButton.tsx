@@ -4,7 +4,15 @@ import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import { performLogout } from "@/lib/auth-session";
 
-export function SignOutButton() {
+type SignOutButtonProps = {
+  variant?: "primary" | "ghost";
+  className?: string;
+};
+
+export function SignOutButton({
+  variant = "primary",
+  className = "",
+}: SignOutButtonProps) {
   const { signOut } = useClerk();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,14 +29,19 @@ export function SignOutButton() {
     }
   };
 
+  const buttonClassName =
+    variant === "ghost"
+      ? `text-muted transition-colors hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${className}`
+      : `btn-primary rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 ${className}`;
+
   return (
-    <div className="text-center">
+    <div className={variant === "primary" ? "text-center" : "contents"}>
       {error ? <p className="mb-4 text-sm text-red-400">{error}</p> : null}
       <button
         type="button"
         onClick={handleSignOut}
         disabled={loading}
-        className="btn-primary rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+        className={buttonClassName}
       >
         {loading ? "Signing out..." : "Sign Out"}
       </button>

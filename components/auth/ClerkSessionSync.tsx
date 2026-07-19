@@ -4,6 +4,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
+import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 import { setAuthToken } from "@/lib/auth-session";
 
 const NEW_SIGNUP_WINDOW_MS = 5 * 60 * 1000;
@@ -28,6 +29,9 @@ export function ClerkSessionSync() {
     if (!isLoaded || !isSignedIn || !user) {
       return;
     }
+
+    setCachedAuthUi(true);
+    emitAuthUiChanged();
 
     void (async () => {
       const token = await getToken();

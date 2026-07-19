@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useAppAuth } from "@/hooks/useAppAuth";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
 import {
   contentBodyClass,
@@ -7,9 +10,15 @@ import {
   contentSectionHeading,
   contentSubheading,
 } from "@/lib/content-ui";
-import { STRATEGY_DOWNLOADS } from "@/lib/downloads";
+import { STRATEGY_DOWNLOADS, TEMPLATES_DOWNLOAD_URL } from "@/lib/downloads";
 
-function DownloadButton({ downloadUrl }: { downloadUrl: string | null }) {
+function DownloadButton({
+  downloadUrl,
+  label = "Download zip",
+}: {
+  downloadUrl: string | null;
+  label?: string;
+}) {
   if (downloadUrl) {
     return (
       <a
@@ -17,7 +26,7 @@ function DownloadButton({ downloadUrl }: { downloadUrl: string | null }) {
         download
         className="btn-primary mt-6 w-full py-2.5 text-sm"
       >
-        Download zip
+        {label}
       </a>
     );
   }
@@ -34,11 +43,16 @@ function DownloadButton({ downloadUrl }: { downloadUrl: string | null }) {
 }
 
 export function DownloadsContent() {
+  const { isAuthenticated } = useAppAuth();
+  const indicatorPackHref = isAuthenticated
+    ? "/downloads/indicators"
+    : "/downloads/indicator-pack";
+
   return (
     <ContentPageLayout
       label="Downloads"
       title="Strategy & indicator downloads"
-      description="Download strategy packages and our free indicator pack for NinjaTrader."
+      description="Download strategy packages, chart templates, and our free indicator pack for NinjaTrader."
       centered={false}
       maxWidth="max-w-5xl"
     >
@@ -53,7 +67,7 @@ export function DownloadsContent() {
             </p>
           </div>
           <Link
-            href="/downloads/indicator-pack"
+            href={indicatorPackHref}
             className="btn-primary shrink-0 px-6 py-3 text-sm sm:self-center"
           >
             Get free indicators
@@ -94,6 +108,46 @@ export function DownloadsContent() {
         </div>
       </div>
 
+      <div className="mt-10">
+        <h2 className={contentSubheading}>Templates download</h2>
+        <p className={`${contentBodyClass} mt-2`}>
+          Pre-configured NinjaTrader chart templates for FluxTrade strategies. Available to
+          active subscribers —{" "}
+          <Link href="/pricing" className={contentLinkClass}>
+            view pricing
+          </Link>
+          .
+        </p>
+
+        <div className="mt-8 max-w-sm">
+          <div className={`${contentCardClass} flex flex-col items-center text-center`}>
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="h-8 w-8 text-flux-green-icon"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                />
+              </svg>
+            </div>
+            <h3 className="mt-4 text-lg font-semibold text-white">Chart Templates</h3>
+            <p className="mt-1 text-sm text-muted">NinjaTrader backup (.nt8backup)</p>
+            <DownloadButton
+              downloadUrl={TEMPLATES_DOWNLOAD_URL}
+              label="Download templates"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="mt-16 space-y-10">
         <h2 className={contentSectionHeading}>Setup instructions</h2>
 
@@ -104,7 +158,7 @@ export function DownloadsContent() {
           <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
             <li>
               Visit the{" "}
-              <Link href="/downloads/indicator-pack" className={contentLinkClass}>
+              <Link href={indicatorPackHref} className={contentLinkClass}>
                 Indicator Pack page
               </Link>{" "}
               to get access to the indicators pack and download it using the link

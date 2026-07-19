@@ -40,3 +40,6 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
 
 /** Set when the indicator pack zip is ready, e.g. `/downloads/fluxtrade-indicators.zip` */
 export const INDICATOR_PACK_DOWNLOAD_URL: string | null = null;
+
+/** Set when the templates backup is ready, e.g. `/downloads/fluxtrade-templates.nt8backup` */
+export const TEMPLATES_DOWNLOAD_URL: string | null = null;

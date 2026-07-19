@@ -4,6 +4,7 @@ import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
+import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
@@ -40,6 +41,8 @@ export function SignInForm() {
 
       setUserEmail(email);
       startAuthSession();
+      setCachedAuthUi(true);
+      emitAuthUiChanged();
 
       if (data.token) {
         setAuthToken(data.token);

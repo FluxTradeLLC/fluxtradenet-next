@@ -10,21 +10,27 @@ import {
   contentLinkClass,
   contentSubheading,
 } from "@/lib/content-ui";
+import { useAppAuth } from "@/hooks/useAppAuth";
 import { INDICATOR_PACK_DOWNLOAD_URL } from "@/lib/downloads";
 import { hasIndicatorPackAccess } from "@/lib/indicator-pack-access";
 
 export function IndicatorsDownloadContent() {
   const router = useRouter();
+  const { isLoaded, isAuthenticated } = useAppAuth();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!hasIndicatorPackAccess()) {
+    if (!isLoaded) {
+      return;
+    }
+
+    if (!hasIndicatorPackAccess() && !isAuthenticated) {
       router.replace("/downloads/indicator-pack");
       return;
     }
 
     setReady(true);
-  }, [router]);
+  }, [router, isLoaded, isAuthenticated]);
 
   if (!ready) {
     return (
