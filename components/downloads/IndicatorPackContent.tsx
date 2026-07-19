@@ -11,6 +11,7 @@ import {
   contentLinkClass,
 } from "@/lib/content-ui";
 import { grantIndicatorPackAccess } from "@/lib/indicator-pack-access";
+import { apiFetch } from "@/lib/api";
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -18,6 +19,8 @@ function isValidEmail(email: string): boolean {
 
 export function IndicatorPackContent() {
   const router = useRouter();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,6 +30,14 @@ export function IndicatorPackContent() {
     setError("");
 
     const trimmedEmail = email.trim();
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+
+    if (!trimmedFirstName || !trimmedLastName) {
+      setError("Please enter your first and last name.");
+      return;
+    }
+
     if (!isValidEmail(trimmedEmail)) {
       setError("Please enter a valid email address.");
       return;
@@ -35,7 +46,19 @@ export function IndicatorPackContent() {
     setLoading(true);
 
     try {
-      // TODO: wire up email capture API when ready
+      try {
+        await apiFetch("/subscribers/add", {
+          method: "POST",
+          body: JSON.stringify({
+            email: trimmedEmail,
+            firstname: trimmedFirstName,
+            lastname: trimmedLastName,
+          }),
+        });
+      } catch {
+        // Don't block download access if mailing list sync fails.
+      }
+
       grantIndicatorPackAccess(trimmedEmail);
       router.push("/downloads/indicators");
     } catch {
@@ -48,7 +71,7 @@ export function IndicatorPackContent() {
     <ContentPageLayout
       label="Free Indicators"
       title="Get the FluxTrade Indicators Pack"
-      description="Enter your email to unlock the download. We'll keep you posted on updates and new releases."
+      description="Enter your name and email to unlock the download. We'll keep you posted on updates and new releases."
       centered={false}
     >
       {/* <p className={contentBodyClass}>
@@ -64,6 +87,38 @@ export function IndicatorPackContent() {
           {error ? (
             <p className="text-center text-sm text-red-400">{error}</p>
           ) : null}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="indicator-pack-first-name" className="sr-only">
+                First name
+              </label>
+              <input
+                id="indicator-pack-first-name"
+                type="text"
+                placeholder="First name"
+                className={contentInputClass}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                autoComplete="given-name"
+              />
+            </div>
+            <div>
+              <label htmlFor="indicator-pack-last-name" className="sr-only">
+                Last name
+              </label>
+              <input
+                id="indicator-pack-last-name"
+                type="text"
+                placeholder="Last name"
+                className={contentInputClass}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                autoComplete="family-name"
+              />
+            </div>
+          </div>
           <div>
             <label htmlFor="indicator-pack-email" className="sr-only">
               Email address

@@ -34,6 +34,8 @@ function TermsRequiredTooltip({ id }: { id: string }) {
 
 export function SignUpForm() {
   const { signIn } = useSignIn();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -75,7 +77,12 @@ export function SignUpForm() {
     try {
       await apiFetch("/users/register", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email,
+          password,
+          firstname: firstName.trim(),
+          lastname: lastName.trim(),
+        }),
       });
 
       setUserEmail(email);
@@ -121,6 +128,40 @@ export function SignUpForm() {
     <AuthCard title="Sign Up">
       {error ? <AuthError message={error} /> : null}
       <form onSubmit={handleSubmit} aria-label="Sign up form">
+        <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="signup-first-name" className="sr-only">
+              First name
+            </label>
+            <input
+              id="signup-first-name"
+              type="text"
+              placeholder="First name"
+              className={authInputClassName}
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              required
+              aria-required="true"
+              autoComplete="given-name"
+            />
+          </div>
+          <div>
+            <label htmlFor="signup-last-name" className="sr-only">
+              Last name
+            </label>
+            <input
+              id="signup-last-name"
+              type="text"
+              placeholder="Last name"
+              className={authInputClassName}
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              required
+              aria-required="true"
+              autoComplete="family-name"
+            />
+          </div>
+        </div>
         <div className="mb-4">
           <label htmlFor="signup-email" className="sr-only">
             Email
@@ -201,7 +242,15 @@ export function SignUpForm() {
         <div className="group relative w-full">
           <button
             type="submit"
-            disabled={!acceptedTerms || !email || !password || !!emailError || loading}
+            disabled={
+              !acceptedTerms ||
+              !firstName.trim() ||
+              !lastName.trim() ||
+              !email ||
+              !password ||
+              !!emailError ||
+              loading
+            }
             className="btn-primary w-full !rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Sign Up"
             aria-describedby={!acceptedTerms ? "signup-submit-tooltip" : undefined}
