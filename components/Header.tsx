@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const navLinks = [
   { label: "Automated Strategies", href: "/#strategies" },
-  { label: "FREE Indicators", href: "/#features" },
+  { label: "FREE Indicators", href: "/#indicators" },
   { label: "Backtest Explorer", href: "/backtests/explorer" },
   { label: "Pricing", href: "/pricing" },
   // { label: "Affiliates", href: "/affiliates" },

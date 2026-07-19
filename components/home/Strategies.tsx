@@ -16,18 +16,18 @@ const strategies = [
     href: "/backtests/ignition",
   },
   {
-    name: "ORMS",
-    icon: "/icons/orms.svg",
-    type: "Opening Range Momentum Scalping",
-    tags: ["Scalping", "Momentum"],
-    href: "/backtests/orms",
-  },
-  {
     name: "Kraken",
     icon: "/icons/kraken.svg",
     type: "Compression Breakout",
     tags: ["Breakout", "Volatility"],
     href: "/backtests/kraken",
+  },
+  {
+    name: "ORMS",
+    icon: "/icons/orms.svg",
+    type: "Opening Range Momentum Scalping",
+    tags: ["Scalping", "Momentum"],
+    href: "/backtests/orms",
   },
 ];
 

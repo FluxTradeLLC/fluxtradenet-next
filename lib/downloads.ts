@@ -23,17 +23,17 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
     downloadUrl: null,
   },
   {
-    key: "ORMS",
-    name: "ORMS",
-    type: "Opening Range Momentum Scalping",
-    icon: "/icons/orms.svg",
-    downloadUrl: null,
-  },
-  {
     key: "KRAKEN",
     name: "Kraken",
     type: "Compression Breakout",
     icon: "/icons/kraken.svg",
+    downloadUrl: null,
+  },
+  {
+    key: "ORMS",
+    name: "ORMS",
+    type: "Opening Range Momentum Scalping",
+    icon: "/icons/orms.svg",
     downloadUrl: null,
   },
 ];
