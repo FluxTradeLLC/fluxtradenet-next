@@ -5,6 +5,7 @@ const footerLinks = {
     Product: [
     { label: "Pricing", href: "/pricing" },
     { label: "Backtest Explorer", href: "/backtests/explorer" },
+    { label: "Downloads", href: "/downloads" },
     { label: "Live Stream", href: "/stream" },
   ],
   Company: [
