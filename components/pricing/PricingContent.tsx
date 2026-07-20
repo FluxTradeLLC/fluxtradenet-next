@@ -134,30 +134,29 @@ function StrategyCard({
       type="button"
       onClick={onToggle}
       aria-pressed={selected}
-      className={`glass-card flex h-full w-full flex-col rounded-2xl px-8 py-6 text-left transition-all ${
+      className={`glass-card relative flex h-full w-full flex-col items-center rounded-2xl px-8 py-6 text-center transition-all ${
         selected
           ? "ring-2 ring-[#02C064] ring-offset-2 ring-offset-background"
           : "hover:border-flux-green/30"
       }`}
     >
-      <div className="mb-4 flex items-start justify-between gap-3">
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span key={tag} className="chip">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <span
-          className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
-            selected
-              ? "border-[#02C064] bg-[#02C064] text-black"
-              : "border-border text-muted"
-          }`}
-          aria-hidden="true"
-        >
-          {selected ? <CheckIcon className="h-4 w-4" /> : null}
-        </span>
+      <span
+        className={`absolute right-6 top-6 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
+          selected
+            ? "border-[#02C064] bg-[#02C064] text-black"
+            : "border-border text-muted"
+        }`}
+        aria-hidden="true"
+      >
+        {selected ? <CheckIcon className="h-4 w-4" /> : null}
+      </span>
+
+      <div className="mb-4 flex flex-wrap justify-center gap-2">
+        {tags.map((tag) => (
+          <span key={tag} className="chip">
+            {tag}
+          </span>
+        ))}
       </div>
 
       <h3 className="text-xl font-bold text-white">{name}</h3>
@@ -173,12 +172,12 @@ function StrategyCard({
       </div>
 
       <ul className="mb-2 flex-1 space-y-2">
-        <li className="flex items-start gap-2 text-sm text-muted">
-          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-flux-green-icon" />
+        <li className="flex items-center justify-center gap-2 text-sm text-muted">
+          <CheckIcon className="h-4 w-4 shrink-0 text-flux-green-icon" />
           <span>Full {name} strategy access</span>
         </li>
-        <li className="flex items-start gap-2 text-sm text-muted">
-          <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-flux-green-icon" />
+        <li className="flex items-center justify-center gap-2 text-sm text-muted">
+          <CheckIcon className="h-4 w-4 shrink-0 text-flux-green-icon" />
           <span>All indicators included free</span>
         </li>
       </ul>
