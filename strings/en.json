@@ -64,10 +64,10 @@
     "ninjaTrader": "NinjaTrader",
     "tradingView": "TradingView",
     "bothPlatforms": "Both Platforms",
-    "startTrial": "Start Free Trial (30 days)",
-    "signUpTrial": "Sign Up To Start Free Trial (30 days)",
-    "startTrialLabel": "Start free 30 day trial for {{platform}}",
-    "signUpTrialLabel": "Sign up to start free 30 day trial for {{platform}}"
+    "startTrial": "Subscribe Now",
+    "signUpTrial": "Sign Up To Subscribe",
+    "startTrialLabel": "Subscribe for {{platform}}",
+    "signUpTrialLabel": "Sign up to subscribe for {{platform}}"
   },
   "support": {
     "title": "Support",
@@ -99,8 +99,6 @@
     "payoutsDesc": "Paid out via PayPal on a net-60 schedule.",
     "useAssets": "Use Our Assets",
     "useAssetsDesc": "Use our logo, site media, and videos in your promos.",
-    "freeTrial": "Free trial",
-    "freeTrialDesc": "We offer a free 30-day trial to our customers",
     "powerfulTools": "Powerful tools",
     "powerfulToolsDesc": "Our suite of tools has been built from the ground up",
     "growingCommunity": "Growing community",
@@ -140,7 +138,6 @@
     "title": "Account",
     "loggedInAs": "Logged in as: {{email}}",
     "signUpForPlan": "Sign up for a plan",
-    "freeTrialOffer": "Each plan offers a 30 day free trial!",
     "selectPlan": "Select a Plan",
     "subscriptionSettings": "Subscription Settings",
     "subscriptionSettingsDescription": "Log into the Stripe customer portal to manage your subscription, update your payment method, or cancel your subscription.",
@@ -779,7 +776,6 @@
   "pricing": {
     "title": "Choose Your Plan",
     "subtitle": "Unlock the full potential of FluxTrade with our tailored plans.",
-    "freeTrial": "Monthly plans include a 30-day free trial!",
     "save": "Save",
     "save10": "Save 10%",
     "save17": "Save 17%",
@@ -795,10 +791,6 @@
       "yearlyLabel": "Yearly"
     },
     "buttons": {
-      "startTrial": "Start 30‑day free trial",
-      "startTrialNinjaTrader": "Start 30‑day free trial on NinjaTrader",
-      "startTrialTradingView": "Start 30‑day free trial on TradingView",
-      "startTrialBoth": "Start 30 day free trial for both platforms",
       "subscribeNow": "Subscribe Now",
       "subscribeNinjaTrader": "Subscribe on NinjaTrader",
       "subscribeTradingView": "Subscribe on TradingView"

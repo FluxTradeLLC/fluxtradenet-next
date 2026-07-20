@@ -7,10 +7,10 @@ import { SignUpForm } from "@/components/auth/SignUpForm";
 export const metadata: Metadata = {
   title: "Sign Up — FluxTrade",
   description:
-    "Create your FluxTrade account and start your free trial. Access automated NinjaTrader strategies and professional indicators.",
+    "Create your FluxTrade account and access automated NinjaTrader strategies and professional indicators.",
   openGraph: {
     title: "Sign Up — FluxTrade",
-    description: "Create your FluxTrade account and start your free trial.",
+    description: "Create your FluxTrade account to access FluxTrade strategies and indicators.",
     url: "https://fluxtrade.net/signup",
   },
 };

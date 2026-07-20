@@ -14,7 +14,6 @@ const featureCards = [
   { title: s("affiliates.commission"), description: s("affiliates.commissionDesc"), highlight: true },
   { title: s("affiliates.payouts"), description: s("affiliates.payoutsDesc") },
   { title: s("affiliates.useAssets"), description: s("affiliates.useAssetsDesc") },
-  { title: s("affiliates.freeTrial"), description: s("affiliates.freeTrialDesc") },
   { title: s("affiliates.powerfulTools"), description: s("affiliates.powerfulToolsDesc") },
   { title: s("affiliates.growingCommunity"), description: s("affiliates.growingCommunityDesc") },
 ];
