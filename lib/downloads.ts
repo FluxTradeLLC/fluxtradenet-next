@@ -42,4 +42,4 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
 export const INDICATOR_PACK_DOWNLOAD_URL: string | null = null;
 
 /** Set when the templates backup is ready, e.g. `/downloads/fluxtrade-templates.nt8bk` */
-export const TEMPLATES_DOWNLOAD_URL: string | null = "/downloads/Templates.nt8bk";
+export const TEMPLATES_DOWNLOAD_URL: string | null = "/downloads/FluxTrade_Templates_v1.nt8bk";
