@@ -47,6 +47,15 @@ export function DownloadsContent() {
   const indicatorPackHref = isAuthenticated
     ? "/downloads/indicators"
     : "/downloads/indicator-pack";
+  const subscriberSignInPrompt = !isAuthenticated ? (
+    <p className={`${contentBodyClass} mt-2`}>
+      Already subscribed?{" "}
+      <Link href="/signin" className={contentLinkClass}>
+        Sign in
+      </Link>{" "}
+      to download.
+    </p>
+  ) : null;
 
   return (
     <ContentPageLayout
@@ -84,6 +93,7 @@ export function DownloadsContent() {
           </Link>
           .
         </p>
+        {subscriberSignInPrompt}
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {STRATEGY_DOWNLOADS.map((strategy) => (
@@ -118,6 +128,7 @@ export function DownloadsContent() {
           </Link>
           .
         </p>
+        {subscriberSignInPrompt}
 
         <div className="mt-8 max-w-sm">
           <div className={`${contentCardClass} flex flex-col items-center text-center`}>
@@ -192,6 +203,20 @@ export function DownloadsContent() {
               and select the ZIP file and click Import
             </li>
           </ol>
+          <p className={`${contentBodyClass} mt-4`}>
+            <strong className="text-white">Installing an update:</strong> You will have to
+            uninstall the old version of the strategy first via{" "}
+            <strong className="text-white">Tools &gt; Remove NinjaScript Assembly</strong>,
+            restart NinjaTrader, and then install the new version — or uninstall, install
+            the new version, and then restart.
+          </p>
+          <p className={`${contentBodyClass} mt-4`}>
+            To pick up new features for a strategy that is already on a chart, open the{" "}
+            <strong className="text-white">Strategies</strong> tab, right-click the strategy
+            instance, click <strong className="text-white">Edit Strategy</strong>, then click{" "}
+            <strong className="text-white">OK</strong>. This replaces the old code with a copy
+            of the updated strategy.
+          </p>
         </section>
 
         <section>
@@ -211,6 +236,82 @@ export function DownloadsContent() {
               NinjaTrader will automatically close, even when it imports successfully
             </li>
             <li>Re-open NinjaTrader</li>
+          </ol>
+        </section>
+      </div>
+
+      <div className="mt-16 space-y-10">
+        <h2 className={contentSectionHeading}>Troubleshooting</h2>
+
+        <section>
+          <h3 className={contentSubheading}>
+            &ldquo;The NinjaScript Archive File may contain duplicate method names that
+            already exist on your PC&hellip;&rdquo;
+          </h3>
+          <p className={`${contentBodyClass} mt-4`}>
+            If you get this error, you will need to uninstall the original indicator or
+            strategy file whose name is being duplicated. Go into the{" "}
+            <strong className="text-white">Control Center &gt; Log</strong> tab and look
+            for the yellow message. It should tell you{" "}
+            <strong className="text-white">
+              Type &lsquo;Indicator&rsquo; already defines a member called &lt;class
+              name&gt;
+            </strong>{" "}
+            or{" "}
+            <strong className="text-white">
+              Type &lsquo;Strategy&rsquo; already defines a member called &lt;class
+              name&gt;
+            </strong>
+            .
+          </p>
+          <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
+            <li>
+              <strong className="text-white">New &gt; NinjaScript Editor</strong>
+            </li>
+            <li>
+              On the right side, open{" "}
+              <strong className="text-white">Indicators</strong> or{" "}
+              <strong className="text-white">Strategies</strong> depending on which folder
+              the duplicated name is in
+            </li>
+            <li>
+              Right-click the duplicated one &gt;{" "}
+              <strong className="text-white">Remove</strong>
+            </li>
+            <li>
+              In the big blank area, right-click &gt;{" "}
+              <strong className="text-white">Compile</strong>
+            </li>
+            <li>Then attempt to install the package again</li>
+          </ol>
+          <p className={`${contentBodyClass} mt-4`}>
+            If this doesn&apos;t fix the issue, you can alternatively try a fresh
+            installation of NinjaTrader.
+          </p>
+        </section>
+
+        <section>
+          <h3 className={contentSubheading}>
+            Strategy package installed but the strategy doesn&apos;t make any trades
+          </h3>
+          <p className={`${contentBodyClass} mt-4`}>
+            Uninstall and reinstall the strategy package, then re-import the templates
+            file and try running the analyzer again:
+          </p>
+          <ol className="ml-4 mt-4 list-inside list-decimal space-y-2 text-muted">
+            <li>
+              Uninstall via{" "}
+              <strong className="text-white">Tools &gt; Remove NinjaScript Assembly</strong>
+            </li>
+            <li>
+              Re-install via{" "}
+              <strong className="text-white">Tools &gt; Import &gt; NinjaScript Add-On</strong>
+            </li>
+            <li>
+              Re-import the templates file via{" "}
+              <strong className="text-white">Tools &gt; Import &gt; Backup File</strong>
+            </li>
+            <li>Try to run the analyzer again</li>
           </ol>
         </section>
       </div>
