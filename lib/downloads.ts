@@ -29,13 +29,13 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
     icon: "/icons/kraken.svg",
     downloadUrl: null,
   },
-  {
-    key: "ORMS",
-    name: "ORMS",
-    type: "Opening Range Momentum Scalping",
-    icon: "/icons/orms.svg",
-    downloadUrl: null,
-  },
+  // {
+  //   key: "ORMS",
+  //   name: "ORMS",
+  //   type: "Opening Range Momentum Scalping",
+  //   icon: "/icons/orms.svg",
+  //   downloadUrl: null,
+  // },
 ];
 
 /** Set when the indicator pack zip is ready, e.g. `/downloads/fluxtrade-indicators.zip` */

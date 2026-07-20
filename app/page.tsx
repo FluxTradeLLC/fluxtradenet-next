@@ -5,6 +5,7 @@ import { Features } from "@/components/home/Features";
 import { Indicators } from "@/components/home/Indicators";
 import { Strategies } from "@/components/home/Strategies";
 import { CTA } from "@/components/home/CTA";
+import { RecommendedResources } from "@/components/home/RecommendedResources";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <Strategies />
         <Indicators />
         <CTA />
+        <RecommendedResources />
       </main>
       <Footer />
     </>

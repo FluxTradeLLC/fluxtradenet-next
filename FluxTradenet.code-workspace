@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../fluxtradenet-node"
+		},
+		{
+			"path": "../fluxtradenet-react"
 		}
 	]
 }

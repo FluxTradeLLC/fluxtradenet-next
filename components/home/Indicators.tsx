@@ -13,17 +13,6 @@ const indicators = [
     ),
   },
   {
-    name: "VWAP",
-    tags: ["Volume", "NinjaTrader"],
-    description:
-      "Volume-Weighted Average Price — not included in NinjaTrader. Track institutional-style fair value through the session.",
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 6.75l4.5 6.75L18.75 9 21.75 18H2.25z" />
-      </svg>
-    ),
-  },
-  {
     name: "Trade Copier",
     tags: ["Multi-Account", "Prop Firms"],
     description:
@@ -31,6 +20,17 @@ const indicators = [
     icon: (
       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    ),
+  },
+  {
+    name: "VWAP",
+    tags: ["Volume", "NinjaTrader"],
+    description:
+      "Volume-Weighted Average Price — not included in NinjaTrader. Track institutional-style fair value through the session.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 6.75l4.5 6.75L18.75 9 21.75 18H2.25z" />
       </svg>
     ),
   },

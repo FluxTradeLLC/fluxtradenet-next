@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { s } from "@/lib/strings";
 
 const footerLinks = {
     Product: [
@@ -75,14 +76,35 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 space-y-4 border-t border-border pt-8">
-          <p className="text-xs leading-relaxed text-muted/70">
-            Futures and forex trading contains substantial risk and is not for
-            every investor. Only risk capital should be used for trading. Past
-            performance is not necessarily indicative of future results.
-          </p>
+        <div className="mt-12 space-y-6 border-t border-border pt-8">
+          <div className="space-y-4">
+            <p className="text-xs leading-relaxed text-muted/70">
+              <span className="font-semibold text-muted/80">
+                {s("footer.disclaimers")}:{" "}
+              </span>
+              {s("footer.disclaimer1")}.
+            </p>
+            <p className="text-xs leading-relaxed text-muted/70">
+              <span className="font-semibold text-muted/80">
+                {s("footer.hypotheticalPerformanceDisclosure")}:{" "}
+              </span>
+              {s("footer.disclaimer2")}
+            </p>
+            <p className="text-xs leading-relaxed text-muted/70">
+              <span className="font-semibold text-muted/80">
+                {s("footer.liveTradingRoomDisclosure")}:{" "}
+              </span>
+              {s("streaming.disclaimer")}
+            </p>
+            <p className="text-xs leading-relaxed text-muted/70">
+              <span className="font-semibold text-muted/80">
+                {s("footer.testimonialDisclosure")}:{" "}
+              </span>
+              {s("footer.disclaimer3")}
+            </p>
+          </div>
           <p className="text-xs text-muted/50">
-            Copyright © {year}, FluxTrade, LLC. All rights reserved.
+            {s("footer.copyright", { year })}
           </p>
         </div>
       </div>

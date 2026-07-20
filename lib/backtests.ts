@@ -2,21 +2,21 @@ export const BACKTEST_FILES = [
   "hydra.csv",
   "ignition.csv",
   "kraken.csv",
-  "orms.csv",
+  // "orms.csv",
 ] as const;
 
 export const BACKTEST_SLUGS: Record<string, string> = {
   hydra: "hydra.csv",
   ignition: "ignition.csv",
   kraken: "kraken.csv",
-  orms: "orms.csv",
+  // orms: "orms.csv",
 };
 
 export const SETTINGS_FILES: Record<string, string> = {
   hydra: "hydra-settings.csv",
   ignition: "ignition-settinga.csv",
   kraken: "kraken-settings.csv",
-  orms: "orms-settings.csv",
+  // orms: "orms-settings.csv",
 };
 
 export type SettingsRow = {

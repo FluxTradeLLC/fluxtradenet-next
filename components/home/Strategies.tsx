@@ -22,13 +22,13 @@ const strategies = [
     tags: ["Breakout", "Volatility"],
     href: "/backtests/kraken",
   },
-  {
-    name: "ORMS",
-    icon: "/icons/orms.svg",
-    type: "Opening Range Momentum Scalping",
-    tags: ["Scalping", "Momentum"],
-    href: "/backtests/orms",
-  },
+  // {
+  //   name: "ORMS",
+  //   icon: "/icons/orms.svg",
+  //   type: "Opening Range Momentum Scalping",
+  //   tags: ["Scalping", "Momentum"],
+  //   href: "/backtests/orms",
+  // },
 ];
 
 export function Strategies() {
@@ -46,8 +46,8 @@ export function Strategies() {
               Backtested. Battle-ready.
             </h2>
             <p className="mt-4 text-lg text-muted">
-              Four automated strategies with full backtest transparency — from
-              Renko patterns to opening range momentum and compression breakouts.
+              Three automated strategies with full backtest transparency — from
+              Renko patterns to opening range breaks and compression breakouts.
             </p>
           </div>
           <Link
@@ -58,7 +58,7 @@ export function Strategies() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {strategies.map((strategy) => (
             <Link
               key={strategy.name}

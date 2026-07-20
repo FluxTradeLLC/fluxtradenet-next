@@ -2,7 +2,7 @@ export const STRATEGY_SETTINGS_FILES = [
   { slug: "hydra", file: "Hydra.json", label: "Hydra" },
   { slug: "ignition", file: "Ignition.json", label: "Ignition" },
   { slug: "kraken", file: "Kraken.json", label: "Kraken" },
-  { slug: "orms", file: "ORMS.json", label: "ORMS" },
+  // { slug: "orms", file: "ORMS.json", label: "ORMS" },
 ] as const;
 
 export type StrategySettingsSlug =
