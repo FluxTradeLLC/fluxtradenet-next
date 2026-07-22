@@ -27,7 +27,7 @@ const features = [
     ),
     title: "Prop Firm Focused",
     description:
-      "Strategies engineered for prop firm rules — conservative risk, consistent returns, and drawdown-aware design.",
+      "Strategies engineered for prop firm rules — conservative risk, consistent results, and drawdown-aware design.",
   },
   {
     icon: (
