@@ -16,10 +16,10 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
     downloadUrl: null,
   },
   {
-    key: "IGNITION",
-    name: "Ignition",
+    key: "CERBERUS",
+    name: "Cerberus",
     type: "Opening Range Break",
-    icon: "/icons/ignition.svg",
+    icon: "/icons/cerberus.svg",
     downloadUrl: null,
   },
   {

@@ -1,0 +1,1350 @@
+{
+  "strategy": "FluxTrade_Cerberus",
+  "className": "FluxTrade_Cerberus",
+  "description": "Opening range breakout strategy with Hydra filters and risk controls: OR breakouts, reversals, and optional JStrategy pullback entries.",
+  "sourceFile": "strategies/Cerberus.cs",
+  "parameterGroups": [
+    {
+      "name": "Parameters",
+      "properties": [
+        {
+          "property": "DQ",
+          "displayName": "Default Quantity",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
+          "property": "TakeLongs",
+          "displayName": "Take Longs",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TakeShorts",
+          "displayName": "Take Shorts",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "OR Time Settings",
+      "properties": [
+        {
+          "property": "OpeningRangeStartHour",
+          "displayName": "OR Start Hour",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "OpeningRangeStartMinute",
+          "displayName": "OR Start Minute",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "OpeningRangeEndHour",
+          "displayName": "OR End Hour",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "OpeningRangeEndMinute",
+          "displayName": "OR End Minute",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 35
+        }
+      ]
+    },
+    {
+      "name": "Entry Direction",
+      "properties": [
+        {
+          "property": "TakeBreakouts",
+          "displayName": "Take Breakouts?",
+          "description": "Enable breakout entries (price closes outside the opening range)",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TakeReversals",
+          "displayName": "Take Reversals?",
+          "description": "Enable reversal entries (price returns back inside the opening range after a breakout)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ReversalsOnlyAtInverseFVG",
+          "displayName": "Reversals Only at Inverse FVG",
+          "description": "When enabled, only take reversal entries when price is at an inverse fair value gap",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ReversalFVGLookback",
+          "displayName": "Reversal FVG Lookback (Bars)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 3,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "ReversalFVGMinTicks",
+          "displayName": "Reversal FVG Min Size (Ticks)",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 100
+          },
+          "default": 2
+        },
+        {
+          "property": "SkipFirstSetup",
+          "displayName": "Skip First Potential Setup",
+          "description": "When enabled, skip the first valid setup opportunity and wait for the second",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TakeJStrategy",
+          "displayName": "Take JStrategy?",
+          "description": "15m range + 5m bias, pullback/retest with volume rejection (runs on 5-min series)",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "JStrategy",
+      "properties": [
+        {
+          "property": "JStrategyRangeStartHour",
+          "displayName": "JStrategy Range Start Hour",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "JStrategyRangeStartMinute",
+          "displayName": "JStrategy Range Start Minute",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "JStrategyRangeEndHour",
+          "displayName": "JStrategy Range End Hour",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "JStrategyRangeEndMinute",
+          "displayName": "JStrategy Range End Minute",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 45
+        },
+        {
+          "property": "JStrategyVolumeLookback",
+          "displayName": "JStrategy Volume Lookback",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 50
+          },
+          "default": 5
+        },
+        {
+          "property": "JStrategyVolumeMultiplier",
+          "displayName": "JStrategy Volume Multiplier",
+          "order": 5,
+          "type": "number",
+          "constraints": {
+            "min": 0.5,
+            "max": 5.0
+          },
+          "default": 1.0
+        },
+        {
+          "property": "JStrategyRetestTicks",
+          "displayName": "JStrategy Retest Zone (Ticks)",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 500
+          },
+          "default": 8
+        },
+        {
+          "property": "JStrategyStopBufferTicks",
+          "displayName": "JStrategy Stop Buffer (Ticks)",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 2
+        },
+        {
+          "property": "JStrategyMinRiskReward",
+          "displayName": "JStrategy Min R:R",
+          "order": 8,
+          "type": "number",
+          "constraints": {
+            "min": 2.0,
+            "max": 10.0
+          },
+          "default": 2.0
+        },
+        {
+          "property": "JStrategyRiskPercent",
+          "displayName": "JStrategy Risk (% of Account)",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 5.0
+          },
+          "default": 1.5
+        },
+        {
+          "property": "JStrategyUseRiskBasedQty",
+          "displayName": "JStrategy Use Risk-Based Qty",
+          "order": 10,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "JStrategyUsePremarketTp1",
+          "displayName": "JStrategy Use Premarket as TP1",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "JStrategyPartialFraction",
+          "displayName": "JStrategy Partial at 2R (Fraction)",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0.1,
+            "max": 1.0
+          },
+          "default": 0.5
+        },
+        {
+          "property": "JStrategySecondTargetR",
+          "displayName": "JStrategy Second Target (R)",
+          "order": 13,
+          "type": "number",
+          "constraints": {
+            "min": 2.0,
+            "max": 20.0
+          },
+          "default": 3.0
+        }
+      ]
+    },
+    {
+      "name": "ORB Entry Filters",
+      "properties": [
+        {
+          "property": "RequireEmaTrending",
+          "displayName": "Require EMA Trending",
+          "description": "Require EMA to be trending in entry direction (EMA[0] > EMA[1] for longs, EMA[0] < EMA[1] for shorts)",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinEmaDistanceTicks",
+          "displayName": "Min Distance from EMA (Ticks)",
+          "description": "Minimum distance price must be from EMA in ticks (0 = disabled)",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "EnableBreakoutStrengthFilter",
+          "displayName": "Enable Breakout Strength Filter",
+          "description": "Require price to be X ticks beyond OR high/low before entry",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinBreakoutStrengthTicks",
+          "displayName": "Min Breakout Strength (Ticks)",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "Trade Window",
+      "properties": [
+        {
+          "property": "UseTimeWindow",
+          "displayName": "Use Time Window",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "StartHour",
+          "displayName": "Start Hour",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 9
+        },
+        {
+          "property": "StartMinute",
+          "displayName": "Start Minute",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 30
+        },
+        {
+          "property": "EndHour",
+          "displayName": "End Hour",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 23
+          },
+          "default": 16
+        },
+        {
+          "property": "EndMinute",
+          "displayName": "End Minute",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        },
+        {
+          "property": "TradeMonday",
+          "displayName": "Trade Monday",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeTuesday",
+          "displayName": "Trade Tuesday",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeWednesday",
+          "displayName": "Trade Wednesday",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeThursday",
+          "displayName": "Trade Thursday",
+          "order": 8,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeFriday",
+          "displayName": "Trade Friday",
+          "order": 9,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Risk",
+      "properties": [
+        {
+          "property": "ProfitTargetTicks",
+          "displayName": "Profit Target (Ticks)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 80
+        },
+        {
+          "property": "StopLossTicks",
+          "displayName": "Stop Loss (Ticks)",
+          "description": "Fallback stop distance when structural stop is off or invalid",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 40
+        },
+        {
+          "property": "MaxStopDistanceTicks",
+          "displayName": "Max Stop Distance (Ticks)",
+          "description": "Hard cap on how far the stop may sit from entry when using structural stop",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 80
+        },
+        {
+          "property": "UseStructuralTarget",
+          "displayName": "Use Structural Target",
+          "description": "Target a structural level instead of fixed ticks",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "StructuralTargetBufferTicks",
+          "displayName": "Structural Target Buffer (Ticks)",
+          "description": "Take profit this many ticks before the structural target level",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "UseStructuralStop",
+          "displayName": "Use Structural Stop",
+          "description": "Place the stop just beyond the OR extreme instead of a fixed tick distance",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "StructuralStopBufferTicks",
+          "displayName": "Structural Stop Buffer (Ticks)",
+          "description": "Extra ticks beyond the OR extreme for the structural stop",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "UseCustomTrailStop",
+          "displayName": "Use Custom Trail Stop",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "CustomTrailDistanceTicks",
+          "displayName": "Custom Trail Distance (Ticks)",
+          "order": 8,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 10
+        },
+        {
+          "property": "CustomTrailActivationTicks",
+          "displayName": "Custom Trail Activation (Ticks)",
+          "description": "Require price to move this many ticks in your favor before trailing begins (0 = immediate)",
+          "order": 9,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "properties": [
+        {
+          "property": "BreakevenProfit",
+          "displayName": "Breakeven Profit (Currency)",
+          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount (0 = off)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "UseMaxDailyProfit",
+          "displayName": "Use Max Daily Profit",
+          "description": "Enable daily maximum profit cap (currency)",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyProfit",
+          "displayName": "Max Daily Profit ($)",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "UseMaxDailyLoss",
+          "displayName": "Use Max Daily Loss",
+          "description": "Enable daily maximum loss cap (currency)",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLoss",
+          "displayName": "Max Daily Loss ($)",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 500
+        },
+        {
+          "property": "EndDayOnUnrealizedProfit",
+          "displayName": "End day on unrealized profit?",
+          "description": "Close current trade and stop trading when realized + unrealized PnL breaches daily limits",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseTieredProfitLock",
+          "displayName": "Use Tiered Profit Lock",
+          "description": "Dynamically raise the daily loss floor as profit accumulates",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "Tier1ProfitThreshold",
+          "displayName": "Tier 1 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 1 Floor",
+          "order": 7,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 150
+        },
+        {
+          "property": "Tier1Floor",
+          "displayName": "Tier 1 Floor ($)",
+          "description": "Daily loss floor once Tier 1 is reached. Use 0 for breakeven, negative to allow a small drawback.",
+          "order": 8,
+          "type": "number",
+          "default": 0
+        },
+        {
+          "property": "Tier2ProfitThreshold",
+          "displayName": "Tier 2 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 2 Floor",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 300
+        },
+        {
+          "property": "Tier2Floor",
+          "displayName": "Tier 2 Floor ($)",
+          "description": "Daily loss floor once Tier 2 is reached.",
+          "order": 10,
+          "type": "number",
+          "default": 150
+        },
+        {
+          "property": "Tier3ProfitThreshold",
+          "displayName": "Tier 3 Profit Threshold ($)",
+          "description": "When realized profit reaches this amount, raise the daily loss floor to Tier 3 Floor (0 = disabled)",
+          "order": 11,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        },
+        {
+          "property": "Tier3Floor",
+          "displayName": "Tier 3 Floor ($)",
+          "description": "Daily loss floor once Tier 3 is reached.",
+          "order": 12,
+          "type": "number",
+          "default": 0
+        },
+        {
+          "property": "UseMaxDailyLosses",
+          "displayName": "Use Max Daily Losses",
+          "description": "Halt trading after N consecutive losing trades in the same day",
+          "order": 13,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyLosses",
+          "displayName": "Max Daily Losses",
+          "description": "Number of losing trades per day before trading is halted",
+          "order": 14,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 2
+        },
+        {
+          "property": "UseMaxDailyTrades",
+          "displayName": "Use Max Daily Trades",
+          "description": "Limit the number of entries per calendar day",
+          "order": 15,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MaxDailyTrades",
+          "displayName": "Max Daily Trades",
+          "description": "Maximum entries per calendar day",
+          "order": 16,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 4
+        }
+      ]
+    },
+    {
+      "name": "Quick Exit",
+      "properties": [
+        {
+          "property": "EnableQuickExit",
+          "displayName": "Enable Quick Exit",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "QuickExitBars",
+          "displayName": "Quick Exit Bars",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 5
+        },
+        {
+          "property": "QuickExitOnlyInProfit",
+          "displayName": "Quick Exit Only In Profit",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "properties": [
+        {
+          "property": "EnableChoppinessFilter",
+          "displayName": "Enable Choppiness Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "ChoppinessPeriod",
+          "displayName": "Choppiness Period",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "ChoppinessThreshold",
+          "displayName": "Choppiness Threshold",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 61.8
+        },
+        {
+          "property": "UseMinimumVolumeFilter",
+          "displayName": "Use Minimum Volume Filter",
+          "order": 10,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinimumVolume",
+          "displayName": "Minimum Volume",
+          "order": 11,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1000
+        },
+        {
+          "property": "UseRsiFilter",
+          "displayName": "Use RSI Filter",
+          "order": 50,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "RsiPeriod",
+          "displayName": "RSI Period",
+          "order": 51,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 14
+        },
+        {
+          "property": "RsiOverbought",
+          "displayName": "RSI Overbought",
+          "order": 52,
+          "type": "integer",
+          "constraints": {
+            "min": 50,
+            "max": 100
+          },
+          "default": 70
+        },
+        {
+          "property": "RsiOversold",
+          "displayName": "RSI Oversold",
+          "order": 53,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 50
+          },
+          "default": 30
+        },
+        {
+          "property": "ReverseOnRsiExtremes",
+          "displayName": "Reverse on RSI Extremes",
+          "order": 54,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseEmaFilter",
+          "displayName": "Use EMA Filter",
+          "description": "Longs only when price is above EMA; shorts only when price is below EMA",
+          "order": 55,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EmaFilterPeriod",
+          "displayName": "EMA Filter Period",
+          "order": 56,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 50
+        },
+        {
+          "property": "UseMomentumFilter",
+          "displayName": "Use Momentum Filter",
+          "description": "Require price above/below EMA and closing in trade direction",
+          "order": 60,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MomentumEmaFast",
+          "displayName": "Momentum EMA Fast",
+          "order": 61,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 9
+        },
+        {
+          "property": "RequireBullishBreakoutBar",
+          "displayName": "Require Bullish/Bearish Bar",
+          "description": "Require close > open for longs, close < open for shorts",
+          "order": 62,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Market Regime Filter",
+      "properties": [
+        {
+          "property": "UseMarketRegimeFilter",
+          "displayName": "Use Market Regime Filter",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeUpTrendHighVol",
+          "displayName": "Trade UpTrend High Vol",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeUpTrendLowVol",
+          "displayName": "Trade UpTrend Low Vol",
+          "order": 2,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "TradeSidewaysHighVol",
+          "displayName": "Trade Sideways High Vol",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeSidewaysLowVol",
+          "displayName": "Trade Sideways Low Vol",
+          "order": 4,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendHighVol",
+          "displayName": "Trade DownTrend High Vol",
+          "order": 5,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TradeDownTrendLowVol",
+          "displayName": "Trade DownTrend Low Vol",
+          "order": 6,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "UseHighImpactEventFilter",
+          "displayName": "Use High Impact Event Filter",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinHighImpactEvents",
+          "displayName": "Min High Impact Events",
+          "order": 8,
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "property": "MaxHighImpactEvents",
+          "displayName": "Max High Impact Events",
+          "order": 9,
+          "type": "integer",
+          "default": 1
+        }
+      ]
+    },
+    {
+      "name": "AI Filter",
+      "properties": [
+        {
+          "property": "UseChatGptFilter",
+          "displayName": "Use AI Filter",
+          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "MinProfitProbability",
+          "displayName": "Min Profit Probability",
+          "description": "Minimum AI profit_probability (0-1) required to enter",
+          "order": 1,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 1
+          },
+          "default": 0.65
+        },
+        {
+          "property": "AiFilterProvider",
+          "displayName": "Provider",
+          "description": "AI Provider to use",
+          "order": 2,
+          "type": "enum",
+          "enumType": "Provider",
+          "possibleValues": [
+            {
+              "name": "OpenAI",
+              "value": "OpenAI"
+            },
+            {
+              "name": "Anthropic",
+              "value": "Anthropic"
+            },
+            {
+              "name": "Ollama",
+              "value": "Ollama"
+            }
+          ],
+          "default": "Provider.OpenAI"
+        },
+        {
+          "property": "AiFilterOpenAIModel",
+          "displayName": "OpenAI Model",
+          "description": "OpenAI model to use",
+          "order": 3,
+          "type": "enum",
+          "enumType": "OpenAIModel",
+          "possibleValues": [
+            {
+              "name": "Gpt56Sol",
+              "value": "Gpt56Sol"
+            },
+            {
+              "name": "Gpt56",
+              "value": "Gpt56"
+            },
+            {
+              "name": "Gpt56Terra",
+              "value": "Gpt56Terra"
+            },
+            {
+              "name": "Gpt56Luna",
+              "value": "Gpt56Luna"
+            },
+            {
+              "name": "Gpt55",
+              "value": "Gpt55"
+            },
+            {
+              "name": "Gpt54",
+              "value": "Gpt54"
+            },
+            {
+              "name": "Gpt54Mini",
+              "value": "Gpt54Mini"
+            }
+          ],
+          "default": "OpenAIModel.Gpt56Luna"
+        },
+        {
+          "property": "AiFilterAnthropicModel",
+          "displayName": "Anthropic Model",
+          "description": "Anthropic model to use",
+          "order": 4,
+          "type": "enum",
+          "enumType": "AnthropicModel",
+          "possibleValues": [
+            {
+              "name": "ClaudeFable5",
+              "value": "ClaudeFable5"
+            },
+            {
+              "name": "ClaudeOpus48",
+              "value": "ClaudeOpus48"
+            },
+            {
+              "name": "ClaudeSonnet5",
+              "value": "ClaudeSonnet5"
+            },
+            {
+              "name": "ClaudeHaiku45",
+              "value": "ClaudeHaiku45"
+            },
+            {
+              "name": "ClaudeOpus47",
+              "value": "ClaudeOpus47"
+            },
+            {
+              "name": "ClaudeSonnet46",
+              "value": "ClaudeSonnet46"
+            }
+          ],
+          "default": "AnthropicModel.ClaudeSonnet5"
+        },
+        {
+          "property": "AiFilterCustomModel",
+          "displayName": "Custom Model",
+          "description": "Model name (required for Ollama; overrides enum selection for OpenAI/Anthropic)",
+          "order": 5,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterOllamaBaseUrl",
+          "displayName": "Ollama Base URL",
+          "description": "Base URL for Ollama server (required if Provider is Ollama)",
+          "order": 6,
+          "type": "string",
+          "default": "http://localhost:11434"
+        },
+        {
+          "property": "AiFilterUseEnvironmentApiKeys",
+          "displayName": "Use Environment API Keys",
+          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY)",
+          "order": 7,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "AiFilterOpenAIApiKey",
+          "displayName": "OpenAI API Key",
+          "description": "API key for OpenAI (env: FLUXTRADE_OPENAI_API_KEY when Use Environment API Keys is enabled)",
+          "order": 8,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterAnthropicApiKey",
+          "displayName": "Anthropic API Key",
+          "description": "API key for Anthropic (env: FLUXTRADE_ANTHROPIC_API_KEY when Use Environment API Keys is enabled)",
+          "order": 9,
+          "type": "string",
+          "default": ""
+        },
+        {
+          "property": "AiFilterMaxCompletionTokens",
+          "displayName": "Max Completion Tokens",
+          "description": "Maximum tokens for AI filter completion response",
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 10000
+          },
+          "default": 2000
+        },
+        {
+          "property": "AiFilterUsePredictionCache",
+          "displayName": "Use Prediction Cache",
+          "description": "Cache AI filter results to avoid duplicate API calls",
+          "order": 11,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "AiFilterBarEntryDelaySeconds",
+          "displayName": "Bar Entry Delay (seconds)",
+          "description": "Wait this many seconds before making AI filter API call (for cascading multiple accounts)",
+          "order": 12,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 59
+          },
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "totalParameters": 110
+}

@@ -84,7 +84,7 @@ export function Features() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="glass-card group rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)]"
+              className="glass-card group flex flex-col items-center rounded-2xl p-8 text-center transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)]"
             >
               <div className="mb-5 inline-flex rounded-xl border border-flux-green-icon/30 bg-[#111111] p-3 text-flux-green-icon transition-colors group-hover:border-flux-green-icon/50">
                 {feature.icon}

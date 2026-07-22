@@ -9,11 +9,11 @@ const strategies = [
     href: "/backtests/hydra",
   },
   {
-    name: "Ignition",
-    icon: "/icons/ignition.svg",
-    type: "Opening Range Break",
+    name: "Cerberus",
+    icon: "/icons/cerberus.svg",
+    type: "Opening Range Breakout",
     tags: ["Volatility", "Breakout"],
-    href: "/backtests/ignition",
+    href: "/backtests/cerberus",
   },
   {
     name: "Kraken",

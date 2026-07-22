@@ -28,7 +28,7 @@ const strategies = [
     tags: ["Renko", "Patterns"],
   },
   {
-    name: "Ignition",
+    name: "Cerberus",
     type: "Opening Range Break",
     tags: ["Volatility", "Breakout"],
   },
