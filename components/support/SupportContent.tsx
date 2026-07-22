@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import {
+  RecaptchaField,
+  type RecaptchaFieldHandle,
+} from "@/components/support/RecaptchaField";
 import { ApiError, apiFetch } from "@/lib/api";
+import { isRecaptchaEnabled } from "@/lib/recaptcha";
 import {
   contentBodyClass,
   contentCardClass,
@@ -22,11 +27,19 @@ export function SupportContent() {
   const [supportError, setSupportError] = useState("");
   const [supportSuccess, setSupportSuccess] = useState(false);
   const [supportLoading, setSupportLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const recaptchaRef = useRef<RecaptchaFieldHandle>(null);
 
   const handleSupportSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSupportError("");
     setSupportSuccess(false);
+
+    if (isRecaptchaEnabled && !recaptchaToken) {
+      setSupportError(s("support.captchaRequired"));
+      return;
+    }
+
     setSupportLoading(true);
 
     try {
@@ -37,6 +50,7 @@ export function SupportContent() {
           email: supportEmail,
           subject: supportSubject,
           message: supportMessage,
+          recaptchaToken: recaptchaToken || undefined,
         }),
       });
       setSupportSuccess(true);
@@ -44,11 +58,15 @@ export function SupportContent() {
       setSupportEmail("");
       setSupportSubject("");
       setSupportMessage("");
+      setRecaptchaToken("");
+      recaptchaRef.current?.reset();
       setTimeout(() => setSupportSuccess(false), 5000);
     } catch (err) {
       setSupportError(
         err instanceof ApiError ? err.message : s("support.error"),
       );
+      setRecaptchaToken("");
+      recaptchaRef.current?.reset();
     } finally {
       setSupportLoading(false);
     }
@@ -158,9 +176,16 @@ export function SupportContent() {
             onChange={(e) => setSupportMessage(e.target.value)}
             required
           />
+          <RecaptchaField
+            ref={recaptchaRef}
+            onChange={setRecaptchaToken}
+            onExpired={() => setRecaptchaToken("")}
+          />
           <button
             type="submit"
-            disabled={supportLoading}
+            disabled={
+              supportLoading || (isRecaptchaEnabled && !recaptchaToken)
+            }
             className="btn-primary w-full py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
           >
             {supportLoading ? s("support.sending") : s("support.sendEmail")}

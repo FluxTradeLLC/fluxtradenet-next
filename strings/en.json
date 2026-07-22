@@ -88,7 +88,9 @@
     "sending": "Sending...",
     "sendEmail": "Send Support Email",
     "success": "Support email sent successfully! We'll get back to you soon.",
-    "error": "Failed to send support email"
+    "error": "Failed to send support email",
+    "captchaRequired": "Please complete the reCAPTCHA verification.",
+    "captchaFailed": "reCAPTCHA verification failed. Please try again."
   },
   "affiliates": {
     "title": "FluxTrade Affiliate Program",
