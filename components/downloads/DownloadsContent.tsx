@@ -10,7 +10,13 @@ import {
   contentSectionHeading,
   contentSubheading,
 } from "@/lib/content-ui";
-import { STRATEGY_DOWNLOADS, TEMPLATES_DOWNLOAD_URL } from "@/lib/downloads";
+import {
+  STRATEGIES_DOWNLOAD_URL,
+  STRATEGY_DOWNLOADS,
+  TEMPLATES_DOWNLOAD_URL,
+} from "@/lib/downloads";
+
+const downloadButtonWidthClass = "w-64 max-w-full";
 
 function DownloadButton({
   downloadUrl,
@@ -24,7 +30,7 @@ function DownloadButton({
       <a
         href={downloadUrl}
         download
-        className="btn-primary mt-6 w-full py-2.5 text-sm"
+        className={`btn-primary mx-auto mt-6 ${downloadButtonWidthClass} py-2.5 text-sm`}
       >
         {label}
       </a>
@@ -35,7 +41,7 @@ function DownloadButton({
     <button
       type="button"
       disabled
-      className="btn-secondary mt-6 w-full cursor-not-allowed py-2.5 text-sm opacity-50"
+      className={`btn-secondary mx-auto mt-6 ${downloadButtonWidthClass} cursor-not-allowed py-2.5 text-sm opacity-50`}
     >
       Coming soon
     </button>
@@ -65,29 +71,29 @@ export function DownloadsContent() {
       centered={false}
       maxWidth="max-w-5xl"
     >
-      <div className={`${contentCardClass} border-flux-green/20`}>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-left">
-            <p className="label-accent text-sm">Free</p>
-            <h2 className={`${contentSubheading} mt-2`}>FluxTrade Indicators Pack</h2>
-            <p className={`${contentBodyClass} mt-2 max-w-xl`}>
-              Get our full suite of professional indicators for NinjaTrader — free.
-              Enter your email to unlock the download.
-            </p>
-          </div>
-          <Link
-            href={indicatorPackHref}
-            className="btn-primary shrink-0 px-6 py-3 text-sm sm:self-center"
-          >
-            Get free indicators
-          </Link>
-        </div>
+      <div
+        className={`${contentCardClass} border-flux-green/20 flex flex-col items-center text-center`}
+      >
+        <p className="label-accent text-sm">Free</p>
+        <h2 className={`${contentSubheading} mt-2`}>FluxTrade Indicators Pack</h2>
+        <p className={`${contentBodyClass} mt-2 max-w-xl`}>
+          Get our full suite of professional indicators for NinjaTrader — free.
+          Enter your email to unlock the download.
+        </p>
+        <Link
+          href={indicatorPackHref}
+          className={`btn-primary mx-auto mt-6 ${downloadButtonWidthClass} py-2.5 text-sm`}
+        >
+          Get free indicators
+        </Link>
       </div>
 
       <div className="mt-10">
         <h2 className={contentSubheading}>Strategy downloads</h2>
         <p className={`${contentBodyClass} mt-2`}>
-          Zip packages for each automated strategy. Available to active subscribers —{" "}
+          One zip package with every automated strategy — the required indicators are
+          bundled in, so there&apos;s no need to grab the indicator pack separately.
+          Available to active subscribers —{" "}
           <Link href="/pricing" className={contentLinkClass}>
             view pricing
           </Link>
@@ -95,26 +101,28 @@ export function DownloadsContent() {
         </p>
         {subscriberSignInPrompt}
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {STRATEGY_DOWNLOADS.map((strategy) => (
-            <div
-              key={strategy.key}
-              className={`${contentCardClass} flex flex-col items-center text-center`}
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
-                <img
-                  src={strategy.icon}
-                  alt=""
-                  className="h-full w-full object-contain"
-                />
+        <div className={`${contentCardClass} mt-8 flex flex-col items-center text-center`}>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {STRATEGY_DOWNLOADS.map((strategy) => (
+              <div key={strategy.key} className="flex flex-col items-center gap-2">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
+                  <img
+                    src={strategy.icon}
+                    alt=""
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <span className="text-sm font-medium text-white">{strategy.name}</span>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">
-                {strategy.name}
-              </h3>
-              <p className="mt-1 text-sm text-muted">{strategy.type}</p>
-              <DownloadButton downloadUrl={strategy.downloadUrl} />
-            </div>
-          ))}
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-muted">
+            Includes all strategies and their required indicators in a single download.
+          </p>
+          <DownloadButton
+            downloadUrl={STRATEGIES_DOWNLOAD_URL}
+            label="Download strategies"
+          />
         </div>
       </div>
 
@@ -130,32 +138,30 @@ export function DownloadsContent() {
         </p>
         {subscriberSignInPrompt}
 
-        <div className="mt-8 max-w-sm">
-          <div className={`${contentCardClass} flex flex-col items-center text-center`}>
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="h-8 w-8 text-flux-green-icon"
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-                />
-              </svg>
-            </div>
-            <h3 className="mt-4 text-lg font-semibold text-white">Chart Templates</h3>
-            <p className="mt-1 text-sm text-muted">NinjaTrader backup (.nt8backup)</p>
-            <DownloadButton
-              downloadUrl={TEMPLATES_DOWNLOAD_URL}
-              label="Download templates"
-            />
+        <div className={`${contentCardClass} mt-8 flex flex-col items-center text-center`}>
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="h-8 w-8 text-flux-green-icon"
+              aria-hidden
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
+            </svg>
           </div>
+          <h3 className="mt-4 text-lg font-semibold text-white">Chart Templates</h3>
+          <p className="mt-1 text-sm text-muted">NinjaTrader backup (.nt8backup)</p>
+          <DownloadButton
+            downloadUrl={TEMPLATES_DOWNLOAD_URL}
+            label="Download templates"
+          />
         </div>
       </div>
 

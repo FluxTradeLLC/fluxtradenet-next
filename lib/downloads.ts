@@ -7,7 +7,7 @@ export type StrategyDownload = {
   downloadUrl: string | null;
 };
 
-const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.0.zip';
+export const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.0.zip';
 
 export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
   {

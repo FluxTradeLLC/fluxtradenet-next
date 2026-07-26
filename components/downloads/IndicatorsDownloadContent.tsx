@@ -53,9 +53,11 @@ export function IndicatorsDownloadContent() {
       description="Download the FluxTrade indicators pack for NinjaTrader."
       centered={false}
     >
-      <div className={contentCardClass}>
+      <div
+        className={`${contentCardClass} flex flex-col items-center text-center`}
+      >
         <h2 className={contentSubheading}>FluxTrade Indicators Pack</h2>
-        <p className={`${contentBodyClass} mt-2`}>
+        <p className={`${contentBodyClass} mt-2 max-w-xl`}>
           A full suite of professional indicators designed for serious manual and
           automated trading on NinjaTrader.
         </p>
@@ -64,7 +66,7 @@ export function IndicatorsDownloadContent() {
           <a
             href={INDICATOR_PACK_DOWNLOAD_URL}
             download
-            className="btn-primary mt-6 inline-flex px-8 py-3 text-sm"
+            className="btn-primary mx-auto mt-6 w-64 max-w-full py-2.5 text-sm"
           >
             Download indicators pack
           </a>
@@ -72,7 +74,7 @@ export function IndicatorsDownloadContent() {
           <button
             type="button"
             disabled
-            className="btn-secondary mt-6 cursor-not-allowed px-8 py-3 text-sm opacity-50"
+            className="btn-secondary mx-auto mt-6 w-64 max-w-full cursor-not-allowed py-2.5 text-sm opacity-50"
           >
             Download coming soon
           </button>
