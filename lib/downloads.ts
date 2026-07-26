@@ -11,17 +11,17 @@ export const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.0
 
 export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
   {
-    key: "HYDRA",
-    name: "Hydra",
-    type: "Renko Patterns",
-    icon: "/icons/hydra.svg",
-    downloadUrl: STRATEGIES_DOWNLOAD_URL,
-  },
-  {
     key: "CERBERUS",
     name: "Cerberus",
     type: "Opening Range Break",
     icon: "/icons/cerberus.svg",
+    downloadUrl: STRATEGIES_DOWNLOAD_URL,
+  },
+  {
+    key: "HYDRA",
+    name: "Hydra",
+    type: "Renko Patterns",
+    icon: "/icons/hydra.svg",
     downloadUrl: STRATEGIES_DOWNLOAD_URL,
   },
   {

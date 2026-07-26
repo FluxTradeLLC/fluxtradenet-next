@@ -2,18 +2,18 @@ import Link from "next/link";
 
 const strategies = [
   {
-    name: "Hydra",
-    icon: "/icons/hydra.svg",
-    type: "Renko Patterns",
-    tags: ["Renko", "Patterns"],
-    href: "/backtests/hydra",
-  },
-  {
     name: "Cerberus",
     icon: "/icons/cerberus.svg",
     type: "Opening Range Breakout",
     tags: ["Volatility", "Breakout"],
     href: "/backtests/cerberus",
+  },
+  {
+    name: "Hydra",
+    icon: "/icons/hydra.svg",
+    type: "Renko Patterns",
+    tags: ["Renko", "Patterns"],
+    href: "/backtests/hydra",
   },
   {
     name: "Kraken",
