@@ -85,7 +85,7 @@ export function Hero() {
         <div className="mt-16 grid w-full max-w-3xl grid-cols-3 gap-6 border-t border-border pt-10">
           {[
             { value: "4", label: "Strategies" },
-            { value: "10+", label: "Indicators" },
+            { value: "3", label: "Indicators" },
             { value: "24/7", label: "Support" },
           ].map((stat) => (
             <div key={stat.label}>
