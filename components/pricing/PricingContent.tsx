@@ -23,24 +23,24 @@ import {
 
 const strategies = [
   {
+    name: "Cerberus",
+    type: "Opening Range Break",
+    tags: ["Volatility", "Breakout"],
+  },
+  {
     name: "Hydra",
     type: "Renko Patterns",
     tags: ["Renko", "Patterns"],
   },
   {
-    name: "Cerberus",
-    type: "Opening Range Break",
-    tags: ["Volatility", "Breakout"],
-  },
-  // {
-  //   name: "ORMS",
-  //   type: "Opening Range Momentum Scalping",
-  //   tags: ["Scalping", "Momentum"],
-  // },
-  {
     name: "Kraken",
     type: "Compression Breakout",
     tags: ["Breakout", "Volatility"],
+  },
+  {
+    name: "ORMS",
+    type: "Opening Range Momentum Scalping",
+    tags: ["Scalping", "Momentum"],
   },
 ];
 
@@ -375,7 +375,7 @@ export function PricingContent() {
             Pick one strategy or stack as many as you want. Want Hydra and Kraken?
             That&apos;s {formatCurrency(PRICING.MONTHLY.STRATEGY * 2, currency, currency !== "USD")}/mo.
           </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
             {strategies.map((strategy) => (
               <StrategyCard
                 key={strategy.name}
