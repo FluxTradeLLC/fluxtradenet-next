@@ -7,39 +7,41 @@ export type StrategyDownload = {
   downloadUrl: string | null;
 };
 
+const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.0.zip';
+
 export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
   {
     key: "HYDRA",
     name: "Hydra",
     type: "Renko Patterns",
     icon: "/icons/hydra.svg",
-    downloadUrl: null,
+    downloadUrl: STRATEGIES_DOWNLOAD_URL,
   },
   {
     key: "CERBERUS",
     name: "Cerberus",
     type: "Opening Range Break",
     icon: "/icons/cerberus.svg",
-    downloadUrl: null,
+    downloadUrl: STRATEGIES_DOWNLOAD_URL,
   },
   {
     key: "KRAKEN",
     name: "Kraken",
     type: "Compression Breakout",
     icon: "/icons/kraken.svg",
-    downloadUrl: null,
+    downloadUrl: STRATEGIES_DOWNLOAD_URL,
   },
-  // {
-  //   key: "ORMS",
-  //   name: "ORMS",
-  //   type: "Opening Range Momentum Scalping",
-  //   icon: "/icons/orms.svg",
-  //   downloadUrl: null,
-  // },
+  {
+    key: "ORMS",
+    name: "ORMS",
+    type: "Opening Range Momentum Scalping",
+    icon: "/icons/orms.svg",
+    downloadUrl: STRATEGIES_DOWNLOAD_URL,
+  },
 ];
 
 /** Set when the indicator pack zip is ready, e.g. `/downloads/fluxtrade-indicators.zip` */
-export const INDICATOR_PACK_DOWNLOAD_URL: string | null = null;
+export const INDICATOR_PACK_DOWNLOAD_URL: string | null = '/downloads/FluxTrade_Indicators_v1.0.0.0.zip';
 
 /** Set when the templates backup is ready, e.g. `/downloads/fluxtrade-templates.nt8bk` */
 export const TEMPLATES_DOWNLOAD_URL: string | null = "/downloads/FluxTrade_Templates_v1.nt8bk";
