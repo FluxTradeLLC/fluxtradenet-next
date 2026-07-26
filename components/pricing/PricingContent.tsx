@@ -417,10 +417,15 @@ export function PricingContent() {
 
             <button
               type="button"
-              disabled
+              onClick={handleCheckout}
+              disabled={checkoutLoading || !isLoaded}
               className="btn-primary rounded-lg px-8 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Coming soon
+              {checkoutLoading
+                ? "Starting checkout..."
+                : isAuthenticated
+                  ? "Subscribe"
+                  : "Sign in to subscribe"}
             </button>
           </div>
         </div>
