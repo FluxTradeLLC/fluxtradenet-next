@@ -12,10 +12,10 @@ import {
   AuthCard,
   AuthDivider,
   AuthError,
-  TermsLinks,
   authInputClassName,
   authInputErrorClassName,
 } from "@/components/auth/auth-ui";
+import { setNewsletterOptInForOAuth } from "@/lib/newsletter-opt-in";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const termsRequiredTooltipMessage =
@@ -42,6 +42,7 @@ export function SignUpForm() {
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptUpdates, setAcceptUpdates] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const validateEmail = (emailValue: string) => {
@@ -83,6 +84,7 @@ export function SignUpForm() {
           password,
           firstname: firstName.trim(),
           lastname: lastName.trim(),
+          subscribeToUpdates: acceptUpdates,
         }),
       });
 
@@ -112,6 +114,8 @@ export function SignUpForm() {
     setLoading(true);
 
     try {
+      setNewsletterOptInForOAuth(acceptUpdates);
+
       const { redirectUrl, redirectCallbackUrl } = getClerkOAuthRedirectUrls();
 
       await signIn.sso({
@@ -239,6 +243,20 @@ export function SignUpForm() {
               >
                 Refund and Cancellation Policies
               </a>
+            </span>
+          </label>
+        </div>
+        <div className="mb-6">
+          <label className="flex items-start text-sm text-muted">
+            <input
+              type="checkbox"
+              checked={acceptUpdates}
+              onChange={(event) => setAcceptUpdates(event.target.checked)}
+              className="mt-1 mr-2 h-4 w-4 rounded border-border bg-surface text-flux-green focus:ring-flux-green/50"
+              aria-describedby="signup-updates-description"
+            />
+            <span id="signup-updates-description" className="text-muted">
+              It&apos;s okay to send me occasional updates from FluxTrade.
             </span>
           </label>
         </div>

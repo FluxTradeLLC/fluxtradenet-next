@@ -6,6 +6,10 @@ import { apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
 import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 import { setAuthToken } from "@/lib/auth-session";
+import {
+  clearNewsletterOptInSession,
+  readNewsletterOptInFromSession,
+} from "@/lib/newsletter-opt-in";
 
 const NEW_SIGNUP_WINDOW_MS = 5 * 60 * 1000;
 
@@ -50,19 +54,23 @@ export function ClerkSessionSync() {
         isRecentSignup(user.createdAt) &&
         !sessionStorage.getItem(getSenderSyncKey(email))
       ) {
+        const subscribeToUpdates = readNewsletterOptInFromSession();
+        clearNewsletterOptInSession();
         sessionStorage.setItem(getSenderSyncKey(email), "1");
 
-        apiFetch("/subscribers/add", {
-          method: "POST",
-          body: JSON.stringify({
-            email,
-            firstname: user.firstName ?? undefined,
-            lastname: user.lastName ?? undefined,
-          }),
-        }).catch((err) => {
-          console.error("Failed to sync signup to Sender:", err);
-          sessionStorage.removeItem(getSenderSyncKey(email));
-        });
+        if (subscribeToUpdates === true) {
+          apiFetch("/subscribers/add", {
+            method: "POST",
+            body: JSON.stringify({
+              email,
+              firstname: user.firstName ?? undefined,
+              lastname: user.lastName ?? undefined,
+            }),
+          }).catch((err) => {
+            console.error("Failed to sync signup to Sender:", err);
+            sessionStorage.removeItem(getSenderSyncKey(email));
+          });
+        }
       }
     })();
   }, [isLoaded, isSignedIn, user, getToken]);

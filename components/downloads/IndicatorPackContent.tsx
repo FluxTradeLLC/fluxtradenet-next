@@ -24,22 +24,22 @@ export function IndicatorPackContent() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [acceptUpdates, setAcceptUpdates] = useState(true);
+
+  const trimmedFirstName = firstName.trim();
+  const trimmedLastName = lastName.trim();
+  const trimmedEmail = email.trim();
+  const canSubmit =
+    trimmedFirstName.length > 0 &&
+    trimmedLastName.length > 0 &&
+    isValidEmail(trimmedEmail) &&
+    acceptUpdates;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    const trimmedEmail = email.trim();
-    const trimmedFirstName = firstName.trim();
-    const trimmedLastName = lastName.trim();
-
-    if (!trimmedFirstName || !trimmedLastName) {
-      setError("Please enter your first and last name.");
-      return;
-    }
-
-    if (!isValidEmail(trimmedEmail)) {
-      setError("Please enter a valid email address.");
+    if (!canSubmit) {
       return;
     }
 
@@ -48,16 +48,16 @@ export function IndicatorPackContent() {
     try {
       try {
         await apiFetch("/subscribers/add", {
-          method: "POST",
-          body: JSON.stringify({
-            email: trimmedEmail,
-            firstname: trimmedFirstName,
-            lastname: trimmedLastName,
-          }),
-        });
-      } catch {
-        // Don't block download access if mailing list sync fails.
-      }
+            method: "POST",
+            body: JSON.stringify({
+              email: trimmedEmail,
+              firstname: trimmedFirstName,
+              lastname: trimmedLastName,
+            }),
+          });
+        } catch {
+          // Don't block download access if mailing list sync fails.
+        }
 
       grantIndicatorPackAccess(trimmedEmail);
       router.push("/downloads/indicators");
@@ -134,17 +134,28 @@ export function IndicatorPackContent() {
               autoComplete="email"
             />
           </div>
+          <label className="flex items-start text-sm text-muted">
+            <input
+              type="checkbox"
+              checked={acceptUpdates}
+              onChange={(e) => setAcceptUpdates(e.target.checked)}
+              className="mt-1 mr-2 h-4 w-4 rounded border-border bg-surface text-flux-green focus:ring-flux-green/50"
+              aria-describedby="indicator-pack-updates-description"
+            />
+            <span id="indicator-pack-updates-description" className="text-muted">
+              It&apos;s okay to send me occasional updates from FluxTrade.
+            </span>
+          </label>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !canSubmit}
             className="btn-primary w-full py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Unlocking…" : "Unlock download"}
           </button>
         </form>
         <p className={`${contentBodyClass} mt-4 text-center text-xs`}>
-          By submitting, you agree to receive occasional product updates from FluxTrade.
-          Unsubscribe anytime.
+          Unsubscribe anytime from any update email.
         </p>
       </div>
     </ContentPageLayout>
