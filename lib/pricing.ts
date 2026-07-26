@@ -72,9 +72,13 @@ export const STRIPE_PRICE_IDS = {
 }
 
 export function getStripeEnv(): "LOCAL" | "PRODUCTION" {
-  return process.env.NEXT_PUBLIC_STRIPE_ENV === "PRODUCTION"
-    ? "PRODUCTION"
-    : "LOCAL";
+  if (process.env.NEXT_PUBLIC_STRIPE_ENV === "LOCAL") {
+    return "LOCAL";
+  }
+  if (process.env.NEXT_PUBLIC_STRIPE_ENV === "PRODUCTION") {
+    return "PRODUCTION";
+  }
+  return process.env.NODE_ENV === "production" ? "PRODUCTION" : "LOCAL";
 }
 
 export function getPriceIdForStrategy(
