@@ -199,6 +199,20 @@ body {
   border: 1px solid var(--border);
 }
 
+/* TrustBox iframe: avoid opaque white canvas on color-scheme: dark pages */
+.trustpilot-widget {
+  color-scheme: light;
+  background: transparent;
+}
+
+.trustpilot-widget iframe {
+  display: block;
+}
+
+tp-widget-wrapper {
+  background: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
