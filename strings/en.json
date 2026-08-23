@@ -58,7 +58,9 @@
       "type": "Type",
       "default": "Default",
       "range": "Range / Values",
-      "description": "Description"
+      "description": "Description",
+      "enumValue": "Value",
+      "enumDescription": "Description"
     }
   },
   "stickyCTA": {

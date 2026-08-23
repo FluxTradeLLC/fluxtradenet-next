@@ -70,6 +70,7 @@ export type PropertyConstraints = {
 export type EnumValue = {
   name: string;
   value: string;
+  description?: string;
 };
 
 export type StrategyProperty = {
@@ -149,4 +150,50 @@ export function sortProperties(properties: StrategyProperty[]): StrategyProperty
     if (a.order !== b.order) return a.order - b.order;
     return a.displayName.localeCompare(b.displayName);
   });
+}
+
+function parseSemicolonEnumDescriptions(
+  description?: string,
+): Record<string, string> | null {
+  if (!description?.includes(" = ")) return null;
+
+  const result: Record<string, string> = {};
+  for (const part of description.split(";")) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+
+    const eqIndex = trimmed.indexOf(" = ");
+    if (eqIndex === -1) continue;
+
+    const key = trimmed.slice(0, eqIndex).trim();
+    const value = trimmed.slice(eqIndex + 3).trim();
+    if (key && value) result[key] = value;
+  }
+
+  return Object.keys(result).length > 0 ? result : null;
+}
+
+export function getEnumValuesWithDescriptions(
+  property: StrategyProperty,
+): EnumValue[] | null {
+  const possibleValues = property.possibleValues;
+  if (!possibleValues?.length) return null;
+
+  const first = possibleValues[0];
+  if (typeof first !== "object" || first === null || !("name" in first)) {
+    return null;
+  }
+
+  const enumValues = possibleValues as EnumValue[];
+  if (enumValues.some((entry) => entry.description)) {
+    return enumValues;
+  }
+
+  const parsed = parseSemicolonEnumDescriptions(property.description);
+  if (!parsed) return null;
+
+  return enumValues.map((entry) => ({
+    ...entry,
+    description: parsed[entry.name] ?? parsed[entry.value] ?? "—",
+  }));
 }

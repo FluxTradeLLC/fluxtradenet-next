@@ -48,62 +48,75 @@
         {
           "property": "EntryMode",
           "displayName": "Entry Mode",
-          "description": "ABC = trend continuation; ABCD = ABC with measured-move leg-D target; DoublePullback = ABAB'C double-pullback filter; NInRowBreakout = enter on brick N+1 after N consecutive same-direction bricks; NBrickReversal = enter on the flip after N same-direction bricks; PullbackContinuation = lean trend+small pullback resume; ExhaustionFade = fade an extended run on the first opposite brick; FailedReversalSpring = enter with trend after a one-brick fake reversal fails; RenkoSwingStructure = Dow-theory HH/HL swing structure from brick reversals, enter on break after N confirmed pairs",
+          "description": "Select which price-action pattern triggers entries.",
           "order": 0,
           "type": "enum",
           "enumType": "FluxTradeEntryMode",
           "possibleValues": [
             {
               "name": "ABC",
-              "value": "ABC"
+              "value": "ABC",
+              "description": "Trend continuation: impulse leg (A), counter-trend pullback (B), enter on resumption (C)."
             },
             {
               "name": "ABCD",
-              "value": "ABCD"
+              "value": "ABCD",
+              "description": "ABC with a measured-move leg-D profit target."
             },
             {
               "name": "DoublePullback",
-              "value": "DoublePullback"
+              "value": "DoublePullback",
+              "description": "ABAB'C double-pullback filter before the final resumption entry."
             },
             {
               "name": "PullbackContinuation",
-              "value": "PullbackContinuation"
+              "value": "PullbackContinuation",
+              "description": "Lean trend plus a small pullback, then resume in the trend direction."
             },
             {
               "name": "NBrickReversal",
-              "value": "NBrickReversal"
+              "value": "NBrickReversal",
+              "description": "Enter on the flip after N consecutive same-direction bricks."
             },
             {
               "name": "MarketStructureBreak",
-              "value": "MarketStructureBreak"
+              "value": "MarketStructureBreak",
+              "description": "Enter on a break of structure after swing pivot confirmation (BOS)."
             },
             {
               "name": "ConsolidationBreakout",
-              "value": "ConsolidationBreakout"
+              "value": "ConsolidationBreakout",
+              "description": "Enter on breakout from a tight consolidation box."
             },
             {
               "name": "ThreeBrickThrust",
-              "value": "ThreeBrickThrust"
+              "value": "ThreeBrickThrust",
+              "description": "Enter on a momentum thrust of consecutive same-direction bricks."
             },
             {
               "name": "DoubleTopBottom",
-              "value": "DoubleTopBottom"
+              "value": "DoubleTopBottom",
+              "description": "Enter on neckline break of a double top or double bottom pattern."
             },
             {
               "name": "ExhaustionFade",
-              "value": "ExhaustionFade"
+              "value": "ExhaustionFade",
+              "description": "Fade an extended run on the first opposite brick."
             },
             {
               "name": "FailedReversalSpring",
-              "value": "FailedReversalSpring"
+              "value": "FailedReversalSpring",
+              "description": "Enter with trend after a one-brick fake reversal fails."
             },
             {
               "name": "RenkoSwingStructure",
-              "value": "RenkoSwingStructure"
+              "value": "RenkoSwingStructure",
+              "description": "Dow-theory HH/HL swing structure from brick reversals; enter on break after N confirmed pairs."
             },
             {
               "name": "NInRowBreakout",
-              "value": "NInRowBreakout"
+              "value": "NInRowBreakout",
+              "description": "Enter on brick N+1 after N consecutive same-direction bricks."
             }
           ],
           "default": "FluxTradeEntryMode.ABC"

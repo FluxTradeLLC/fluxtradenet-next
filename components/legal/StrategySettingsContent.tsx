@@ -8,20 +8,19 @@ import {
   formatConstraints,
   formatDefaultValue,
   formatPossibleValues,
+  getEnumValuesWithDescriptions,
   isStrategySettingsSlug,
   sortProperties,
   STRATEGY_DATA_SERIES,
   UNIRENKO_ECOSYSTEM_URL,
   VISIBLE_STRATEGY_SETTINGS_FILES,
+  type EnumValue,
   type StrategyDataSeries,
   type StrategySettingsDoc,
   type StrategySettingsSlug,
+  type StrategyProperty,
 } from "@/lib/strategy-settings";
 import { s } from "@/lib/strings";
-
-type StrategySettingsContentProps = {
-  docs: StrategySettingsDoc[];
-};
 
 function StrategyDataSeriesValue({ series }: { series: StrategyDataSeries }) {
   if (series.barType === "minute") {
@@ -49,6 +48,81 @@ function StrategyDataSeriesValue({ series }: { series: StrategyDataSeries }) {
       </a>{" "}
       {detail} {series.instrument}
     </span>
+  );
+}
+
+type StrategySettingsContentProps = {
+  docs: StrategySettingsDoc[];
+};
+
+function EnumValuesTable({ values }: { values: EnumValue[] }) {
+  return (
+    <table className="min-w-full text-sm">
+      <thead>
+        <tr className="border-b border-border/60 text-left text-xs uppercase tracking-wide text-muted">
+          <th className="pb-2 pr-4 font-semibold">
+            {s("strategySettings.table.enumValue")}
+          </th>
+          <th className="pb-2 font-semibold">
+            {s("strategySettings.table.enumDescription")}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {values.map((entry) => (
+          <tr
+            key={entry.value}
+            className="border-b border-border/40 align-top last:border-b-0"
+          >
+            <td className="whitespace-nowrap py-2 pr-4 font-medium text-white">
+              {entry.name}
+            </td>
+            <td className="py-2 text-muted">{entry.description ?? "—"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function StrategyPropertyRow({ property }: { property: StrategyProperty }) {
+  const constraints = formatConstraints(property.constraints);
+  const possibleValues = formatPossibleValues(property.possibleValues);
+  const range =
+    constraints ??
+    possibleValues ??
+    (property.format ? property.format : "—");
+  const enumValues = getEnumValuesWithDescriptions(property);
+
+  return (
+    <tr className="border-b border-border/60 align-top last:border-b-0">
+      <td className="py-3 pr-4">
+        <div className="font-medium text-white">{property.displayName}</div>
+        <div className="mt-1 font-mono text-xs text-muted/70">{property.property}</div>
+        {enumValues && property.description ? (
+          <p className="mt-2 text-sm text-muted">{property.description}</p>
+        ) : null}
+      </td>
+      <td className="whitespace-nowrap py-3 pr-4 text-muted">
+        {property.type}
+        {property.enumType ? (
+          <div className="mt-1 text-xs text-muted/70">{property.enumType}</div>
+        ) : null}
+      </td>
+      <td className="whitespace-nowrap py-3 pr-4 font-medium text-white">
+        {formatDefaultValue(property.default)}
+      </td>
+      {enumValues ? (
+        <td colSpan={2} className="py-3">
+          <EnumValuesTable values={enumValues} />
+        </td>
+      ) : (
+        <>
+          <td className="py-3 pr-4 text-muted">{range}</td>
+          <td className="py-3 text-muted">{property.description ?? "—"}</td>
+        </>
+      )}
+    </tr>
   );
 }
 
@@ -175,47 +249,12 @@ export function StrategySettingsContent({ docs }: StrategySettingsContentProps) 
                         </tr>
                       </thead>
                       <tbody>
-                        {properties.map((property) => {
-                          const constraints = formatConstraints(property.constraints);
-                          const possibleValues = formatPossibleValues(
-                            property.possibleValues,
-                          );
-                          const range =
-                            constraints ??
-                            possibleValues ??
-                            (property.format ? property.format : "—");
-
-                          return (
-                            <tr
-                              key={property.property}
-                              className="border-b border-border/60 align-top last:border-b-0"
-                            >
-                              <td className="py-3 pr-4">
-                                <div className="font-medium text-white">
-                                  {property.displayName}
-                                </div>
-                                <div className="mt-1 font-mono text-xs text-muted/70">
-                                  {property.property}
-                                </div>
-                              </td>
-                              <td className="whitespace-nowrap py-3 pr-4 text-muted">
-                                {property.type}
-                                {property.enumType ? (
-                                  <div className="mt-1 text-xs text-muted/70">
-                                    {property.enumType}
-                                  </div>
-                                ) : null}
-                              </td>
-                              <td className="whitespace-nowrap py-3 pr-4 font-medium text-white">
-                                {formatDefaultValue(property.default)}
-                              </td>
-                              <td className="py-3 pr-4 text-muted">{range}</td>
-                              <td className="py-3 text-muted">
-                                {property.description ?? "—"}
-                              </td>
-                            </tr>
-                          );
-                        })}
+                        {properties.map((property) => (
+                          <StrategyPropertyRow
+                            key={property.property}
+                            property={property}
+                          />
+                        ))}
                       </tbody>
                     </table>
                   </div>
