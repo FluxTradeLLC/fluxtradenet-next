@@ -1,5 +1,15 @@
 import { emitAuthSessionExpired, getAuthToken } from "@/lib/auth-cookies";
 
+declare global {
+  interface Window {
+    Clerk?: {
+      session?: {
+        getToken: () => Promise<string | null>;
+      } | null;
+    };
+  }
+}
+
 const API_BASE = `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/api`;
 
 export class ApiError extends Error {
@@ -12,6 +22,30 @@ export class ApiError extends Error {
   }
 }
 
+// Clerk session JWTs are short-lived by design (~60s) and meant to be
+// re-fetched per request; Clerk's SDK caches/refreshes internally so this
+// is cheap. Falls back to the cached cookie for the legacy password-session
+// flow, where window.Clerk has no active session.
+async function resolveAuthToken(): Promise<string | null> {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const clerkSession = window.Clerk?.session;
+  if (clerkSession) {
+    try {
+      const freshToken = await clerkSession.getToken();
+      if (freshToken) {
+        return freshToken;
+      }
+    } catch (error) {
+      console.error("Failed to refresh Clerk token:", error);
+    }
+  }
+
+  return getAuthToken();
+}
+
 export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
@@ -22,7 +56,7 @@ export async function apiFetch<T>(
     headers.set("Content-Type", "application/json");
   }
 
-  const token = getAuthToken();
+  const token = await resolveAuthToken();
   if (token && !headers.has("Authorization")) {
     headers.set("Authorization", `Bearer ${token}`);
   }
