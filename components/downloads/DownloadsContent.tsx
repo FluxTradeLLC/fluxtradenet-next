@@ -91,7 +91,7 @@ export function DownloadsContent() {
       <div className="mt-10">
         <h2 className={contentSubheading}>Strategy downloads</h2>
         <p className={`${contentBodyClass} mt-2`}>
-          One zip package with every automated strategy — the required indicators are
+          One zip package with every automated strategy — the required and free indicators are
           bundled in, so there&apos;s no need to grab the indicator pack separately.
           Available to active subscribers —{" "}
           <Link href="/pricing" className={contentLinkClass}>

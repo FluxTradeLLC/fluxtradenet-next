@@ -9,7 +9,7 @@ export type StrategyDownload = {
   downloadUrl: string | null;
 };
 
-export const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.0.zip';
+export const STRATEGIES_DOWNLOAD_URL = '/downloads/FluxTrade_Strategies_v1.0.0.1.zip';
 
 export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
   {
@@ -47,7 +47,7 @@ export const VISIBLE_STRATEGY_DOWNLOADS = STRATEGY_DOWNLOADS.filter(
 );
 
 /** Set when the indicator pack zip is ready, e.g. `/downloads/fluxtrade-indicators.zip` */
-export const INDICATOR_PACK_DOWNLOAD_URL: string | null = '/downloads/FluxTrade_Indicators_v1.0.0.0.zip';
+export const INDICATOR_PACK_DOWNLOAD_URL: string | null = '/downloads/FluxTrade_Indicators_v1.0.0.1.zip';
 
 /** Set when the templates backup is ready, e.g. `/downloads/fluxtrade-templates.nt8bk` */
 export const TEMPLATES_DOWNLOAD_URL: string | null = "/downloads/FluxTrade_Templates_v1.nt8bk";
