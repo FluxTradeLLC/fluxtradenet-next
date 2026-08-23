@@ -16,7 +16,7 @@ import {
   YAxis,
 } from "recharts";
 import {
-  BACKTEST_FILES,
+  VISIBLE_BACKTEST_FILES,
   type BacktestCurrency,
   CURRENCY_RATES,
   CURRENCY_SYMBOLS,
@@ -89,7 +89,7 @@ export function BacktestExplorerContent() {
 
     const loadAllData = async () => {
       setLoading(true);
-      const tradePromises = BACKTEST_FILES.map(async (file) => {
+      const tradePromises = VISIBLE_BACKTEST_FILES.map(async (file) => {
         try {
           const response = await fetch(`/backtests/${file}`);
           const csv = await response.text();
@@ -108,7 +108,7 @@ export function BacktestExplorerContent() {
         }
       });
 
-      const settingsPromises = BACKTEST_FILES.map(async (file) => {
+      const settingsPromises = VISIBLE_BACKTEST_FILES.map(async (file) => {
         const strategy = file.replace(".csv", "");
         const settingsFile = getSettingsFilename(strategy);
         if (!settingsFile) return [strategy, []] as const;
@@ -185,7 +185,7 @@ export function BacktestExplorerContent() {
       return settingsByStrategy[selectedStrategy] ? [selectedStrategy] : [];
     }
 
-    return BACKTEST_FILES.map((file) => file.replace(".csv", "")).filter(
+    return VISIBLE_BACKTEST_FILES.map((file) => file.replace(".csv", "")).filter(
       (strategy) => (settingsByStrategy[strategy]?.length ?? 0) > 0
     );
   }, [selectedStrategy, settingsByStrategy]);

@@ -3,14 +3,17 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
-import { contentBodyClass } from "@/lib/content-ui";
+import { contentBodyClass, contentLinkClass } from "@/lib/content-ui";
 import {
   formatConstraints,
   formatDefaultValue,
   formatPossibleValues,
   isStrategySettingsSlug,
   sortProperties,
-  STRATEGY_SETTINGS_FILES,
+  STRATEGY_DATA_SERIES,
+  UNIRENKO_ECOSYSTEM_URL,
+  VISIBLE_STRATEGY_SETTINGS_FILES,
+  type StrategyDataSeries,
   type StrategySettingsDoc,
   type StrategySettingsSlug,
 } from "@/lib/strategy-settings";
@@ -20,13 +23,42 @@ type StrategySettingsContentProps = {
   docs: StrategySettingsDoc[];
 };
 
+function StrategyDataSeriesValue({ series }: { series: StrategyDataSeries }) {
+  if (series.barType === "minute") {
+    return (
+      <span className="text-white">
+        {series.period} Minute {series.instrument}
+      </span>
+    );
+  }
+
+  const detail =
+    series.detail.includes("Tick") || series.detail.includes("Offset")
+      ? `(${series.detail})`
+      : series.detail;
+
+  return (
+    <span className="text-white">
+      <a
+        href={UNIRENKO_ECOSYSTEM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={contentLinkClass}
+      >
+        UniRenko
+      </a>{" "}
+      {detail} {series.instrument}
+    </span>
+  );
+}
+
 export function StrategySettingsContent({ docs }: StrategySettingsContentProps) {
   const searchParams = useSearchParams();
   const strategyParam = searchParams.get("strategy");
 
   const docsBySlug = useMemo(() => {
     const map = new Map<StrategySettingsSlug, StrategySettingsDoc>();
-    STRATEGY_SETTINGS_FILES.forEach(({ slug }, index) => {
+    VISIBLE_STRATEGY_SETTINGS_FILES.forEach(({ slug }, index) => {
       map.set(slug, docs[index]);
     });
     return map;
@@ -36,9 +68,10 @@ export function StrategySettingsContent({ docs }: StrategySettingsContentProps) 
     if (strategyParam && isStrategySettingsSlug(strategyParam)) {
       return strategyParam;
     }
-    return "hydra";
+    return "cerberus";
   });
   const selectedDoc = docsBySlug.get(selectedSlug);
+  const dataSeries = STRATEGY_DATA_SERIES[selectedSlug];
 
   return (
     <ContentPageLayout
@@ -49,7 +82,7 @@ export function StrategySettingsContent({ docs }: StrategySettingsContentProps) 
       centered={false}
     >
       <div className="flex flex-wrap gap-2">
-        {STRATEGY_SETTINGS_FILES.map(({ slug, label }) => (
+        {VISIBLE_STRATEGY_SETTINGS_FILES.map(({ slug, label }) => (
           <button
             key={slug}
             type="button"
@@ -70,13 +103,18 @@ export function StrategySettingsContent({ docs }: StrategySettingsContentProps) 
           <div className="glass-card rounded-2xl p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-white">{selectedDoc.strategy}</h2>
             <p className={`${contentBodyClass} mt-3`}>{selectedDoc.description}</p>
-            <p className="mt-4 text-xs text-muted/70">
-              {s("strategySettings.sourceFile")}:{" "}
-              <code className="rounded bg-surface px-1.5 py-0.5 text-muted">
-                {selectedDoc.sourceFile}
-              </code>
-            </p>
           </div>
+
+          {dataSeries ? (
+            <div className="glass-card rounded-2xl p-6 sm:p-8">
+              <h3 className="text-lg font-semibold text-white">
+                {s("strategySettings.dataSeries")}
+              </h3>
+              <p className={`${contentBodyClass} mt-3`}>
+                <StrategyDataSeriesValue series={dataSeries} />
+              </p>
+            </div>
+          ) : null}
 
           <div className="space-y-4">
             {selectedDoc.parameterGroups.map((group) => {

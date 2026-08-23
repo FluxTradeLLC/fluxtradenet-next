@@ -12,7 +12,7 @@ import {
 } from "@/lib/content-ui";
 import {
   STRATEGIES_DOWNLOAD_URL,
-  STRATEGY_DOWNLOADS,
+  VISIBLE_STRATEGY_DOWNLOADS,
   TEMPLATES_DOWNLOAD_URL,
 } from "@/lib/downloads";
 
@@ -103,7 +103,7 @@ export function DownloadsContent() {
 
         <div className={`${contentCardClass} mt-8 flex flex-col items-center text-center`}>
           <div className="flex flex-wrap items-center justify-center gap-6">
-            {STRATEGY_DOWNLOADS.map((strategy) => (
+            {VISIBLE_STRATEGY_DOWNLOADS.map((strategy) => (
               <div key={strategy.key} className="flex flex-col items-center gap-2">
                 <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-flux-green-icon/30 bg-black p-2">
                   <img

@@ -37,11 +37,6 @@ const strategies = [
     type: "Compression Breakout",
     tags: ["Breakout", "Volatility"],
   },
-  {
-    name: "ORMS",
-    type: "Opening Range Momentum Scalping",
-    tags: ["Scalping", "Momentum"],
-  },
 ];
 
 const includedFeatures = [
@@ -375,7 +370,7 @@ export function PricingContent() {
             Pick one strategy or stack as many as you want. Want Hydra and Kraken?
             That&apos;s {formatCurrency(PRICING.MONTHLY.STRATEGY * 2, currency, currency !== "USD")}/mo.
           </p>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-3">
             {strategies.map((strategy) => (
               <StrategyCard
                 key={strategy.name}

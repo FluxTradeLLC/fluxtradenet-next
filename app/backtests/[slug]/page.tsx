@@ -7,20 +7,23 @@ import {
   BACKTEST_SLUGS,
   slugToDisplayName,
 } from "@/lib/backtests";
+import { isHiddenBacktestSlug } from "@/lib/strategies";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
-  return Object.keys(BACKTEST_SLUGS).map((slug) => ({ slug }));
+  return Object.keys(BACKTEST_SLUGS)
+    .filter((slug) => !isHiddenBacktestSlug(slug))
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const file = BACKTEST_SLUGS[slug];
 
-  if (!file) {
+  if (!file || isHiddenBacktestSlug(slug)) {
     return { title: "Backtest Not Found" };
   }
 
@@ -41,7 +44,7 @@ export default async function BacktestPage({ params }: PageProps) {
   const { slug } = await params;
   const file = BACKTEST_SLUGS[slug];
 
-  if (!file) {
+  if (!file || isHiddenBacktestSlug(slug)) {
     notFound();
   }
 

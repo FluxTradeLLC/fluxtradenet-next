@@ -2,17 +2,6 @@ import Link from "next/link";
 
 const indicators = [
   {
-    name: "ORMS_ORB",
-    tags: ["Opening Range", "Manual Trading"],
-    description:
-      "Keeps track of key price levels built during the opening range, and a comprehensive confluences box used for manually trading Opening Range Momentum Scalping and Opening Range Break strategies.",
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h18M3 9h12M3 13.5h16M3 18h10" />
-      </svg>
-    ),
-  },
-  {
     name: "Trade Copier",
     tags: ["Multi-Account", "Prop Firms"],
     description:
@@ -49,7 +38,7 @@ export function Indicators() {
               Trade with a plan.
             </h2>
             <p className="mt-4 text-lg text-muted">
-              Three professional NinjaTrader indicators — free to download. Built
+              Two professional NinjaTrader indicators — free to download. Built
               for manual traders and multi-account prop firm workflows.
             </p>
           </div>
@@ -61,7 +50,7 @@ export function Indicators() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 lg:grid-cols-2">
           {indicators.map((indicator) => (
             <div
               key={indicator.name}

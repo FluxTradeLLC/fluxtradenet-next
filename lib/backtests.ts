@@ -1,9 +1,15 @@
+import { isHiddenBacktestSlug } from "@/lib/strategies";
+
 export const BACKTEST_FILES = [
   "hydra.csv",
   "cerberus.csv",
   "kraken.csv",
   "orms.csv",
 ] as const;
+
+export const VISIBLE_BACKTEST_FILES = BACKTEST_FILES.filter(
+  (file) => !isHiddenBacktestSlug(file.replace(".csv", "")),
+);
 
 export const BACKTEST_SLUGS: Record<string, string> = {
   hydra: "hydra.csv",

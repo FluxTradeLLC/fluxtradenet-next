@@ -1,3 +1,5 @@
+import { isHiddenStrategyKey } from "@/lib/strategies";
+
 export type StrategyDownload = {
   key: string;
   name: string;
@@ -39,6 +41,10 @@ export const STRATEGY_DOWNLOADS: StrategyDownload[] = [
     downloadUrl: STRATEGIES_DOWNLOAD_URL,
   },
 ];
+
+export const VISIBLE_STRATEGY_DOWNLOADS = STRATEGY_DOWNLOADS.filter(
+  (strategy) => !isHiddenStrategyKey(strategy.key),
+);
 
 /** Set when the indicator pack zip is ready, e.g. `/downloads/fluxtrade-indicators.zip` */
 export const INDICATOR_PACK_DOWNLOAD_URL: string | null = '/downloads/FluxTrade_Indicators_v1.0.0.0.zip';

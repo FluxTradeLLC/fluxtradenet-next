@@ -1,3 +1,5 @@
+import { isHiddenStrategyKey } from "@/lib/strategies";
+
 export type BillingPeriod = "monthly" | "quarterly" | "yearly";
 export type PlanKey = "STRATEGY";
 export type StrategyKey = "HYDRA" | "KRAKEN" | "CERBERUS" | "ORMS";
@@ -8,6 +10,10 @@ export const STRATEGY_KEYS: StrategyKey[] = [
   "CERBERUS",
   "ORMS",
 ];
+
+export const VISIBLE_STRATEGY_KEYS = STRATEGY_KEYS.filter(
+  (key) => !isHiddenStrategyKey(key),
+);
 
 export const STRATEGY_NAME_TO_KEY: Record<string, StrategyKey> = {
   Hydra: "HYDRA",

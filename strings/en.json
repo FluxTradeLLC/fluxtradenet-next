@@ -50,6 +50,7 @@
     "disclosuresLink": "View the full strategy settings reference",
     "backtestLink": "Learn what these {{strategy}} settings mean",
     "sourceFile": "Source file",
+    "dataSeries": "Data series",
     "property": "property",
     "properties": "properties",
     "table": {

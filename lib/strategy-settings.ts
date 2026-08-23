@@ -1,3 +1,5 @@
+import { isHiddenBacktestSlug } from "@/lib/strategies";
+
 export const STRATEGY_SETTINGS_FILES = [
   { slug: "hydra", file: "Hydra.json", label: "Hydra" },
   { slug: "cerberus", file: "Cerberus.json", label: "Cerberus" },
@@ -5,13 +7,17 @@ export const STRATEGY_SETTINGS_FILES = [
   { slug: "orms", file: "ORMS.json", label: "ORMS" },
 ] as const;
 
+export const VISIBLE_STRATEGY_SETTINGS_FILES = STRATEGY_SETTINGS_FILES.filter(
+  ({ slug }) => !isHiddenBacktestSlug(slug),
+).sort((a, b) => a.label.localeCompare(b.label));
+
 export type StrategySettingsSlug =
   (typeof STRATEGY_SETTINGS_FILES)[number]["slug"];
 
 export function isStrategySettingsSlug(
   slug: string,
 ): slug is StrategySettingsSlug {
-  return STRATEGY_SETTINGS_FILES.some((entry) => entry.slug === slug);
+  return VISIBLE_STRATEGY_SETTINGS_FILES.some((entry) => entry.slug === slug);
 }
 
 export function getStrategySettingsHref(slug: string): string {
@@ -20,6 +26,41 @@ export function getStrategySettingsHref(slug: string): string {
   }
   return "/strategy-settings";
 }
+
+export const UNIRENKO_ECOSYSTEM_URL =
+  "https://ninjatraderecosystem.com/user-app-share-download/unirenko-universal-renko-bartype-8/";
+
+export type StrategyDataSeries =
+  | {
+      barType: "unirenko";
+      detail: string;
+      instrument: string;
+    }
+  | {
+      barType: "minute";
+      period: number;
+      instrument: string;
+    };
+
+export const STRATEGY_DATA_SERIES: Partial<
+  Record<StrategySettingsSlug, StrategyDataSeries>
+> = {
+  hydra: {
+    barType: "unirenko",
+    detail: "7 Tick Trend, 12 Open Offset, 31 Tick Reversal",
+    instrument: "MNQ",
+  },
+  kraken: {
+    barType: "unirenko",
+    detail: "7 Tick Trend, 11 Open Offset, 31 Tick Reversal",
+    instrument: "MNQ",
+  },
+  cerberus: {
+    barType: "minute",
+    period: 1,
+    instrument: "MNQ",
+  },
+};
 
 export type PropertyConstraints = {
   min?: number | null;
