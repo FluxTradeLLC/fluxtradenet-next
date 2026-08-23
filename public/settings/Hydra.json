@@ -10,6 +10,7 @@
         {
           "property": "TakeLongs",
           "displayName": "Take Longs",
+          "description": "Enable long entries.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -21,6 +22,7 @@
         {
           "property": "TakeShorts",
           "displayName": "Take Shorts",
+          "description": "Enable short entries.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -32,6 +34,7 @@
         {
           "property": "DQ",
           "displayName": "Default Quantity",
+          "description": "Number of contracts sent per entry.",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -962,6 +965,7 @@
         {
           "property": "StartHour",
           "displayName": "Start Hour",
+          "description": "Hour (0-23) trading is allowed to begin.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -973,6 +977,7 @@
         {
           "property": "StartMinute",
           "displayName": "Start Minute",
+          "description": "Minute trading is allowed to begin.",
           "order": 2,
           "type": "integer",
           "constraints": {
@@ -984,6 +989,7 @@
         {
           "property": "EndHour",
           "displayName": "End Hour",
+          "description": "Hour (0-23) trading is allowed to end.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -995,6 +1001,7 @@
         {
           "property": "EndMinute",
           "displayName": "End Minute",
+          "description": "Minute trading is allowed to end.",
           "order": 4,
           "type": "integer",
           "constraints": {
@@ -1006,6 +1013,7 @@
         {
           "property": "TradeMonday",
           "displayName": "Trade Monday",
+          "description": "Allow entries on Monday.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -1017,6 +1025,7 @@
         {
           "property": "TradeTuesday",
           "displayName": "Trade Tuesday",
+          "description": "Allow entries on Tuesday.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1028,6 +1037,7 @@
         {
           "property": "TradeWednesday",
           "displayName": "Trade Wednesday",
+          "description": "Allow entries on Wednesday.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -1039,6 +1049,7 @@
         {
           "property": "TradeThursday",
           "displayName": "Trade Thursday",
+          "description": "Allow entries on Thursday.",
           "order": 8,
           "type": "boolean",
           "possibleValues": [
@@ -1050,6 +1061,7 @@
         {
           "property": "TradeFriday",
           "displayName": "Trade Friday",
+          "description": "Allow entries on Friday.",
           "order": 9,
           "type": "boolean",
           "possibleValues": [
@@ -1061,6 +1073,7 @@
         {
           "property": "UseTimeWindow",
           "displayName": "Use Time Window",
+          "description": "Restrict entries to the configured Start/End time window and enabled trading days.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1149,6 +1162,7 @@
         {
           "property": "UseCustomTrailStop",
           "displayName": "Use Custom Trail Stop",
+          "description": "Trail the stop by a fixed tick distance once price moves in your favor, instead of a static stop.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1160,6 +1174,7 @@
         {
           "property": "CustomTrailDistanceTicks",
           "displayName": "Custom Trail Distance (Ticks)",
+          "description": "Distance in ticks the custom trailing stop follows behind price.",
           "order": 7,
           "type": "integer",
           "constraints": {
@@ -1183,6 +1198,7 @@
         {
           "property": "ProfitTargetTicks",
           "displayName": "Profit Target (Ticks)",
+          "description": "Fixed profit target distance in ticks from entry (used when Use Structural Target is off).",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -1211,6 +1227,7 @@
         {
           "property": "MaxDailyProfit",
           "displayName": "Max Daily Profit ($)",
+          "description": "Daily realized profit cap in dollars; trading halts for the day once reached (requires Use Max Daily Profit).",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -1234,6 +1251,7 @@
         {
           "property": "MaxDailyLoss",
           "displayName": "Max Daily Loss ($)",
+          "description": "Daily realized loss cap in dollars; trading halts for the day once reached (requires Use Max Daily Loss).",
           "order": 4,
           "type": "number",
           "constraints": {
@@ -1394,6 +1412,7 @@
         {
           "property": "QuickExitBars",
           "displayName": "Quick Exit Bars",
+          "description": "Number of bars after entry before the quick exit closes the trade.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -1405,6 +1424,7 @@
         {
           "property": "QuickExitOnlyInProfit",
           "displayName": "Quick Exit Only In Profit",
+          "description": "Only apply the quick exit if the trade is currently profitable.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -1416,6 +1436,7 @@
         {
           "property": "EnableQuickExit",
           "displayName": "Enable Quick Exit",
+          "description": "Force-close a trade after a fixed number of bars, regardless of target or stop.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1432,6 +1453,7 @@
         {
           "property": "ChoppinessPeriod",
           "displayName": "Choppiness Period",
+          "description": "Lookback period for the Choppiness Index.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -1443,6 +1465,7 @@
         {
           "property": "ChoppinessThreshold",
           "displayName": "Choppiness Threshold",
+          "description": "Choppiness Index level above which entries are blocked.",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -1454,6 +1477,7 @@
         {
           "property": "UseMinimumVolumeFilter",
           "displayName": "Use Minimum Volume Filter",
+          "description": "Require bar volume to be at least Minimum Volume before entering.",
           "order": 10,
           "type": "boolean",
           "possibleValues": [
@@ -1465,6 +1489,7 @@
         {
           "property": "MinimumVolume",
           "displayName": "Minimum Volume",
+          "description": "Minimum bar volume required when Use Minimum Volume Filter is enabled.",
           "order": 11,
           "type": "integer",
           "constraints": {
@@ -1476,6 +1501,7 @@
         {
           "property": "UseRsiFilter",
           "displayName": "Use RSI Filter",
+          "description": "Gate entries by RSI overbought/oversold levels.",
           "order": 50,
           "type": "boolean",
           "possibleValues": [
@@ -1487,6 +1513,7 @@
         {
           "property": "RsiPeriod",
           "displayName": "RSI Period",
+          "description": "Lookback period for the RSI filter.",
           "order": 51,
           "type": "integer",
           "constraints": {
@@ -1498,6 +1525,7 @@
         {
           "property": "RsiOverbought",
           "displayName": "RSI Overbought",
+          "description": "RSI level considered overbought.",
           "order": 52,
           "type": "integer",
           "constraints": {
@@ -1509,6 +1537,7 @@
         {
           "property": "RsiOversold",
           "displayName": "RSI Oversold",
+          "description": "RSI level considered oversold.",
           "order": 53,
           "type": "integer",
           "constraints": {
@@ -1520,6 +1549,7 @@
         {
           "property": "ReverseOnRsiExtremes",
           "displayName": "Reverse on RSI Extremes",
+          "description": "Allow a countertrend entry when RSI is at an overbought/oversold extreme.",
           "order": 54,
           "type": "boolean",
           "possibleValues": [
@@ -1543,6 +1573,7 @@
         {
           "property": "EmaFilterPeriod",
           "displayName": "EMA Filter Period",
+          "description": "Lookback period for the EMA used by Use EMA Filter.",
           "order": 56,
           "type": "integer",
           "constraints": {
@@ -1566,6 +1597,7 @@
         {
           "property": "MomentumEmaFast",
           "displayName": "Momentum EMA Fast",
+          "description": "Lookback period for the fast EMA used by Use Momentum Filter.",
           "order": 61,
           "type": "integer",
           "constraints": {
@@ -1589,6 +1621,7 @@
         {
           "property": "EnableChoppinessFilter",
           "displayName": "Enable Choppiness Filter",
+          "description": "Skip entries when the Choppiness Index is above the threshold (ranging market).",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1605,6 +1638,7 @@
         {
           "property": "TradeUpTrendHighVol",
           "displayName": "Trade UpTrend High Vol",
+          "description": "Allow entries when the market regime is uptrend with high volatility.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -1616,6 +1650,7 @@
         {
           "property": "TradeUpTrendLowVol",
           "displayName": "Trade UpTrend Low Vol",
+          "description": "Allow entries when the market regime is uptrend with low volatility.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -1627,6 +1662,7 @@
         {
           "property": "TradeSidewaysHighVol",
           "displayName": "Trade Sideways High Vol",
+          "description": "Allow entries when the market regime is sideways with high volatility.",
           "order": 3,
           "type": "boolean",
           "possibleValues": [
@@ -1638,6 +1674,7 @@
         {
           "property": "TradeSidewaysLowVol",
           "displayName": "Trade Sideways Low Vol",
+          "description": "Allow entries when the market regime is sideways with low volatility.",
           "order": 4,
           "type": "boolean",
           "possibleValues": [
@@ -1649,6 +1686,7 @@
         {
           "property": "TradeDownTrendHighVol",
           "displayName": "Trade DownTrend High Vol",
+          "description": "Allow entries when the market regime is downtrend with high volatility.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -1660,6 +1698,7 @@
         {
           "property": "TradeDownTrendLowVol",
           "displayName": "Trade DownTrend Low Vol",
+          "description": "Allow entries when the market regime is downtrend with low volatility.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1671,6 +1710,7 @@
         {
           "property": "UseHighImpactEventFilter",
           "displayName": "Use High Impact Event Filter",
+          "description": "Gate entries by the count of high-impact economic events for the session.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -1682,6 +1722,7 @@
         {
           "property": "MinHighImpactEvents",
           "displayName": "Min High Impact Events",
+          "description": "Minimum high-impact events required in the session to allow entries (0 = no minimum).",
           "order": 8,
           "type": "integer",
           "default": 0
@@ -1689,6 +1730,7 @@
         {
           "property": "MaxHighImpactEvents",
           "displayName": "Max High Impact Events",
+          "description": "Maximum high-impact events allowed in the session before entries are blocked (0 = no maximum).",
           "order": 9,
           "type": "integer",
           "default": 1
@@ -1696,6 +1738,7 @@
         {
           "property": "UseMarketRegimeFilter",
           "displayName": "Use Market Regime Filter",
+          "description": "Gate entries by the current market regime classification (trend/sideways x high/low volatility).",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
