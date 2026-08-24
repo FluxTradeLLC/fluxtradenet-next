@@ -13,6 +13,7 @@ const footerLinks = {
     // { label: "Blog", href: "/blog" },
     { label: "Affiliates", href: "/affiliates" },
     { label: "Support", href: "/support" },
+    { label: "YouTube", href: "https://www.youtube.com/@FluxTradeLLC" },
   ],
   Legal: [
     { label: "Terms", href: "/terms" },
