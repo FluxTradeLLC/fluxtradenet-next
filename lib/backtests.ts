@@ -7,9 +7,21 @@ export const BACKTEST_FILES = [
   "orms.csv",
 ] as const;
 
+export const YTD_BACKTEST_FILES = [
+  "hydra-ytd.csv",
+  "cerberus-ytd.csv",
+  "kraken-ytd.csv",
+] as const;
+
 export const VISIBLE_BACKTEST_FILES = BACKTEST_FILES.filter(
   (file) => !isHiddenBacktestSlug(file.replace(".csv", "")),
 );
+
+/** Full + YTD backtests shown in the explorer strategy filter. */
+export const EXPLORER_BACKTEST_FILES = [
+  ...VISIBLE_BACKTEST_FILES,
+  ...YTD_BACKTEST_FILES,
+] as const;
 
 export const BACKTEST_SLUGS: Record<string, string> = {
   hydra: "hydra.csv",
@@ -89,8 +101,12 @@ export function getCsvFilename(slug: string): string | undefined {
   return BACKTEST_SLUGS[slug];
 }
 
+export function getBaseStrategySlug(strategy: string): string {
+  return strategy.replace(/-ytd$/, "");
+}
+
 export function getSettingsFilename(strategy: string): string | undefined {
-  return SETTINGS_FILES[strategy];
+  return SETTINGS_FILES[getBaseStrategySlug(strategy)];
 }
 
 export function parseSettingsRows(
@@ -218,7 +234,11 @@ export function toTitleCase(str: string): string {
   const withSpaces = str.replace(/([a-z])([A-Z])/g, "$1 $2");
   return withSpaces
     .split(/[\s_-]+/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map((word) =>
+      word.toLowerCase() === "ytd"
+        ? "YTD"
+        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+    )
     .join(" ");
 }
 

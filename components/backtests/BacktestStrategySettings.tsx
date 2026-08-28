@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { toTitleCase, type SettingsSection } from "@/lib/backtests";
+import { getBaseStrategySlug, toTitleCase, type SettingsSection } from "@/lib/backtests";
 import { contentLinkClass } from "@/lib/content-ui";
 import { getStrategySettingsHref } from "@/lib/strategy-settings";
 import { s } from "@/lib/strings";
@@ -69,7 +69,7 @@ export function BacktestStrategySettings({
         ))}
         <p className="pt-2">
           <Link
-            href={getStrategySettingsHref(strategy)}
+            href={getStrategySettingsHref(getBaseStrategySlug(strategy))}
             className={contentLinkClass}
           >
             {s("strategySettings.backtestLink", {
