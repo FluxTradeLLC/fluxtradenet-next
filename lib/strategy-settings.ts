@@ -51,8 +51,8 @@ export const STRATEGY_DATA_SERIES: Partial<
     instrument: "MNQ",
   },
   kraken: {
-    barType: "unirenko",
-    detail: "7 Tick Trend, 11 Open Offset, 31 Tick Reversal",
+    barType: "minute",
+    period: 2,
     instrument: "MNQ",
   },
   cerberus: {
