@@ -2,6 +2,8 @@ import Image from "next/image";
 import { s } from "@/lib/strings";
 
 const NINJATRADER_AFFILIATE_URL = "https://ninjatraderus.pxf.io/APNodJ";
+const PROPFIRMCONNECTOR_AFFILIATE_URL =
+  "https://propfirmconnector.com/?ref=fluxtrade";
 
 const freeAccessFeatures = [
   "Simulated trading with real-time futures data",
@@ -38,7 +40,7 @@ export function RecommendedResources() {
                 alt="NinjaTrader"
                 width={480}
                 height={96}
-                className="h-auto w-full max-w-md"
+                className="h-auto w-full max-w-sm"
               />
             </a>
             <Image
@@ -46,7 +48,7 @@ export function RecommendedResources() {
               alt="NinjaTrader trading platform displayed on a monitor"
               width={640}
               height={480}
-              className="h-auto w-full max-w-lg rounded-xl"
+              className="h-auto w-full max-w-sm rounded-xl"
             />
           </div>
 
@@ -106,6 +108,36 @@ export function RecommendedResources() {
             </div>
           </div>
         </div>
+
+        <a
+          href={PROPFIRMCONNECTOR_AFFILIATE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit PropFirmConnector"
+          className="glass-card group mx-auto mt-16 flex max-w-3xl flex-col items-center gap-6 rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)] sm:flex-row sm:items-start sm:gap-8"
+        >
+          <Image
+            src="/logos/propfirmconnector-mark-512w.png"
+            alt="PropFirmConnector"
+            width={512}
+            height={512}
+            className="h-24 w-24 shrink-0 object-contain"
+          />
+          <div className="space-y-3 text-center sm:text-left">
+            <h3 className="text-xl font-semibold text-white transition-colors group-hover:text-flux-green">
+              PropFirmConnector
+            </h3>
+            <p className="text-sm leading-relaxed text-muted">
+              PropFirmConnector is a NinjaTrader 8 add-on that connects Rithmic
+              prop-firm accounts NinjaTrader cannot reach natively, and runs
+              multiple Rithmic connections at the same time in a single
+              NinjaTrader instance.
+            </p>
+            <span className="inline-block text-sm font-medium text-flux-green transition-colors group-hover:text-white">
+              Learn more →
+            </span>
+          </div>
+        </a>
       </div>
     </section>
   );
