@@ -133,6 +133,18 @@ export function RecommendedResources() {
               multiple Rithmic connections at the same time in a single
               NinjaTrader instance.
             </p>
+            <p className="text-sm leading-relaxed text-muted">
+              Use our referral link for{" "}
+              <span className="font-medium text-white">
+                $100 off a Lifetime license
+              </span>{" "}
+              or{" "}
+              <span className="font-medium text-white">
+                $10 off each Monthly payment
+              </span>
+              . At current pricing ($49/mo, $499 Lifetime), that&apos;s 20% off
+              for you.
+            </p>
             <span className="inline-block text-sm font-medium text-flux-green transition-colors group-hover:text-white">
               Learn more →
             </span>
