@@ -23,7 +23,7 @@ export function RecommendedResources() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold italic tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Our Recommended Resources
+            Recommended Resources
           </h2>
         </div>
 
@@ -107,6 +107,12 @@ export function RecommendedResources() {
               </p>
             </div>
           </div>
+        </div>
+
+        <div className="mx-auto mt-22 max-w-2xl text-center">
+          <h2 className="text-3xl font-bold italic tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Partners
+          </h2>
         </div>
 
         <a
