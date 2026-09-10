@@ -98,7 +98,7 @@
   "affiliates": {
     "title": "FluxTrade Affiliate Program",
     "subtitle": "Earn recurring commissions by promoting FluxTrade. Our program is simple, transparent, and creator-friendly.",
-    "commission": "30%",
+    "commission": "30%+",
     "commissionDesc": "Recurring commission on all subscription payments you refer.",
     "payouts": "Net-60 Payouts",
     "payoutsDesc": "Paid out via PayPal on a net-60 schedule.",
@@ -111,7 +111,7 @@
     "joinProgram": "Join the Affiliate Program",
     "programDetails": "Program Details",
     "commissionLabel": "Commission:",
-    "commissionValue": "30% recurring",
+    "commissionValue": "30%+ recurring",
     "commissionFull": "on subscriptions you refer.",
     "payoutTerms": "Payout terms:",
     "payoutValue": "Net-60",
