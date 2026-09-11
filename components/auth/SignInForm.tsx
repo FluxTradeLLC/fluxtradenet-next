@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
@@ -8,6 +8,7 @@ import { setUserEmail } from "@/lib/auth-cookies";
 import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
+import { getClerkErrorMessage } from "@/lib/clerk-errors";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -23,7 +24,7 @@ type LoginResponse = {
 };
 
 export function SignInForm() {
-  const { signIn } = useSignIn();
+  const clerk = useClerk();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -61,17 +62,19 @@ export function SignInForm() {
     setLoading(true);
 
     try {
-      const { redirectUrl, redirectCallbackUrl } = getClerkOAuthRedirectUrls();
+      const { ssoCallbackUrl, afterSignInUrl } = getClerkOAuthRedirectUrls();
 
-      await signIn.sso({
+      // authenticateWithRedirect always starts a fresh sign-in attempt, and
+      // throws on failure. signIn.sso() instead reuses whatever attempt is
+      // already on the client, so one left behind by the forgot-password flow
+      // turned this button into a silent no-op.
+      await clerk.client.signIn.authenticateWithRedirect({
         strategy: "oauth_google",
-        redirectUrl,
-        redirectCallbackUrl,
+        redirectUrl: ssoCallbackUrl,
+        redirectUrlComplete: afterSignInUrl,
       });
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Google sign in failed";
-      setError(message);
+      setError(getClerkErrorMessage(err, "Google sign in failed"));
       setLoading(false);
     }
   };
@@ -136,7 +139,7 @@ export function SignInForm() {
       <button
         type="button"
         onClick={handleGoogleSubmit}
-        disabled={loading}
+        disabled={loading || !clerk.loaded}
         className="flex w-full items-center justify-center rounded-xl border border-border bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
         aria-label="Sign In with Google"
       >

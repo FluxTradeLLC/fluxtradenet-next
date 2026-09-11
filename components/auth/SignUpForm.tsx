@@ -1,12 +1,13 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
 import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
 import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
+import { getClerkErrorMessage } from "@/lib/clerk-errors";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -15,7 +16,10 @@ import {
   authInputClassName,
   authInputErrorClassName,
 } from "@/components/auth/auth-ui";
-import { setNewsletterOptInForOAuth } from "@/lib/newsletter-opt-in";
+import {
+  clearNewsletterOptInSession,
+  setNewsletterOptInForOAuth,
+} from "@/lib/newsletter-opt-in";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const termsRequiredTooltipMessage =
@@ -34,7 +38,7 @@ function TermsRequiredTooltip({ id }: { id: string }) {
 }
 
 export function SignUpForm() {
-  const { signIn } = useSignIn();
+  const clerk = useClerk();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -116,17 +120,20 @@ export function SignUpForm() {
     try {
       setNewsletterOptInForOAuth(acceptUpdates);
 
-      const { redirectUrl, redirectCallbackUrl } = getClerkOAuthRedirectUrls();
+      const { ssoCallbackUrl, afterSignInUrl } = getClerkOAuthRedirectUrls();
 
-      await signIn.sso({
+      // authenticateWithRedirect always starts a fresh sign-in attempt, and
+      // throws on failure. signIn.sso() instead reuses whatever attempt is
+      // already on the client, so one left behind by the forgot-password flow
+      // turned this button into a silent no-op.
+      await clerk.client.signIn.authenticateWithRedirect({
         strategy: "oauth_google",
-        redirectUrl,
-        redirectCallbackUrl,
+        redirectUrl: ssoCallbackUrl,
+        redirectUrlComplete: afterSignInUrl,
       });
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Google sign in failed";
-      setError(message);
+      clearNewsletterOptInSession();
+      setError(getClerkErrorMessage(err, "Google sign in failed"));
       setLoading(false);
     }
   };
@@ -286,7 +293,7 @@ export function SignUpForm() {
         <button
           type="button"
           onClick={handleGoogleSubmit}
-          disabled={!acceptedTerms || loading}
+          disabled={!acceptedTerms || loading || !clerk.loaded}
           className="flex w-full items-center justify-center rounded-xl border border-border bg-white py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-surface disabled:text-muted"
           aria-label="Continue with Google"
           aria-describedby={!acceptedTerms ? "google-signup-tooltip" : undefined}
