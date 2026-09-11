@@ -1,6 +1,7 @@
 "use client";
 
 import { useSignIn } from "@clerk/nextjs";
+import Link from "next/link";
 import { useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
@@ -110,6 +111,14 @@ export function SignInForm() {
             aria-required="true"
             autoComplete="current-password"
           />
+          <p className="mt-2 text-right text-sm">
+            <Link
+              href="/forgot-password"
+              className="text-flux-green underline hover:text-flux-green-dim"
+            >
+              Forgot password?
+            </Link>
+          </p>
         </div>
         <div className="mb-6">
           <TermsLinks prefix="By using this service, you agree to the" />
