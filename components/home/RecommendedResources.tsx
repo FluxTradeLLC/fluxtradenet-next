@@ -63,8 +63,8 @@ function PartnerCard({
 export function RecommendedResources() {
   return (
     <section
-      id="recommended-resources"
-      className="relative border-t border-border bg-surface py-24 sm:py-32"
+      id="resources"
+      className="relative scroll-mt-24 border-t border-border bg-surface py-24 sm:py-32"
     >
       <div className="pointer-events-none absolute inset-0 grid-pattern opacity-30" />
 
@@ -157,7 +157,7 @@ export function RecommendedResources() {
           </div>
         </div>
 
-        <div className="mx-auto mt-22 max-w-2xl text-center">
+        <div id="partners" className="mx-auto mt-22 max-w-2xl scroll-mt-24 text-center">
           <h2 className="text-3xl font-bold italic tracking-tight text-white sm:text-4xl lg:text-5xl">
             Partners
           </h2>
