@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { CopyableBlurb } from "@/components/affiliates/CopyableBlurb";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
 import {
   contentBodyClass,
@@ -9,6 +11,33 @@ import {
   contentSubheading,
 } from "@/lib/content-ui";
 import { s } from "@/lib/strings";
+
+const brandLogos = [
+  {
+    file: "/icons/fluxtrade_dark_transparent.png",
+    name: s("affiliates.logoDarkTransparentName"),
+    description: s("affiliates.logoDarkTransparentDesc"),
+    previewClass: "bg-black",
+  },
+  {
+    file: "/icons/fluxtrade_light_transparent.png",
+    name: s("affiliates.logoLightTransparentName"),
+    description: s("affiliates.logoLightTransparentDesc"),
+    previewClass: "bg-white",
+  },
+  {
+    file: "/icons/fluxtrade_dark_bg.png",
+    name: s("affiliates.logoDarkBgName"),
+    description: s("affiliates.logoDarkBgDesc"),
+    previewClass: "bg-black",
+  },
+  {
+    file: "/icons/fluxtrade_light_bg.png",
+    name: s("affiliates.logoLightBgName"),
+    description: s("affiliates.logoLightBgDesc"),
+    previewClass: "bg-white",
+  },
+];
 
 const featureCards = [
   { title: s("affiliates.commission"), description: s("affiliates.commissionDesc"), highlight: true },
@@ -76,25 +105,6 @@ export function AffiliatesContent() {
           </li>
           <li>{s("affiliates.attribution")}</li>
           <li>
-            {s("affiliates.marketingAssets")}
-            <a
-              className={`ml-1 ${contentLinkClass}`}
-              href="https://www.youtube.com/@FluxTradeLLC"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @FluxTradeLLC
-            </a>
-            . {s("affiliates.marketingMaterialsDesc")}{" "}
-            <a
-              href="https://drive.google.com/drive/folders/1uWxQeNQLEhiq8swh375AQVEkOc_mEn8Z?usp=sharing"
-              className={contentLinkClass}
-            >
-              {s("affiliates.marketingMaterials")}
-            </a>{" "}
-            {s("affiliates.marketingMaterialsDesc")}
-          </li>
-          <li>
             {s("affiliates.getStarted")}
             <a
               className={`ml-1 ${contentLinkClass}`}
@@ -113,6 +123,57 @@ export function AffiliatesContent() {
             </a>
           </li>
         </ul>
+      </div>
+
+      <div className={`${contentCardClass} mt-10 space-y-4`}>
+        <h2 className="text-2xl font-bold text-white">
+          {s("affiliates.copyBlurbHeading")}
+        </h2>
+        <p className={contentBodyClass}>{s("affiliates.copyBlurbIntro")}</p>
+        <CopyableBlurb
+          label={s("affiliates.copyBlurbShortLabel")}
+          text={s("affiliates.copyBlurbShort")}
+        />
+        <CopyableBlurb
+          label={s("affiliates.copyBlurbLongLabel")}
+          text={s("affiliates.copyBlurbLong")}
+        />
+      </div>
+
+      <div className={`${contentCardClass} mt-10 space-y-4`}>
+        <h2 className="text-2xl font-bold text-white">
+          {s("affiliates.brandAssetsHeading")}
+        </h2>
+        <p className={contentBodyClass}>{s("affiliates.brandAssetsIntro")}</p>
+        <div className="grid grid-cols-1 gap-6 pt-2 sm:grid-cols-2 lg:grid-cols-4">
+          {brandLogos.map((logo) => (
+            <div
+              key={logo.file}
+              className="flex flex-col rounded-xl border border-border bg-surface p-4 text-center"
+            >
+              <div
+                className={`flex h-28 items-center justify-center rounded-lg ${logo.previewClass}`}
+              >
+                <Image
+                  src={logo.file}
+                  alt={`FluxTrade logo — ${logo.name}`}
+                  width={160}
+                  height={160}
+                  className="h-20 w-20 object-contain"
+                />
+              </div>
+              <p className="mt-3 text-sm font-semibold text-white">{logo.name}</p>
+              <p className="mt-1 mb-4 text-xs text-muted">{logo.description}</p>
+              <a
+                href={logo.file}
+                download
+                className="btn-secondary mt-auto w-full py-2 text-xs"
+              >
+                {s("affiliates.brandAssetsDownload")}
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </ContentPageLayout>
   );
