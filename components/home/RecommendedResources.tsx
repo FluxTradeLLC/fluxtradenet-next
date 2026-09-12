@@ -4,6 +4,7 @@ import { s } from "@/lib/strings";
 const NINJATRADER_AFFILIATE_URL = "https://ninjatraderus.pxf.io/APNodJ";
 const PROPFIRMCONNECTOR_AFFILIATE_URL =
   "https://propfirmconnector.com/?ref=fluxtrade";
+const BOXCAR_AFFILIATE_URL = "https://boxcartrading.com/?fpr=fluxtrade";
 
 const freeAccessFeatures = [
   "Simulated trading with real-time futures data",
@@ -11,6 +12,53 @@ const freeAccessFeatures = [
   "High performance backtesting engine to analyze your trading strategies on historical data",
   "Advanced Trade Management featuring automatically submitted stop orders, target orders, and trailing stops",
 ];
+
+type PartnerCardProps = {
+  href: string;
+  name: string;
+  logoSrc: string;
+  logoWidth: number;
+  logoHeight: number;
+  logoClassName: string;
+  children: React.ReactNode;
+};
+
+function PartnerCard({
+  href,
+  name,
+  logoSrc,
+  logoWidth,
+  logoHeight,
+  logoClassName,
+  children,
+}: PartnerCardProps) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Visit ${name}`}
+      className="glass-card group flex flex-col items-center gap-6 rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)] sm:flex-row sm:items-start sm:gap-8"
+    >
+      <Image
+        src={logoSrc}
+        alt={name}
+        width={logoWidth}
+        height={logoHeight}
+        className={logoClassName}
+      />
+      <div className="space-y-3 text-center sm:text-left">
+        <h3 className="text-xl font-semibold text-white transition-colors group-hover:text-flux-green">
+          {name}
+        </h3>
+        {children}
+        <span className="inline-block text-sm font-medium text-flux-green transition-colors group-hover:text-white">
+          Learn more →
+        </span>
+      </div>
+    </a>
+  );
+}
 
 export function RecommendedResources() {
   return (
@@ -115,24 +163,15 @@ export function RecommendedResources() {
           </h2>
         </div>
 
-        <a
-          href={PROPFIRMCONNECTOR_AFFILIATE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit PropFirmConnector"
-          className="glass-card group mx-auto mt-16 flex max-w-3xl flex-col items-center gap-6 rounded-2xl p-8 transition-all duration-300 hover:border-flux-green/30 hover:shadow-[0_0_30px_rgba(2,192,100,0.08)] sm:flex-row sm:items-start sm:gap-8"
-        >
-          <Image
-            src="/logos/propfirmconnector-mark-512w.png"
-            alt="PropFirmConnector"
-            width={512}
-            height={512}
-            className="h-24 w-24 shrink-0 object-contain"
-          />
-          <div className="space-y-3 text-center sm:text-left">
-            <h3 className="text-xl font-semibold text-white transition-colors group-hover:text-flux-green">
-              PropFirmConnector
-            </h3>
+        <div className="mx-auto mt-16 max-w-3xl space-y-8">
+          <PartnerCard
+            href={PROPFIRMCONNECTOR_AFFILIATE_URL}
+            name="PropFirmConnector"
+            logoSrc="/logos/propfirmconnector-mark-512w.png"
+            logoWidth={512}
+            logoHeight={512}
+            logoClassName="h-24 w-24 shrink-0 object-contain"
+          >
             <p className="text-sm leading-relaxed text-muted">
               PropFirmConnector is a NinjaTrader 8 add-on that connects Rithmic
               prop-firm accounts NinjaTrader cannot reach natively, and runs
@@ -151,11 +190,26 @@ export function RecommendedResources() {
               . At current pricing ($49/mo, $499 Lifetime), that&apos;s 20% off
               for you.
             </p>
-            <span className="inline-block text-sm font-medium text-flux-green transition-colors group-hover:text-white">
-              Learn more →
-            </span>
-          </div>
-        </a>
+          </PartnerCard>
+
+          <PartnerCard
+            href={BOXCAR_AFFILIATE_URL}
+            name="Boxcar Trading"
+            logoSrc="/logos/boxcar-logo-dark.png"
+            logoWidth={400}
+            logoHeight={300}
+            logoClassName="h-18 w-24 shrink-0 rounded-xl object-contain"
+          >
+            <p className="text-sm leading-relaxed text-muted">
+              Explore Boxcar Eval and Straight-to-Funded accounts, with a free
+              Chicago Trading VPS included.
+            </p>
+            <p className="text-sm leading-relaxed text-muted">
+              Use our affiliate discount code{" "}
+              <span className="font-medium text-white">FLUXTRADE</span>.
+            </p>
+          </PartnerCard>
+        </div>
       </div>
     </section>
   );
