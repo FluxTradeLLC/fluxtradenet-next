@@ -8,6 +8,17 @@
       "name": "Parameters",
       "properties": [
         {
+          "property": "DQ",
+          "displayName": "Default Quantity",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 2147483647
+          },
+          "default": 1
+        },
+        {
           "property": "TakeLongs",
           "displayName": "Take Longs",
           "order": 1,
@@ -28,23 +39,24 @@
             false
           ],
           "default": true
-        },
-        {
-          "property": "DQ",
-          "displayName": "Default Quantity",
-          "order": 0,
-          "type": "integer",
-          "constraints": {
-            "min": 1,
-            "max": 2147483647
-          },
-          "default": 1
         }
       ]
     },
     {
       "name": "Compression",
       "properties": [
+        {
+          "property": "CompressionLookback",
+          "displayName": "Compression Lookback",
+          "description": "Bar range must be the narrowest of this many bars to arm a setup (7 = classic NR7)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 2147483647
+          },
+          "default": 7
+        },
         {
           "property": "TreatInsideBarAsCompression",
           "displayName": "Treat Inside Bar As Compression",
@@ -80,24 +92,23 @@
             "max": 2147483647
           },
           "default": 3
-        },
-        {
-          "property": "CompressionLookback",
-          "displayName": "Compression Lookback",
-          "description": "Bar range must be the narrowest of this many bars to arm a setup (7 = classic NR7)",
-          "order": 0,
-          "type": "integer",
-          "constraints": {
-            "min": 2,
-            "max": 2147483647
-          },
-          "default": 7
         }
       ]
     },
     {
       "name": "Trade Window",
       "properties": [
+        {
+          "property": "UseTimeWindow",
+          "displayName": "Use Time Window",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
         {
           "property": "StartHour",
           "displayName": "Start Hour",
@@ -141,23 +152,23 @@
             "max": 59
           },
           "default": 0
-        },
-        {
-          "property": "UseTimeWindow",
-          "displayName": "Use Time Window",
-          "order": 0,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": false
         }
       ]
     },
     {
       "name": "Risk",
       "properties": [
+        {
+          "property": "ProfitTargetTicks",
+          "displayName": "Profit Target (Ticks)",
+          "order": 0,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 1000
+          },
+          "default": 24
+        },
         {
           "property": "StopLossTicks",
           "displayName": "Stop Loss (Ticks)",
@@ -171,10 +182,34 @@
           "default": 16
         },
         {
+          "property": "MinStopDistanceTicks",
+          "displayName": "Min Stop Distance (Ticks)",
+          "description": "Floor on how close the stop may sit to the market. A market entry fills at the next tick rather than at the bar close, so a stop placed on top of the reference price is rejected as through-market. Also the cushion the trailing stop keeps off the live bid/ask. 0 = no floor (not recommended).",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 4
+        },
+        {
+          "property": "MaxStopDistanceTicks",
+          "displayName": "Max Stop Distance (Ticks)",
+          "description": "Hard cap on how far the stop may sit from entry. A far-away structural stop gets rejected by the broker's price-band limits, leaving the position unprotected. If the structural stop exceeds this, it is clamped in tight. 0 = no cap (dangerous with structural stops).",
+          "order": 3,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 80
+        },
+        {
           "property": "UseStructuralTarget",
           "displayName": "Use Structural Target",
           "description": "Target a measured move equal to the compression bar range; reversals target the opposite compression extreme",
-          "order": 2,
+          "order": 4,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -186,7 +221,7 @@
           "property": "StructuralTargetBufferTicks",
           "displayName": "Structural Target Buffer (Ticks)",
           "description": "Take profit this many ticks before the structural target level",
-          "order": 3,
+          "order": 5,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -198,7 +233,7 @@
           "property": "UseStructuralStop",
           "displayName": "Use Structural Stop",
           "description": "Place the stop just beyond the opposite side of the compression bar instead of a fixed tick distance",
-          "order": 4,
+          "order": 6,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -210,7 +245,7 @@
           "property": "StructuralStopBufferTicks",
           "displayName": "Structural Stop Buffer (Ticks)",
           "description": "Extra ticks beyond the compression extreme for the structural stop",
-          "order": 5,
+          "order": 7,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -221,7 +256,7 @@
         {
           "property": "UseCustomTrailStop",
           "displayName": "Use Custom Trail Stop",
-          "order": 6,
+          "order": 8,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -232,7 +267,7 @@
         {
           "property": "CustomTrailDistanceTicks",
           "displayName": "Custom Trail Distance (Ticks)",
-          "order": 7,
+          "order": 9,
           "type": "integer",
           "constraints": {
             "min": 1,
@@ -244,7 +279,24 @@
           "property": "CustomTrailActivationTicks",
           "displayName": "Custom Trail Activation (Ticks)",
           "description": "Require price to move this many ticks in your favor before trailing begins (0 = immediate)",
-          "order": 8,
+          "order": 10,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "properties": [
+        {
+          "property": "BreakevenProfit",
+          "displayName": "Breakeven Profit (Currency)",
+          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount (0 = off)",
+          "order": 0,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -252,22 +304,6 @@
           },
           "default": 0
         },
-        {
-          "property": "ProfitTargetTicks",
-          "displayName": "Profit Target (Ticks)",
-          "order": 0,
-          "type": "integer",
-          "constraints": {
-            "min": 1,
-            "max": 1000
-          },
-          "default": 24
-        }
-      ]
-    },
-    {
-      "name": "Risk Management",
-      "properties": [
         {
           "property": "UseMaxDailyProfit",
           "displayName": "Use Max Daily Profit",
@@ -445,24 +481,23 @@
             "max": 2147483647
           },
           "default": 4
-        },
-        {
-          "property": "BreakevenProfit",
-          "displayName": "Breakeven Profit (Currency)",
-          "description": "Move stop to breakeven when unrealized profit reaches this dollar amount (0 = off)",
-          "order": 0,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 2147483647
-          },
-          "default": 0
         }
       ]
     },
     {
       "name": "Quick Exit",
       "properties": [
+        {
+          "property": "EnableQuickExit",
+          "displayName": "Enable Quick Exit",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
         {
           "property": "QuickExitBars",
           "displayName": "Quick Exit Bars",
@@ -484,10 +519,15 @@
             false
           ],
           "default": true
-        },
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "properties": [
         {
-          "property": "EnableQuickExit",
-          "displayName": "Enable Quick Exit",
+          "property": "EnableChoppinessFilter",
+          "displayName": "Enable Choppiness Filter",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -495,12 +535,7 @@
             false
           ],
           "default": false
-        }
-      ]
-    },
-    {
-      "name": "Filters",
-      "properties": [
+        },
         {
           "property": "ChoppinessPeriod",
           "displayName": "Choppiness Period",
@@ -634,10 +669,15 @@
             false
           ],
           "default": false
-        },
+        }
+      ]
+    },
+    {
+      "name": "Market Regime Filter",
+      "properties": [
         {
-          "property": "EnableChoppinessFilter",
-          "displayName": "Enable Choppiness Filter",
+          "property": "UseMarketRegimeFilter",
+          "displayName": "Use Market Regime Filter",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -645,12 +685,7 @@
             false
           ],
           "default": false
-        }
-      ]
-    },
-    {
-      "name": "Market Regime Filter",
-      "properties": [
+        },
         {
           "property": "TradeUpTrendHighVol",
           "displayName": "Trade UpTrend High Vol",
@@ -741,17 +776,6 @@
           "order": 9,
           "type": "integer",
           "default": 1
-        },
-        {
-          "property": "UseMarketRegimeFilter",
-          "displayName": "Use Market Regime Filter",
-          "order": 0,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": false
         }
       ]
     },
@@ -976,6 +1000,18 @@
       "name": "AI Filter",
       "properties": [
         {
+          "property": "UseChatGptFilter",
+          "displayName": "Use AI Filter",
+          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
           "property": "MinProfitProbability",
           "displayName": "Min Profit Probability",
           "description": "Minimum AI profit_probability (0-1) required to enter",
@@ -1163,21 +1199,9 @@
             "max": 59
           },
           "default": 0
-        },
-        {
-          "property": "UseChatGptFilter",
-          "displayName": "Use AI Filter",
-          "description": "Gate entries through FluxTrade_ChatGPT_Filter profit_probability score",
-          "order": 0,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": false
         }
       ]
     }
   ],
-  "totalParameters": 95
+  "totalParameters": 97
 }

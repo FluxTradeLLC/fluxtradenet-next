@@ -1,7 +1,7 @@
 {
   "strategy": "FluxTrade_Cerberus",
   "className": "FluxTrade_Cerberus",
-  "description": "Opening range breakout strategy with Hydra filters and risk controls: OR breakouts, reversals, and optional JStrategy pullback entries.",
+  "description": "Opening range breakout strategy with Hydra filters and risk controls: OR breakouts and reversals.",
   "sourceFile": "strategies/Cerberus.cs",
   "parameterGroups": [
     {
@@ -163,177 +163,6 @@
             false
           ],
           "default": false
-        },
-        {
-          "property": "TakeJStrategy",
-          "displayName": "Take JStrategy?",
-          "description": "15m range + 5m bias, pullback/retest with volume rejection (runs on 5-min series)",
-          "order": 6,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": false
-        }
-      ]
-    },
-    {
-      "name": "JStrategy",
-      "properties": [
-        {
-          "property": "JStrategyRangeStartHour",
-          "displayName": "JStrategy Range Start Hour",
-          "order": 0,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 23
-          },
-          "default": 9
-        },
-        {
-          "property": "JStrategyRangeStartMinute",
-          "displayName": "JStrategy Range Start Minute",
-          "order": 1,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 59
-          },
-          "default": 30
-        },
-        {
-          "property": "JStrategyRangeEndHour",
-          "displayName": "JStrategy Range End Hour",
-          "order": 2,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 23
-          },
-          "default": 9
-        },
-        {
-          "property": "JStrategyRangeEndMinute",
-          "displayName": "JStrategy Range End Minute",
-          "order": 3,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 59
-          },
-          "default": 45
-        },
-        {
-          "property": "JStrategyVolumeLookback",
-          "displayName": "JStrategy Volume Lookback",
-          "order": 4,
-          "type": "integer",
-          "constraints": {
-            "min": 1,
-            "max": 50
-          },
-          "default": 5
-        },
-        {
-          "property": "JStrategyVolumeMultiplier",
-          "displayName": "JStrategy Volume Multiplier",
-          "order": 5,
-          "type": "number",
-          "constraints": {
-            "min": 0.5,
-            "max": 5.0
-          },
-          "default": 1.0
-        },
-        {
-          "property": "JStrategyRetestTicks",
-          "displayName": "JStrategy Retest Zone (Ticks)",
-          "order": 6,
-          "type": "integer",
-          "constraints": {
-            "min": 0,
-            "max": 500
-          },
-          "default": 8
-        },
-        {
-          "property": "JStrategyStopBufferTicks",
-          "displayName": "JStrategy Stop Buffer (Ticks)",
-          "order": 7,
-          "type": "integer",
-          "constraints": {
-            "min": 1,
-            "max": 20
-          },
-          "default": 2
-        },
-        {
-          "property": "JStrategyMinRiskReward",
-          "displayName": "JStrategy Min R:R",
-          "order": 8,
-          "type": "number",
-          "constraints": {
-            "min": 2.0,
-            "max": 10.0
-          },
-          "default": 2.0
-        },
-        {
-          "property": "JStrategyRiskPercent",
-          "displayName": "JStrategy Risk (% of Account)",
-          "order": 9,
-          "type": "number",
-          "constraints": {
-            "min": 0.1,
-            "max": 5.0
-          },
-          "default": 1.5
-        },
-        {
-          "property": "JStrategyUseRiskBasedQty",
-          "displayName": "JStrategy Use Risk-Based Qty",
-          "order": 10,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": false
-        },
-        {
-          "property": "JStrategyUsePremarketTp1",
-          "displayName": "JStrategy Use Premarket as TP1",
-          "order": 11,
-          "type": "boolean",
-          "possibleValues": [
-            true,
-            false
-          ],
-          "default": true
-        },
-        {
-          "property": "JStrategyPartialFraction",
-          "displayName": "JStrategy Partial at 2R (Fraction)",
-          "order": 12,
-          "type": "number",
-          "constraints": {
-            "min": 0.1,
-            "max": 1.0
-          },
-          "default": 0.5
-        },
-        {
-          "property": "JStrategySecondTargetR",
-          "displayName": "JStrategy Second Target (R)",
-          "order": 13,
-          "type": "number",
-          "constraints": {
-            "min": 2.0,
-            "max": 20.0
-          },
-          "default": 3.0
         }
       ]
     },
@@ -531,10 +360,22 @@
           "default": 40
         },
         {
+          "property": "MinStopDistanceTicks",
+          "displayName": "Min Stop Distance (Ticks)",
+          "description": "Floor on how close the stop may sit to the market. A market entry fills at the next tick rather than at the bar close, so a stop placed on top of the reference price is rejected as through-market. Also the cushion the trailing stop keeps off the live bid/ask. 0 = no floor (not recommended).",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "default": 4
+        },
+        {
           "property": "MaxStopDistanceTicks",
           "displayName": "Max Stop Distance (Ticks)",
           "description": "Hard cap on how far the stop may sit from entry when using structural stop",
-          "order": 2,
+          "order": 3,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -546,7 +387,7 @@
           "property": "UseStructuralTarget",
           "displayName": "Use Structural Target",
           "description": "Target a structural level instead of fixed ticks",
-          "order": 3,
+          "order": 4,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -558,7 +399,7 @@
           "property": "StructuralTargetBufferTicks",
           "displayName": "Structural Target Buffer (Ticks)",
           "description": "Take profit this many ticks before the structural target level",
-          "order": 4,
+          "order": 5,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -570,7 +411,7 @@
           "property": "UseStructuralStop",
           "displayName": "Use Structural Stop",
           "description": "Place the stop just beyond the OR extreme instead of a fixed tick distance",
-          "order": 5,
+          "order": 6,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -582,7 +423,7 @@
           "property": "StructuralStopBufferTicks",
           "displayName": "Structural Stop Buffer (Ticks)",
           "description": "Extra ticks beyond the OR extreme for the structural stop",
-          "order": 6,
+          "order": 7,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -593,7 +434,7 @@
         {
           "property": "UseCustomTrailStop",
           "displayName": "Use Custom Trail Stop",
-          "order": 7,
+          "order": 8,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -604,7 +445,7 @@
         {
           "property": "CustomTrailDistanceTicks",
           "displayName": "Custom Trail Distance (Ticks)",
-          "order": 8,
+          "order": 9,
           "type": "integer",
           "constraints": {
             "min": 1,
@@ -616,7 +457,7 @@
           "property": "CustomTrailActivationTicks",
           "displayName": "Custom Trail Activation (Ticks)",
           "description": "Require price to move this many ticks in your favor before trailing begins (0 = immediate)",
-          "order": 9,
+          "order": 10,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -1575,5 +1416,5 @@
       ]
     }
   ],
-  "totalParameters": 129
+  "totalParameters": 115
 }
