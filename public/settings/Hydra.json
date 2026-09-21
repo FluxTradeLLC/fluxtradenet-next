@@ -10,7 +10,6 @@
         {
           "property": "TakeLongs",
           "displayName": "Take Longs",
-          "description": "Enable long entries.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -22,7 +21,6 @@
         {
           "property": "TakeShorts",
           "displayName": "Take Shorts",
-          "description": "Enable short entries.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -34,7 +32,6 @@
         {
           "property": "DQ",
           "displayName": "Default Quantity",
-          "description": "Number of contracts sent per entry.",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -51,75 +48,62 @@
         {
           "property": "EntryMode",
           "displayName": "Entry Mode",
-          "description": "Select which price-action pattern triggers entries.",
+          "description": "ABC = trend continuation; ABCD = ABC with measured-move leg-D target; DoublePullback = ABAB'C double-pullback filter; NInRowBreakout = enter on brick N+1 after N consecutive same-direction bricks; NBrickReversal = enter on the flip after N same-direction bricks; PullbackContinuation = lean trend+small pullback resume; ExhaustionFade = fade an extended run on the first opposite brick; FailedReversalSpring = enter with trend after a one-brick fake reversal fails; RenkoSwingStructure = Dow-theory HH/HL swing structure from brick reversals, enter on break after N confirmed pairs",
           "order": 0,
           "type": "enum",
           "enumType": "FluxTradeEntryMode",
           "possibleValues": [
             {
               "name": "ABC",
-              "value": "ABC",
-              "description": "Trend continuation: impulse leg (A), counter-trend pullback (B), enter on resumption (C)."
+              "value": "ABC"
             },
             {
               "name": "ABCD",
-              "value": "ABCD",
-              "description": "ABC with a measured-move leg-D profit target."
+              "value": "ABCD"
             },
             {
               "name": "DoublePullback",
-              "value": "DoublePullback",
-              "description": "ABAB'C double-pullback filter before the final resumption entry."
+              "value": "DoublePullback"
             },
             {
               "name": "PullbackContinuation",
-              "value": "PullbackContinuation",
-              "description": "Lean trend plus a small pullback, then resume in the trend direction."
+              "value": "PullbackContinuation"
             },
             {
               "name": "NBrickReversal",
-              "value": "NBrickReversal",
-              "description": "Enter on the flip after N consecutive same-direction bricks."
+              "value": "NBrickReversal"
             },
             {
               "name": "MarketStructureBreak",
-              "value": "MarketStructureBreak",
-              "description": "Enter on a break of structure after swing pivot confirmation (BOS)."
+              "value": "MarketStructureBreak"
             },
             {
               "name": "ConsolidationBreakout",
-              "value": "ConsolidationBreakout",
-              "description": "Enter on breakout from a tight consolidation box."
+              "value": "ConsolidationBreakout"
             },
             {
               "name": "ThreeBrickThrust",
-              "value": "ThreeBrickThrust",
-              "description": "Enter on a momentum thrust of consecutive same-direction bricks."
+              "value": "ThreeBrickThrust"
             },
             {
               "name": "DoubleTopBottom",
-              "value": "DoubleTopBottom",
-              "description": "Enter on neckline break of a double top or double bottom pattern."
+              "value": "DoubleTopBottom"
             },
             {
               "name": "ExhaustionFade",
-              "value": "ExhaustionFade",
-              "description": "Fade an extended run on the first opposite brick."
+              "value": "ExhaustionFade"
             },
             {
               "name": "FailedReversalSpring",
-              "value": "FailedReversalSpring",
-              "description": "Enter with trend after a one-brick fake reversal fails."
+              "value": "FailedReversalSpring"
             },
             {
               "name": "RenkoSwingStructure",
-              "value": "RenkoSwingStructure",
-              "description": "Dow-theory HH/HL swing structure from brick reversals; enter on break after N confirmed pairs."
+              "value": "RenkoSwingStructure"
             },
             {
               "name": "NInRowBreakout",
-              "value": "NInRowBreakout",
-              "description": "Enter on brick N+1 after N consecutive same-direction bricks."
+              "value": "NInRowBreakout"
             }
           ],
           "default": "FluxTradeEntryMode.ABC"
@@ -965,7 +949,6 @@
         {
           "property": "StartHour",
           "displayName": "Start Hour",
-          "description": "Hour (0-23) trading is allowed to begin.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -977,7 +960,6 @@
         {
           "property": "StartMinute",
           "displayName": "Start Minute",
-          "description": "Minute trading is allowed to begin.",
           "order": 2,
           "type": "integer",
           "constraints": {
@@ -989,7 +971,6 @@
         {
           "property": "EndHour",
           "displayName": "End Hour",
-          "description": "Hour (0-23) trading is allowed to end.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -1001,7 +982,6 @@
         {
           "property": "EndMinute",
           "displayName": "End Minute",
-          "description": "Minute trading is allowed to end.",
           "order": 4,
           "type": "integer",
           "constraints": {
@@ -1013,7 +993,6 @@
         {
           "property": "TradeMonday",
           "displayName": "Trade Monday",
-          "description": "Allow entries on Monday.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -1025,7 +1004,6 @@
         {
           "property": "TradeTuesday",
           "displayName": "Trade Tuesday",
-          "description": "Allow entries on Tuesday.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1037,7 +1015,6 @@
         {
           "property": "TradeWednesday",
           "displayName": "Trade Wednesday",
-          "description": "Allow entries on Wednesday.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -1049,7 +1026,6 @@
         {
           "property": "TradeThursday",
           "displayName": "Trade Thursday",
-          "description": "Allow entries on Thursday.",
           "order": 8,
           "type": "boolean",
           "possibleValues": [
@@ -1061,7 +1037,6 @@
         {
           "property": "TradeFriday",
           "displayName": "Trade Friday",
-          "description": "Allow entries on Friday.",
           "order": 9,
           "type": "boolean",
           "possibleValues": [
@@ -1073,7 +1048,6 @@
         {
           "property": "UseTimeWindow",
           "displayName": "Use Time Window",
-          "description": "Restrict entries to the configured Start/End time window and enabled trading days.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1162,7 +1136,6 @@
         {
           "property": "UseCustomTrailStop",
           "displayName": "Use Custom Trail Stop",
-          "description": "Trail the stop by a fixed tick distance once price moves in your favor, instead of a static stop.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1174,7 +1147,6 @@
         {
           "property": "CustomTrailDistanceTicks",
           "displayName": "Custom Trail Distance (Ticks)",
-          "description": "Distance in ticks the custom trailing stop follows behind price.",
           "order": 7,
           "type": "integer",
           "constraints": {
@@ -1198,7 +1170,6 @@
         {
           "property": "ProfitTargetTicks",
           "displayName": "Profit Target (Ticks)",
-          "description": "Fixed profit target distance in ticks from entry (used when Use Structural Target is off).",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -1227,7 +1198,6 @@
         {
           "property": "MaxDailyProfit",
           "displayName": "Max Daily Profit ($)",
-          "description": "Daily realized profit cap in dollars; trading halts for the day once reached (requires Use Max Daily Profit).",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -1251,7 +1221,6 @@
         {
           "property": "MaxDailyLoss",
           "displayName": "Max Daily Loss ($)",
-          "description": "Daily realized loss cap in dollars; trading halts for the day once reached (requires Use Max Daily Loss).",
           "order": 4,
           "type": "number",
           "constraints": {
@@ -1412,7 +1381,6 @@
         {
           "property": "QuickExitBars",
           "displayName": "Quick Exit Bars",
-          "description": "Number of bars after entry before the quick exit closes the trade.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -1424,7 +1392,6 @@
         {
           "property": "QuickExitOnlyInProfit",
           "displayName": "Quick Exit Only In Profit",
-          "description": "Only apply the quick exit if the trade is currently profitable.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -1436,7 +1403,6 @@
         {
           "property": "EnableQuickExit",
           "displayName": "Enable Quick Exit",
-          "description": "Force-close a trade after a fixed number of bars, regardless of target or stop.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1453,7 +1419,6 @@
         {
           "property": "ChoppinessPeriod",
           "displayName": "Choppiness Period",
-          "description": "Lookback period for the Choppiness Index.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -1465,7 +1430,6 @@
         {
           "property": "ChoppinessThreshold",
           "displayName": "Choppiness Threshold",
-          "description": "Choppiness Index level above which entries are blocked.",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -1477,7 +1441,6 @@
         {
           "property": "UseMinimumVolumeFilter",
           "displayName": "Use Minimum Volume Filter",
-          "description": "Require bar volume to be at least Minimum Volume before entering.",
           "order": 10,
           "type": "boolean",
           "possibleValues": [
@@ -1489,7 +1452,6 @@
         {
           "property": "MinimumVolume",
           "displayName": "Minimum Volume",
-          "description": "Minimum bar volume required when Use Minimum Volume Filter is enabled.",
           "order": 11,
           "type": "integer",
           "constraints": {
@@ -1501,7 +1463,6 @@
         {
           "property": "UseRsiFilter",
           "displayName": "Use RSI Filter",
-          "description": "Gate entries by RSI overbought/oversold levels.",
           "order": 50,
           "type": "boolean",
           "possibleValues": [
@@ -1513,7 +1474,6 @@
         {
           "property": "RsiPeriod",
           "displayName": "RSI Period",
-          "description": "Lookback period for the RSI filter.",
           "order": 51,
           "type": "integer",
           "constraints": {
@@ -1525,7 +1485,6 @@
         {
           "property": "RsiOverbought",
           "displayName": "RSI Overbought",
-          "description": "RSI level considered overbought.",
           "order": 52,
           "type": "integer",
           "constraints": {
@@ -1537,7 +1496,6 @@
         {
           "property": "RsiOversold",
           "displayName": "RSI Oversold",
-          "description": "RSI level considered oversold.",
           "order": 53,
           "type": "integer",
           "constraints": {
@@ -1549,7 +1507,6 @@
         {
           "property": "ReverseOnRsiExtremes",
           "displayName": "Reverse on RSI Extremes",
-          "description": "Allow a countertrend entry when RSI is at an overbought/oversold extreme.",
           "order": 54,
           "type": "boolean",
           "possibleValues": [
@@ -1573,7 +1530,6 @@
         {
           "property": "EmaFilterPeriod",
           "displayName": "EMA Filter Period",
-          "description": "Lookback period for the EMA used by Use EMA Filter.",
           "order": 56,
           "type": "integer",
           "constraints": {
@@ -1597,7 +1553,6 @@
         {
           "property": "MomentumEmaFast",
           "displayName": "Momentum EMA Fast",
-          "description": "Lookback period for the fast EMA used by Use Momentum Filter.",
           "order": 61,
           "type": "integer",
           "constraints": {
@@ -1621,7 +1576,6 @@
         {
           "property": "EnableChoppinessFilter",
           "displayName": "Enable Choppiness Filter",
-          "description": "Skip entries when the Choppiness Index is above the threshold (ranging market).",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1638,7 +1592,6 @@
         {
           "property": "TradeUpTrendHighVol",
           "displayName": "Trade UpTrend High Vol",
-          "description": "Allow entries when the market regime is uptrend with high volatility.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -1650,7 +1603,6 @@
         {
           "property": "TradeUpTrendLowVol",
           "displayName": "Trade UpTrend Low Vol",
-          "description": "Allow entries when the market regime is uptrend with low volatility.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -1662,7 +1614,6 @@
         {
           "property": "TradeSidewaysHighVol",
           "displayName": "Trade Sideways High Vol",
-          "description": "Allow entries when the market regime is sideways with high volatility.",
           "order": 3,
           "type": "boolean",
           "possibleValues": [
@@ -1674,7 +1625,6 @@
         {
           "property": "TradeSidewaysLowVol",
           "displayName": "Trade Sideways Low Vol",
-          "description": "Allow entries when the market regime is sideways with low volatility.",
           "order": 4,
           "type": "boolean",
           "possibleValues": [
@@ -1686,7 +1636,6 @@
         {
           "property": "TradeDownTrendHighVol",
           "displayName": "Trade DownTrend High Vol",
-          "description": "Allow entries when the market regime is downtrend with high volatility.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -1698,7 +1647,6 @@
         {
           "property": "TradeDownTrendLowVol",
           "displayName": "Trade DownTrend Low Vol",
-          "description": "Allow entries when the market regime is downtrend with low volatility.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1710,7 +1658,6 @@
         {
           "property": "UseHighImpactEventFilter",
           "displayName": "Use High Impact Event Filter",
-          "description": "Gate entries by the count of high-impact economic events for the session.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -1722,7 +1669,6 @@
         {
           "property": "MinHighImpactEvents",
           "displayName": "Min High Impact Events",
-          "description": "Minimum high-impact events required in the session to allow entries (0 = no minimum).",
           "order": 8,
           "type": "integer",
           "default": 0
@@ -1730,7 +1676,6 @@
         {
           "property": "MaxHighImpactEvents",
           "displayName": "Max High Impact Events",
-          "description": "Maximum high-impact events allowed in the session before entries are blocked (0 = no maximum).",
           "order": 9,
           "type": "integer",
           "default": 1
@@ -1738,8 +1683,224 @@
         {
           "property": "UseMarketRegimeFilter",
           "displayName": "Use Market Regime Filter",
-          "description": "Gate entries by the current market regime classification (trend/sideways x high/low volatility).",
           "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Trend Quality Filter",
+      "properties": [
+        {
+          "property": "UseTrendQualityFilter",
+          "displayName": "Use Trend Quality Filter",
+          "description": "Score how cleanly the instrument is trending (0-100) and gate entries on the result",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TrendQualityLookback",
+          "displayName": "Lookback (Bars)",
+          "description": "Window used for efficiency, range position and drift",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 5,
+            "max": 200
+          },
+          "default": 20
+        },
+        {
+          "property": "MinTrendQualityScore",
+          "displayName": "Trending Score",
+          "description": "Composite score required to flip from chopping to trending",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 45
+        },
+        {
+          "property": "TrendQualityExitScore",
+          "displayName": "Chopping Score",
+          "description": "Once trending, the score must fall below this to flip back. Keep it under the trending score - the gap is the hysteresis band that stops the verdict flickering bar to bar.",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 35
+        },
+        {
+          "property": "TrendQualityConfirmBars",
+          "displayName": "Confirm Bars",
+          "description": "Bars the score must stay on the far side of its threshold before the verdict flips",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 2
+        },
+        {
+          "property": "EfficiencyRatioTarget",
+          "displayName": "Efficiency Ratio Target",
+          "description": "Kaufman efficiency ratio that scores 100. Typical trending values run 0.30-0.50 and chop sits under 0.15; lower this for faster bars.",
+          "order": 6,
+          "type": "number",
+          "constraints": {
+            "min": 0.05,
+            "max": 1.0
+          },
+          "default": 0.35
+        },
+        {
+          "property": "TrendQualityAdxPeriod",
+          "displayName": "ADX Period",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 100
+          },
+          "default": 14
+        },
+        {
+          "property": "TrendQualityAdxThreshold",
+          "displayName": "ADX Threshold",
+          "description": "ADX considered the border between chop and trend. The sub-score ramps from 0 at threshold-8 to 100 at threshold+12.",
+          "order": 8,
+          "type": "number",
+          "constraints": {
+            "min": 5,
+            "max": 60
+          },
+          "default": 22
+        },
+        {
+          "property": "TrendWeightEfficiency",
+          "displayName": "Weight: Efficiency",
+          "description": "Relative weight of the path-efficiency sub-score. Weights are normalised, so they need not sum to 100.",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 35
+        },
+        {
+          "property": "TrendWeightAdx",
+          "displayName": "Weight: ADX",
+          "order": 10,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 25
+        },
+        {
+          "property": "TrendWeightRangePosition",
+          "displayName": "Weight: Range Position",
+          "order": 11,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "TrendWeightDrift",
+          "displayName": "Weight: Drift",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "BlockBreakoutsInChop",
+          "displayName": "Block Breakouts In Chop",
+          "description": "Skip with-trend entries while the verdict is chopping. Covers pullback-style continuation setups as well as breakouts - a pullback needs a trend to continue just as much as a breakout does.",
+          "order": 13,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "BlockReversalsInTrend",
+          "displayName": "Block Reversals Against Trend",
+          "description": "Skip fade setups (Reversal, ExhaustionFade, DoubleTop/DoubleBottom and every *Reverse variant) when they would fade a confirmed trend. Fades inside chop, or with the trend behind them, still fire.",
+          "order": 14,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "BlockEntriesInNoMansLand",
+          "displayName": "Block Breakouts In No Mans Land",
+          "description": "Skip breakout entries while price sits in the middle of its own recent range. Pullback and fade setups are exempt: sitting off the extreme is what they are built to do.",
+          "order": 15,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "NoMansLandBandPercent",
+          "displayName": "No Mans Land Band (%)",
+          "description": "Width of the dead zone centred on the midpoint of the lookback range. 30 means price between 35% and 65% of the range counts as no mans land.",
+          "order": 16,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 90
+          },
+          "default": 30
+        },
+        {
+          "property": "RequireTrendDirectionAlignment",
+          "displayName": "Require Direction Alignment",
+          "description": "Require the measured trend direction to match the trade direction on with-trend entries",
+          "order": 17,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "HighlightChopBars",
+          "displayName": "Highlight Regime On Chart",
+          "description": "Tint bars red while chopping and amber while in no mans land, so the score can be eyeballed against the tape",
+          "order": 18,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -1956,5 +2117,5 @@
       ]
     }
   ],
-  "totalParameters": 146
+  "totalParameters": 164
 }

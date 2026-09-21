@@ -10,7 +10,6 @@
         {
           "property": "DQ",
           "displayName": "Default Quantity",
-          "description": "Number of contracts sent per entry.",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -22,7 +21,6 @@
         {
           "property": "TakeLongs",
           "displayName": "Take Longs",
-          "description": "Enable long entries.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -34,7 +32,6 @@
         {
           "property": "TakeShorts",
           "displayName": "Take Shorts",
-          "description": "Enable short entries.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -51,7 +48,6 @@
         {
           "property": "OpeningRangeStartHour",
           "displayName": "OR Start Hour",
-          "description": "Hour (0-23) the opening range period begins.",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -63,7 +59,6 @@
         {
           "property": "OpeningRangeStartMinute",
           "displayName": "OR Start Minute",
-          "description": "Minute the opening range period begins.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -75,7 +70,6 @@
         {
           "property": "OpeningRangeEndHour",
           "displayName": "OR End Hour",
-          "description": "Hour (0-23) the opening range period ends.",
           "order": 2,
           "type": "integer",
           "constraints": {
@@ -87,7 +81,6 @@
         {
           "property": "OpeningRangeEndMinute",
           "displayName": "OR End Minute",
-          "description": "Minute the opening range period ends.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -140,7 +133,6 @@
         {
           "property": "ReversalFVGLookback",
           "displayName": "Reversal FVG Lookback (Bars)",
-          "description": "Number of bars searched back for a qualifying fair value gap when Reversals Only at Inverse FVG is enabled.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -152,7 +144,6 @@
         {
           "property": "ReversalFVGMinTicks",
           "displayName": "Reversal FVG Min Size (Ticks)",
-          "description": "Minimum size in ticks for a fair value gap to qualify for reversal entries.",
           "order": 4,
           "type": "integer",
           "constraints": {
@@ -193,7 +184,6 @@
         {
           "property": "JStrategyRangeStartHour",
           "displayName": "JStrategy Range Start Hour",
-          "description": "Hour (0-23) the JStrategy 15-minute range period begins.",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -205,7 +195,6 @@
         {
           "property": "JStrategyRangeStartMinute",
           "displayName": "JStrategy Range Start Minute",
-          "description": "Minute the JStrategy 15-minute range period begins.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -217,7 +206,6 @@
         {
           "property": "JStrategyRangeEndHour",
           "displayName": "JStrategy Range End Hour",
-          "description": "Hour (0-23) the JStrategy 15-minute range period ends.",
           "order": 2,
           "type": "integer",
           "constraints": {
@@ -229,7 +217,6 @@
         {
           "property": "JStrategyRangeEndMinute",
           "displayName": "JStrategy Range End Minute",
-          "description": "Minute the JStrategy 15-minute range period ends.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -241,7 +228,6 @@
         {
           "property": "JStrategyVolumeLookback",
           "displayName": "JStrategy Volume Lookback",
-          "description": "Number of prior 5-minute bars used to compute the volume-surge threshold for JStrategy entries.",
           "order": 4,
           "type": "integer",
           "constraints": {
@@ -253,7 +239,6 @@
         {
           "property": "JStrategyVolumeMultiplier",
           "displayName": "JStrategy Volume Multiplier",
-          "description": "Volume on the trigger 5-minute bar must exceed the lookback max volume by this multiple to confirm a JStrategy entry.",
           "order": 5,
           "type": "number",
           "constraints": {
@@ -265,7 +250,6 @@
         {
           "property": "JStrategyRetestTicks",
           "displayName": "JStrategy Retest Zone (Ticks)",
-          "description": "Tolerance in ticks around the range level allowed for a JStrategy pullback/retest entry.",
           "order": 6,
           "type": "integer",
           "constraints": {
@@ -277,7 +261,6 @@
         {
           "property": "JStrategyStopBufferTicks",
           "displayName": "JStrategy Stop Buffer (Ticks)",
-          "description": "Extra ticks beyond the break level added to the JStrategy stop.",
           "order": 7,
           "type": "integer",
           "constraints": {
@@ -289,7 +272,6 @@
         {
           "property": "JStrategyMinRiskReward",
           "displayName": "JStrategy Min R:R",
-          "description": "Minimum reward-to-risk ratio required for the JStrategy first target (TP1).",
           "order": 8,
           "type": "number",
           "constraints": {
@@ -301,7 +283,6 @@
         {
           "property": "JStrategyRiskPercent",
           "displayName": "JStrategy Risk (% of Account)",
-          "description": "Percent of account equity risked per JStrategy trade when Use Risk-Based Qty is enabled.",
           "order": 9,
           "type": "number",
           "constraints": {
@@ -313,7 +294,6 @@
         {
           "property": "JStrategyUseRiskBasedQty",
           "displayName": "JStrategy Use Risk-Based Qty",
-          "description": "Size JStrategy positions from JStrategy Risk (% of Account) instead of Default Quantity.",
           "order": 10,
           "type": "boolean",
           "possibleValues": [
@@ -325,7 +305,6 @@
         {
           "property": "JStrategyUsePremarketTp1",
           "displayName": "JStrategy Use Premarket as TP1",
-          "description": "Use the premarket high/low as TP1 when it sits between entry and the risk-based TP1.",
           "order": 11,
           "type": "boolean",
           "possibleValues": [
@@ -337,7 +316,6 @@
         {
           "property": "JStrategyPartialFraction",
           "displayName": "JStrategy Partial at 2R (Fraction)",
-          "description": "Fraction of the JStrategy position closed at the 2R partial target.",
           "order": 12,
           "type": "number",
           "constraints": {
@@ -349,7 +327,6 @@
         {
           "property": "JStrategySecondTargetR",
           "displayName": "JStrategy Second Target (R)",
-          "description": "R-multiple distance from entry for the JStrategy second (final) target.",
           "order": 13,
           "type": "number",
           "constraints": {
@@ -402,7 +379,6 @@
         {
           "property": "MinBreakoutStrengthTicks",
           "displayName": "Min Breakout Strength (Ticks)",
-          "description": "Minimum ticks price must close beyond the OR high/low before entry is allowed (requires Enable Breakout Strength Filter).",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -419,7 +395,6 @@
         {
           "property": "UseTimeWindow",
           "displayName": "Use Time Window",
-          "description": "Restrict entries to the configured Start/End time window and enabled trading days.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -431,7 +406,6 @@
         {
           "property": "StartHour",
           "displayName": "Start Hour",
-          "description": "Hour (0-23) trading is allowed to begin.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -443,7 +417,6 @@
         {
           "property": "StartMinute",
           "displayName": "Start Minute",
-          "description": "Minute trading is allowed to begin.",
           "order": 2,
           "type": "integer",
           "constraints": {
@@ -455,7 +428,6 @@
         {
           "property": "EndHour",
           "displayName": "End Hour",
-          "description": "Hour (0-23) trading is allowed to end.",
           "order": 3,
           "type": "integer",
           "constraints": {
@@ -467,7 +439,6 @@
         {
           "property": "EndMinute",
           "displayName": "End Minute",
-          "description": "Minute trading is allowed to end.",
           "order": 4,
           "type": "integer",
           "constraints": {
@@ -479,7 +450,6 @@
         {
           "property": "TradeMonday",
           "displayName": "Trade Monday",
-          "description": "Allow entries on Monday.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -491,7 +461,6 @@
         {
           "property": "TradeTuesday",
           "displayName": "Trade Tuesday",
-          "description": "Allow entries on Tuesday.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -503,7 +472,6 @@
         {
           "property": "TradeWednesday",
           "displayName": "Trade Wednesday",
-          "description": "Allow entries on Wednesday.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -515,7 +483,6 @@
         {
           "property": "TradeThursday",
           "displayName": "Trade Thursday",
-          "description": "Allow entries on Thursday.",
           "order": 8,
           "type": "boolean",
           "possibleValues": [
@@ -527,7 +494,6 @@
         {
           "property": "TradeFriday",
           "displayName": "Trade Friday",
-          "description": "Allow entries on Friday.",
           "order": 9,
           "type": "boolean",
           "possibleValues": [
@@ -544,7 +510,6 @@
         {
           "property": "ProfitTargetTicks",
           "displayName": "Profit Target (Ticks)",
-          "description": "Fixed profit target distance in ticks from entry (used when Use Structural Target is off).",
           "order": 0,
           "type": "integer",
           "constraints": {
@@ -628,7 +593,6 @@
         {
           "property": "UseCustomTrailStop",
           "displayName": "Use Custom Trail Stop",
-          "description": "Trail the stop by a fixed tick distance once price moves in your favor, instead of a static stop.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -640,7 +604,6 @@
         {
           "property": "CustomTrailDistanceTicks",
           "displayName": "Custom Trail Distance (Ticks)",
-          "description": "Distance in ticks the custom trailing stop follows behind price.",
           "order": 8,
           "type": "integer",
           "constraints": {
@@ -693,7 +656,6 @@
         {
           "property": "MaxDailyProfit",
           "displayName": "Max Daily Profit ($)",
-          "description": "Daily realized profit cap in dollars; trading halts for the day once reached (requires Use Max Daily Profit).",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -717,7 +679,6 @@
         {
           "property": "MaxDailyLoss",
           "displayName": "Max Daily Loss ($)",
-          "description": "Daily realized loss cap in dollars; trading halts for the day once reached (requires Use Max Daily Loss).",
           "order": 4,
           "type": "number",
           "constraints": {
@@ -866,7 +827,6 @@
         {
           "property": "EnableQuickExit",
           "displayName": "Enable Quick Exit",
-          "description": "Force-close a trade after a fixed number of bars, regardless of target or stop.",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -878,7 +838,6 @@
         {
           "property": "QuickExitBars",
           "displayName": "Quick Exit Bars",
-          "description": "Number of bars after entry before the quick exit closes the trade.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -890,7 +849,6 @@
         {
           "property": "QuickExitOnlyInProfit",
           "displayName": "Quick Exit Only In Profit",
-          "description": "Only apply the quick exit if the trade is currently profitable.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -907,7 +865,6 @@
         {
           "property": "EnableChoppinessFilter",
           "displayName": "Enable Choppiness Filter",
-          "description": "Skip entries when the Choppiness Index is above the threshold (ranging market).",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -919,7 +876,6 @@
         {
           "property": "ChoppinessPeriod",
           "displayName": "Choppiness Period",
-          "description": "Lookback period for the Choppiness Index.",
           "order": 1,
           "type": "integer",
           "constraints": {
@@ -931,7 +887,6 @@
         {
           "property": "ChoppinessThreshold",
           "displayName": "Choppiness Threshold",
-          "description": "Choppiness Index level above which entries are blocked.",
           "order": 2,
           "type": "number",
           "constraints": {
@@ -943,7 +898,6 @@
         {
           "property": "UseMinimumVolumeFilter",
           "displayName": "Use Minimum Volume Filter",
-          "description": "Require bar volume to be at least Minimum Volume before entering.",
           "order": 10,
           "type": "boolean",
           "possibleValues": [
@@ -955,7 +909,6 @@
         {
           "property": "MinimumVolume",
           "displayName": "Minimum Volume",
-          "description": "Minimum bar volume required when Use Minimum Volume Filter is enabled.",
           "order": 11,
           "type": "integer",
           "constraints": {
@@ -967,7 +920,6 @@
         {
           "property": "UseRsiFilter",
           "displayName": "Use RSI Filter",
-          "description": "Gate entries by RSI overbought/oversold levels.",
           "order": 50,
           "type": "boolean",
           "possibleValues": [
@@ -979,7 +931,6 @@
         {
           "property": "RsiPeriod",
           "displayName": "RSI Period",
-          "description": "Lookback period for the RSI filter.",
           "order": 51,
           "type": "integer",
           "constraints": {
@@ -991,7 +942,6 @@
         {
           "property": "RsiOverbought",
           "displayName": "RSI Overbought",
-          "description": "RSI level considered overbought.",
           "order": 52,
           "type": "integer",
           "constraints": {
@@ -1003,7 +953,6 @@
         {
           "property": "RsiOversold",
           "displayName": "RSI Oversold",
-          "description": "RSI level considered oversold.",
           "order": 53,
           "type": "integer",
           "constraints": {
@@ -1015,7 +964,6 @@
         {
           "property": "ReverseOnRsiExtremes",
           "displayName": "Reverse on RSI Extremes",
-          "description": "Allow a countertrend entry when RSI is at an overbought/oversold extreme.",
           "order": 54,
           "type": "boolean",
           "possibleValues": [
@@ -1039,7 +987,6 @@
         {
           "property": "EmaFilterPeriod",
           "displayName": "EMA Filter Period",
-          "description": "Lookback period for the EMA used by Use EMA Filter.",
           "order": 56,
           "type": "integer",
           "constraints": {
@@ -1063,7 +1010,6 @@
         {
           "property": "MomentumEmaFast",
           "displayName": "Momentum EMA Fast",
-          "description": "Lookback period for the fast EMA used by Use Momentum Filter.",
           "order": 61,
           "type": "integer",
           "constraints": {
@@ -1092,7 +1038,6 @@
         {
           "property": "UseMarketRegimeFilter",
           "displayName": "Use Market Regime Filter",
-          "description": "Gate entries by the current market regime classification (trend/sideways x high/low volatility).",
           "order": 0,
           "type": "boolean",
           "possibleValues": [
@@ -1104,7 +1049,6 @@
         {
           "property": "TradeUpTrendHighVol",
           "displayName": "Trade UpTrend High Vol",
-          "description": "Allow entries when the market regime is uptrend with high volatility.",
           "order": 1,
           "type": "boolean",
           "possibleValues": [
@@ -1116,7 +1060,6 @@
         {
           "property": "TradeUpTrendLowVol",
           "displayName": "Trade UpTrend Low Vol",
-          "description": "Allow entries when the market regime is uptrend with low volatility.",
           "order": 2,
           "type": "boolean",
           "possibleValues": [
@@ -1128,7 +1071,6 @@
         {
           "property": "TradeSidewaysHighVol",
           "displayName": "Trade Sideways High Vol",
-          "description": "Allow entries when the market regime is sideways with high volatility.",
           "order": 3,
           "type": "boolean",
           "possibleValues": [
@@ -1140,7 +1082,6 @@
         {
           "property": "TradeSidewaysLowVol",
           "displayName": "Trade Sideways Low Vol",
-          "description": "Allow entries when the market regime is sideways with low volatility.",
           "order": 4,
           "type": "boolean",
           "possibleValues": [
@@ -1152,7 +1093,6 @@
         {
           "property": "TradeDownTrendHighVol",
           "displayName": "Trade DownTrend High Vol",
-          "description": "Allow entries when the market regime is downtrend with high volatility.",
           "order": 5,
           "type": "boolean",
           "possibleValues": [
@@ -1164,7 +1104,6 @@
         {
           "property": "TradeDownTrendLowVol",
           "displayName": "Trade DownTrend Low Vol",
-          "description": "Allow entries when the market regime is downtrend with low volatility.",
           "order": 6,
           "type": "boolean",
           "possibleValues": [
@@ -1176,7 +1115,6 @@
         {
           "property": "UseHighImpactEventFilter",
           "displayName": "Use High Impact Event Filter",
-          "description": "Gate entries by the count of high-impact economic events for the session.",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -1188,7 +1126,6 @@
         {
           "property": "MinHighImpactEvents",
           "displayName": "Min High Impact Events",
-          "description": "Minimum high-impact events required in the session to allow entries (0 = no minimum).",
           "order": 8,
           "type": "integer",
           "default": 0
@@ -1196,10 +1133,238 @@
         {
           "property": "MaxHighImpactEvents",
           "displayName": "Max High Impact Events",
-          "description": "Maximum high-impact events allowed in the session before entries are blocked (0 = no maximum).",
           "order": 9,
           "type": "integer",
           "default": 1
+        }
+      ]
+    },
+    {
+      "name": "Trend Quality Filter",
+      "properties": [
+        {
+          "property": "UseTrendQualityFilter",
+          "displayName": "Use Trend Quality Filter",
+          "description": "Score how cleanly the instrument is trending (0-100) and gate entries on the result",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TrendQualityUse5MinSeries",
+          "displayName": "Score On 5-Min Series",
+          "description": "Measure trend quality on the 5-min series instead of the primary series. Use this when the primary chart is fast enough that every pullback looks like chop.",
+          "order": 1,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "TrendQualityLookback",
+          "displayName": "Lookback (Bars)",
+          "description": "Window used for efficiency, range position and drift",
+          "order": 2,
+          "type": "integer",
+          "constraints": {
+            "min": 5,
+            "max": 200
+          },
+          "default": 20
+        },
+        {
+          "property": "MinTrendQualityScore",
+          "displayName": "Trending Score",
+          "description": "Composite score required to flip from chopping to trending",
+          "order": 3,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 45
+        },
+        {
+          "property": "TrendQualityExitScore",
+          "displayName": "Chopping Score",
+          "description": "Once trending, the score must fall below this to flip back. Keep it under the trending score - the gap is the hysteresis band that stops the verdict flickering bar to bar.",
+          "order": 4,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 35
+        },
+        {
+          "property": "TrendQualityConfirmBars",
+          "displayName": "Confirm Bars",
+          "description": "Bars the score must stay on the far side of its threshold before the verdict flips",
+          "order": 5,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 20
+          },
+          "default": 2
+        },
+        {
+          "property": "EfficiencyRatioTarget",
+          "displayName": "Efficiency Ratio Target",
+          "description": "Kaufman efficiency ratio that scores 100. Typical trending values run 0.30-0.50 and chop sits under 0.15; lower this for faster bars.",
+          "order": 6,
+          "type": "number",
+          "constraints": {
+            "min": 0.05,
+            "max": 1.0
+          },
+          "default": 0.35
+        },
+        {
+          "property": "TrendQualityAdxPeriod",
+          "displayName": "ADX Period",
+          "order": 7,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 100
+          },
+          "default": 14
+        },
+        {
+          "property": "TrendQualityAdxThreshold",
+          "displayName": "ADX Threshold",
+          "description": "ADX considered the border between chop and trend. The sub-score ramps from 0 at threshold-8 to 100 at threshold+12.",
+          "order": 8,
+          "type": "number",
+          "constraints": {
+            "min": 5,
+            "max": 60
+          },
+          "default": 22
+        },
+        {
+          "property": "TrendWeightEfficiency",
+          "displayName": "Weight: Efficiency",
+          "description": "Relative weight of the path-efficiency sub-score. Weights are normalised, so they need not sum to 100.",
+          "order": 9,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 35
+        },
+        {
+          "property": "TrendWeightAdx",
+          "displayName": "Weight: ADX",
+          "order": 10,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 25
+        },
+        {
+          "property": "TrendWeightRangePosition",
+          "displayName": "Weight: Range Position",
+          "order": 11,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "TrendWeightDrift",
+          "displayName": "Weight: Drift",
+          "order": 12,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 20
+        },
+        {
+          "property": "BlockBreakoutsInChop",
+          "displayName": "Block Breakouts In Chop",
+          "description": "Skip breakout entries while the verdict is chopping",
+          "order": 13,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "BlockReversalsInTrend",
+          "displayName": "Block Reversals Against Trend",
+          "description": "Skip reversal entries that fade a confirmed trend. Reversals inside chop, or with the trend, still fire - fading is only punished when the tape is genuinely directional.",
+          "order": 14,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "BlockEntriesInNoMansLand",
+          "displayName": "Block Breakouts In No Mans Land",
+          "description": "Skip breakout entries while price sits in the middle of its own recent range",
+          "order": 15,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        {
+          "property": "NoMansLandBandPercent",
+          "displayName": "No Mans Land Band (%)",
+          "description": "Width of the dead zone centred on the midpoint of the lookback range. 30 means price between 35% and 65% of the range counts as no mans land.",
+          "order": 16,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 90
+          },
+          "default": 30
+        },
+        {
+          "property": "RequireTrendDirectionAlignment",
+          "displayName": "Require Direction Alignment",
+          "description": "Require the measured trend direction to match the trade direction on breakouts",
+          "order": 17,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "HighlightChopBars",
+          "displayName": "Highlight Regime On Chart",
+          "description": "Tint bars red while chopping and amber while in no mans land, so the score can be eyeballed against the tape",
+          "order": 18,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
         }
       ]
     },
@@ -1410,5 +1575,5 @@
       ]
     }
   ],
-  "totalParameters": 110
+  "totalParameters": 129
 }
