@@ -57,7 +57,7 @@ export const STRATEGY_DATA_SERIES: Partial<
   },
   cerberus: {
     barType: "minute",
-    period: 7,
+    period: 1,
     instrument: "MNQ",
   },
 };
