@@ -148,6 +148,8 @@ export function PaymentSuccessContent() {
                   <span className="mb-1 text-sm font-semibold text-white">Purchase Email</span>
                   <input
                     type="email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
                     className={authInputClassName}
                     placeholder="your@email.com"
                     value={email}
@@ -161,6 +163,8 @@ export function PaymentSuccessContent() {
                   </span>
                   <input
                     type="email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
                     className={authInputClassName}
                     placeholder="your@email.com"
                     value={ntEmail}
