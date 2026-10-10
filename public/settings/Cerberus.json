@@ -759,6 +759,42 @@
           "default": 1000
         },
         {
+          "property": "UseSlopeFilter",
+          "displayName": "Use Slope Filter",
+          "description": "Longs only when the close has sloped up by more than Minimum Absolute Slope over Slope Bars Ago; shorts only when it has sloped down by more",
+          "order": 12,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "SlopeBarsAgo",
+          "displayName": "Slope Bars Ago",
+          "description": "Number of bars for slope calculation",
+          "order": 13,
+          "type": "integer",
+          "constraints": {
+            "min": 1,
+            "max": 100
+          },
+          "default": 5
+        },
+        {
+          "property": "MinAbsSlope",
+          "displayName": "Minimum Absolute Slope",
+          "description": "Minimum absolute slope value (points per bar) required for trade entry",
+          "order": 14,
+          "type": "number",
+          "constraints": {
+            "min": 0,
+            "max": 100
+          },
+          "default": 0.1
+        },
+        {
           "property": "UseRsiFilter",
           "displayName": "Use RSI Filter",
           "order": 50,
@@ -1210,6 +1246,95 @@
       ]
     },
     {
+      "name": "Chop Filters",
+      "properties": [
+        {
+          "property": "UseEfficiencyRatioFilter",
+          "displayName": "Use Efficiency Ratio Filter",
+          "description": "Skip entries while Kaufman's efficiency ratio (net move / total path) is below the minimum - price is churning rather than going anywhere",
+          "order": 0,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "EfficiencyRatioPeriod",
+          "displayName": "ER Period (Bars)",
+          "description": "Bars in the efficiency ratio window. A random walk averages roughly 1/sqrt(period), about 0.19 at 20 bars, so the minimum must sit above that to mean anything.",
+          "order": 1,
+          "type": "integer",
+          "constraints": {
+            "min": 2,
+            "max": 200
+          },
+          "default": 20
+        },
+        {
+          "property": "MinEfficiencyRatio",
+          "displayName": "Min Efficiency Ratio",
+          "description": "0 = pure chop, 1 = a straight line. At 20 bars chop runs under 0.10, a random walk around 0.19 and a clean trend 0.40-0.70.",
+          "order": 2,
+          "type": "number",
+          "constraints": {
+            "min": 0.0,
+            "max": 1.0
+          },
+          "default": 0.3
+        },
+        {
+          "property": "UseFractalDimensionFilter",
+          "displayName": "Use Fractal Dimension Filter",
+          "description": "Skip entries while the Sevcik fractal dimension of the closes is above the maximum. D ~1.0 is a straight line, ~1.5 a random walk, toward 2.0 a space-filling chop. Equivalent to a Hurst exponent gate with H = 2 - D.",
+          "order": 3,
+          "type": "boolean",
+          "possibleValues": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        {
+          "property": "FractalDimensionPeriod",
+          "displayName": "Fractal Period (Bars)",
+          "description": "Bars in the fractal dimension window. Shorter windows are noisier and pull every reading toward 1.5.",
+          "order": 4,
+          "type": "integer",
+          "constraints": {
+            "min": 10,
+            "max": 200
+          },
+          "default": 30
+        },
+        {
+          "property": "MaxFractalDimension",
+          "displayName": "Max Fractal Dimension",
+          "description": "Entries need D at or below this (Hurst H = 2 - D at or above 2 minus this). At 30 bars a trend reads about 1.30-1.38, a random walk about 1.48, chop 1.60+.",
+          "order": 5,
+          "type": "number",
+          "constraints": {
+            "min": 1.0,
+            "max": 2.0
+          },
+          "default": 1.42
+        },
+        {
+          "property": "ChopFilterOffsetBars",
+          "displayName": "Measure Ending Bars Ago",
+          "description": "Both windows end this many bars before the signal bar, so the pullback or dip being traded is not itself scored as chop. 0 = include the signal bar.",
+          "order": 6,
+          "type": "integer",
+          "constraints": {
+            "min": 0,
+            "max": 20
+          },
+          "default": 0
+        }
+      ]
+    },
+    {
       "name": "AI Filter",
       "properties": [
         {
@@ -1416,5 +1541,5 @@
       ]
     }
   ],
-  "totalParameters": 115
+  "totalParameters": 125
 }
