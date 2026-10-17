@@ -11,7 +11,6 @@ export function PaymentSuccessContent() {
   const [ntEmail, setNtEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [tradingViewUsername, setTradingViewUsername] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,7 +29,6 @@ export function PaymentSuccessContent() {
           ntEmail,
           firstName,
           lastName,
-          tradingViewUsername,
         }),
       });
       setSuccess(true);
@@ -79,9 +77,8 @@ export function PaymentSuccessContent() {
                 to download and install the Add-ons. 🚀
               </p>
               <p className="mt-6 text-muted">
-                Access to TradingView scripts is semi automated, takes around 30 minutes,
-                and will be started during the next business day in US Eastern. Access to
-                NinjaTrader licenses is fully automated, and only takes a few minutes.
+                Access to NinjaTrader licenses is fully automated, and only takes a few
+                minutes.
               </p>
               <p className="mt-6 text-muted">
                 Join the{" "}
@@ -171,18 +168,6 @@ export function PaymentSuccessContent() {
                     onChange={(event) => setNtEmail(event.target.value)}
                   />
                 </label>
-                {/* <label className="flex flex-col text-left">
-                  <span className="mb-1 text-sm font-semibold text-white">
-                    TradingView Username (this is not an email)
-                  </span>
-                  <input
-                    type="text"
-                    className={authInputClassName}
-                    placeholder="e.g. tradingview_user"
-                    value={tradingViewUsername}
-                    onChange={(event) => setTradingViewUsername(event.target.value)}
-                  />
-                </label> */}
                 <label className="flex flex-col text-left">
                   <span className="mb-1 text-sm font-semibold text-white">
                     Discord Username (this is not an email)

@@ -44,7 +44,7 @@ const includedFeatures = [
   "All indicators included free",
   "Direct access to new features",
   "Priority updates",
-  "24/7 customer support",
+  "Next business day customer support",
   "Full backtest data",
 ];
 

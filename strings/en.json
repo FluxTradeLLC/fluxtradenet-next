@@ -65,7 +65,6 @@
   },
   "stickyCTA": {
     "ninjaTrader": "NinjaTrader",
-    "tradingView": "TradingView",
     "bothPlatforms": "Both Platforms",
     "startTrial": "Subscribe Now",
     "signUpTrial": "Sign Up To Subscribe",
@@ -120,9 +119,9 @@
     "copyBlurbHeading": "Copy-Ready Description",
     "copyBlurbIntro": "Paste one of these onto your site, newsletter, or video description alongside your referral link. Both are pre-approved, so there's nothing to clear with us first.",
     "copyBlurbShortLabel": "Short version",
-    "copyBlurbShort": "FluxTrade builds automated trading strategies and technical indicators for NinjaTrader and TradingView, with published backtests and prop-firm-friendly risk controls.",
+    "copyBlurbShort": "FluxTrade builds automated trading strategies and technical indicators for NinjaTrader, with published backtests and prop-firm-friendly risk controls.",
     "copyBlurbLongLabel": "Full version",
-    "copyBlurbLong": "FluxTrade builds automated trading strategies and technical indicators for NinjaTrader and TradingView. The automated strategies — Cerberus (opening range break), Hydra (Renko patterns), and Kraken (compression breakout) — ship with published backtests, fully customizable entries and exits, and risk controls built around prop firm rules. The indicator suite covers trend, volatility, key levels, and entry signals, with a free indicator pack available for NinjaTrader. Subscriptions are monthly, quarterly, or yearly with no commitment, and every trader is welcome in the free FluxTrade Discord.",
+    "copyBlurbLong": "FluxTrade builds automated trading strategies and technical indicators for NinjaTrader. The automated strategies — Cerberus (opening range break), Hydra (Renko patterns), and Kraken (compression breakout) — ship with published backtests, fully customizable entries and exits, and risk controls built around prop firm rules. The indicator suite covers trend, volatility, key levels, and entry signals, with a free indicator pack available for NinjaTrader. Subscriptions are monthly, quarterly, or yearly with no commitment, and every trader is welcome in the free FluxTrade Discord.",
     "copyBlurbCopy": "Copy",
     "copyBlurbCopied": "Copied!",
     "copyBlurbCopyFailed": "Press Ctrl+C to copy",
@@ -225,7 +224,6 @@
     "subtitle": "Prop‑firm friendly systems built for consistency, risk management, and discipline.",
     "seeItTrade": "See it trade in 60s",
     "ninjaTrader": "NinjaTrader",
-    "tradingView": "TradingView",
     "new": "NEW!",
     "propFirmFocused": "Prop Firm Focused Strategies",
     "propFirmSubtitle": "Built for prop firm rules and consistency",
@@ -814,8 +812,7 @@
     },
     "buttons": {
       "subscribeNow": "Subscribe Now",
-      "subscribeNinjaTrader": "Subscribe on NinjaTrader",
-      "subscribeTradingView": "Subscribe on TradingView"
+      "subscribeNinjaTrader": "Subscribe on NinjaTrader"
     },
     "errors": {
       "sessionExpired": "Your session has expired. Please sign in again to continue.",
@@ -823,30 +820,30 @@
     },
     "seo": {
       "title": "Pricing - Trading Software Subscriptions",
-      "description": "Choose the perfect FluxTrade subscription plan for your trading needs. Access automated strategies, indicators, and professional trading tools for NinjaTrader and TradingView. Flexible monthly, quarterly, and yearly plans available.",
-      "keywords": "trading software pricing, ninjatrader subscription, tradingview strategies pricing, automated trading subscription, prop firm trading tools pricing"
+      "description": "Choose the perfect FluxTrade subscription plan for your trading needs. Access automated strategies, indicators, and professional trading tools for NinjaTrader. Flexible monthly, quarterly, and yearly plans available.",
+      "keywords": "trading software pricing, ninjatrader subscription, automated trading subscription, prop firm trading tools pricing"
     },
     "products": {
       "category": "Trading Software Subscription",
       "platforms": {
-        "single": "NinjaTrader or TradingView",
-        "both": "NinjaTrader and TradingView"
+        "single": "NinjaTrader",
+        "both": "NinjaTrader"
       },
       "strategiesSingle": {
         "name": "Automated Strategies - Single Platform",
-        "description": "Access to all automated trading strategies for NinjaTrader or TradingView. Includes indicators for chosen platform."
+        "description": "Access to all automated trading strategies for NinjaTrader. Includes indicators for NinjaTrader."
       },
       "strategiesBoth": {
         "name": "Automated Strategies - Both Platforms",
-        "description": "Access to all automated trading strategies for both NinjaTrader and TradingView. Includes indicators for both platforms with priority updates."
+        "description": "Access to all automated trading strategies for NinjaTrader. Includes indicators with priority updates."
       },
       "indicatorsSingle": {
         "name": "Trading Indicators - Single Platform",
-        "description": "Access to all trading indicators for NinjaTrader or TradingView. Professional-grade technical analysis tools."
+        "description": "Access to all trading indicators for NinjaTrader. Professional-grade technical analysis tools."
       },
       "indicatorsBoth": {
         "name": "Trading Indicators - Both Platforms",
-        "description": "Access to all trading indicators for both NinjaTrader and TradingView. Complete indicator suite for both platforms."
+        "description": "Access to all trading indicators for NinjaTrader. Complete indicator suite."
       }
     },
     "plans": {
@@ -869,7 +866,7 @@
         "badgePriority": "Priority Updates",
         "features": {
           "includesIndicators": "Includes indicators for both platforms",
-          "platforms": "NinjaTrader and TradingView",
+          "platforms": "NinjaTrader",
           "allStrategies": "Access to all automated strategies"
         }
       },
@@ -878,7 +875,7 @@
         "subtitle": "Single Platform",
         "features": {
           "allIndicators": "Access to all our indicators",
-          "support": "24/7 customer support",
+          "support": "Next business day customer support",
           "cancelAnytime": "Cancel anytime"
         }
       },
@@ -888,7 +885,7 @@
         "badge": "Both Platforms",
         "features": {
           "allIndicators": "Access to all our indicators",
-          "platforms": "NinjaTrader and TradingView",
+          "platforms": "NinjaTrader",
           "cancelAnytime": "Cancel anytime"
         }
       }
@@ -912,12 +909,12 @@
       "platformAccess": "Platform access",
       "single": "Single",
       "accessStrategies": "Access to automated strategies",
-      "support": "24/7 customer support",
+      "support": "Next business day customer support",
       "newFeatures": "Direct access to new features",
       "priorityUpdates": "Priority updates"
     }
   },
-  "tradingViewChart": {
+  "sampleChart": {
     "title": "Sample Chart",
     "subtitle": "Toggle indicators on/off and explore preset layouts",
     "presetLayouts": "Preset Layouts",
@@ -1059,10 +1056,9 @@
     "goToAccount": "Go to My Account",
     "getStarted": "Get Started",
     "successMessage": "Info submitted successfully! We'll add access for these accounts shortly. In the meantime, please check your email for information on how to download and install the Add-ons. 🚀",
-    "tradingViewAccess": "Access to TradingView scripts is semi automated, takes around 30 minutes, and will be started during the next business day in US Eastern. Access to NinjaTrader licenses is fully automated, and only takes a few minutes.",
     "joinDiscord": "Join the",
     "discord": "Discord!",
-    "formInstructions": "Please enter your Discord username (optional) and NinjaTrader Account email (if different from the other email) and/or TradingView username in the form below, and we will get you set up with your license on our end.",
+    "formInstructions": "Please enter your Discord username (optional) and NinjaTrader Account email (if different from the other email) in the form below, and we will get you set up with your license on our end.",
     "ninjaTraderEmail": "We are using NinjaTrader's new email licensing system, and no longer need machine ID's.",
     "automaticAccess": "Granting access and adding licenses and Discord roles is all done automatically, so please ensure all fields are correct before submitting.",
     "needHelp": "Need help? Email us at",
@@ -1070,7 +1066,6 @@
     "lastName": "Last Name",
     "purchaseEmail": "Purchase Email",
     "ntEmail": "NinjaTrader Account Email (if different)",
-    "tradingViewUsername": "TradingView Username (this is not an email)",
     "discordUsername": "Discord Username (this is not an email)",
     "error": "Failed to submit info. Please try again.",
     "submitting": "Submitting...",

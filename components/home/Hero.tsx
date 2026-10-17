@@ -86,7 +86,7 @@ export function Hero() {
           {[
             { value: "3", label: "Strategies" },
             { value: "3", label: "Indicators" },
-            { value: "24/7", label: "Support" },
+            { value: "Next business day", label: "Support" },
           ].map((stat) => (
             <div key={stat.label}>
               <div className="text-2xl font-bold text-[#02C064] sm:text-3xl">

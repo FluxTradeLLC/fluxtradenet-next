@@ -6,7 +6,7 @@ import { PaymentSuccessContent } from "@/components/payment/PaymentSuccessConten
 export const metadata: Metadata = {
   title: "Payment Successful — FluxTrade",
   description:
-    "Your FluxTrade subscription is active. Submit your account details to get set up with NinjaTrader and TradingView access.",
+    "Your FluxTrade subscription is active. Submit your account details to get set up with NinjaTrader access.",
   openGraph: {
     title: "Payment Successful — FluxTrade",
     description:
