@@ -6,7 +6,7 @@ import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
 import {
   RecaptchaField,
   type RecaptchaFieldHandle,
-} from "@/components/support/RecaptchaField";
+} from "@/components/RecaptchaField";
 import { ApiError, apiFetch } from "@/lib/api";
 import { isRecaptchaEnabled } from "@/lib/recaptcha";
 import {

@@ -1,14 +1,19 @@
 "use client";
 
 import { useClerk } from "@clerk/nextjs";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
 import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
-import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { getClerkErrorMessage } from "@/lib/clerk-errors";
+import { signInWithPassword } from "@/lib/clerk-password-sign-in";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
+import {
+  RecaptchaField,
+  type RecaptchaFieldHandle,
+} from "@/components/RecaptchaField";
+import { isRecaptchaEnabled } from "@/lib/recaptcha";
 import {
   AuthCard,
   AuthDivider,
@@ -48,6 +53,8 @@ export function SignUpForm() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptUpdates, setAcceptUpdates] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const recaptchaRef = useRef<RecaptchaFieldHandle>(null);
 
   const validateEmail = (emailValue: string) => {
     if (!emailValue) {
@@ -78,6 +85,11 @@ export function SignUpForm() {
       return;
     }
 
+    if (isRecaptchaEnabled && !recaptchaToken) {
+      setError("Please complete the reCAPTCHA.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -89,26 +101,25 @@ export function SignUpForm() {
           firstname: firstName.trim(),
           lastname: lastName.trim(),
           subscribeToUpdates: acceptUpdates,
+          recaptchaToken: recaptchaToken || undefined,
         }),
       });
 
+      await signInWithPassword(clerk, email, password);
+
       setUserEmail(email);
-      startAuthSession();
       setCachedAuthUi(true);
       emitAuthUiChanged();
-
-      const loginData = await apiFetch<{ token?: string }>("/users/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (loginData.token) {
-        setAuthToken(loginData.token);
-      }
-
       window.location.href = "/account";
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Registration failed");
+      setError(
+        err instanceof ApiError
+          ? err.message
+          : getClerkErrorMessage(err, "Registration failed"),
+      );
+      // Tokens are single-use, so a failed attempt needs a fresh challenge.
+      setRecaptchaToken("");
+      recaptchaRef.current?.reset();
       setLoading(false);
     }
   };
@@ -267,6 +278,15 @@ export function SignUpForm() {
             </span>
           </label>
         </div>
+        {isRecaptchaEnabled ? (
+          <div className="mb-6">
+            <RecaptchaField
+              ref={recaptchaRef}
+              onChange={setRecaptchaToken}
+              onExpired={() => setRecaptchaToken("")}
+            />
+          </div>
+        ) : null}
         <div className="group relative w-full">
           <button
             type="submit"
@@ -277,7 +297,9 @@ export function SignUpForm() {
               !email ||
               !password ||
               !!emailError ||
-              loading
+              (isRecaptchaEnabled && !recaptchaToken) ||
+              loading ||
+              !clerk.loaded
             }
             className="btn-primary w-full !rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Sign Up"

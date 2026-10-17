@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import {
+  RecaptchaField,
+  type RecaptchaFieldHandle,
+} from "@/components/RecaptchaField";
 import {
   contentBodyClass,
   contentCardClass,
@@ -11,7 +15,8 @@ import {
   contentLinkClass,
 } from "@/lib/content-ui";
 import { grantIndicatorPackAccess } from "@/lib/indicator-pack-access";
-import { apiFetch } from "@/lib/api";
+import { ApiError, apiFetch } from "@/lib/api";
+import { isRecaptchaEnabled } from "@/lib/recaptcha";
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -25,6 +30,8 @@ export function IndicatorPackContent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [acceptUpdates, setAcceptUpdates] = useState(true);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const recaptchaRef = useRef<RecaptchaFieldHandle>(null);
 
   const trimmedFirstName = firstName.trim();
   const trimmedLastName = lastName.trim();
@@ -33,7 +40,8 @@ export function IndicatorPackContent() {
     trimmedFirstName.length > 0 &&
     trimmedLastName.length > 0 &&
     isValidEmail(trimmedEmail) &&
-    acceptUpdates;
+    acceptUpdates &&
+    (!isRecaptchaEnabled || recaptchaToken.length > 0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,16 +56,26 @@ export function IndicatorPackContent() {
     try {
       try {
         await apiFetch("/subscribers/add", {
-            method: "POST",
-            body: JSON.stringify({
-              email: trimmedEmail,
-              firstname: trimmedFirstName,
-              lastname: trimmedLastName,
-            }),
-          });
-        } catch {
-          // Don't block download access if mailing list sync fails.
+          method: "POST",
+          body: JSON.stringify({
+            email: trimmedEmail,
+            firstname: trimmedFirstName,
+            lastname: trimmedLastName,
+            recaptchaToken: recaptchaToken || undefined,
+          }),
+        });
+      } catch (err) {
+        // A 400 means the submission itself was rejected (e.g. reCAPTCHA
+        // failed), so make the visitor retry. Don't block download access
+        // for other mailing list sync failures.
+        if (err instanceof ApiError && err.status === 400) {
+          setError(err.message);
+          setRecaptchaToken("");
+          recaptchaRef.current?.reset();
+          setLoading(false);
+          return;
         }
+      }
 
       grantIndicatorPackAccess(trimmedEmail);
       router.push("/downloads/indicators");
@@ -146,6 +164,11 @@ export function IndicatorPackContent() {
               It&apos;s okay to send me occasional updates from FluxTrade.
             </span>
           </label>
+          <RecaptchaField
+            ref={recaptchaRef}
+            onChange={setRecaptchaToken}
+            onExpired={() => setRecaptchaToken("")}
+          />
           <button
             type="submit"
             disabled={loading || !canSubmit}

@@ -3,12 +3,12 @@
 import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState } from "react";
-import { ApiError, apiFetch } from "@/lib/api";
+import { ApiError } from "@/lib/api";
 import { setUserEmail } from "@/lib/auth-cookies";
 import { setCachedAuthUi, emitAuthUiChanged } from "@/lib/auth-ui-cache";
-import { setAuthToken, startAuthSession } from "@/lib/auth-session";
 import { getClerkOAuthRedirectUrls } from "@/lib/clerk-redirect";
 import { getClerkErrorMessage } from "@/lib/clerk-errors";
+import { signInWithPassword } from "@/lib/clerk-password-sign-in";
 import { GoogleIcon } from "@/components/auth/GoogleIcon";
 import {
   AuthCard,
@@ -17,11 +17,6 @@ import {
   TermsLinks,
   authInputClassName,
 } from "@/components/auth/auth-ui";
-
-type LoginResponse = {
-  user?: { email?: string };
-  token?: string;
-};
 
 export function SignInForm() {
   const clerk = useClerk();
@@ -36,22 +31,18 @@ export function SignInForm() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<LoginResponse>("/users/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
+      await signInWithPassword(clerk, email, password);
 
       setUserEmail(email);
-      startAuthSession();
       setCachedAuthUi(true);
       emitAuthUiChanged();
-
-      if (data.token) {
-        setAuthToken(data.token);
-      }
       window.location.href = "/account";
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Sign in failed");
+      setError(
+        err instanceof ApiError
+          ? err.message
+          : getClerkErrorMessage(err, "Sign in failed"),
+      );
     } finally {
       setLoading(false);
     }
@@ -128,7 +119,7 @@ export function SignInForm() {
         </div>
         <button
           type="submit"
-          disabled={!email || !password || loading}
+          disabled={!email || !password || loading || !clerk.loaded}
           className="btn-primary w-full !rounded-xl py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
           aria-label="Sign In"
         >
