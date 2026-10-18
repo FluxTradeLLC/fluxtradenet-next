@@ -2093,6 +2093,10 @@
             {
               "name": "Ollama",
               "value": "Ollama"
+            },
+            {
+              "name": "TypeSafe",
+              "value": "TypeSafe"
             }
           ],
           "default": "Provider.OpenAI"
@@ -2105,6 +2109,18 @@
           "type": "enum",
           "enumType": "OpenAIModel",
           "possibleValues": [
+            {
+              "name": "Gpt6Astra",
+              "value": "Gpt6Astra"
+            },
+            {
+              "name": "Gpt61Sol",
+              "value": "Gpt61Sol"
+            },
+            {
+              "name": "Gpt6Luna",
+              "value": "Gpt6Luna"
+            },
             {
               "name": "Gpt56Sol",
               "value": "Gpt56Sol"
@@ -2144,6 +2160,26 @@
           "type": "enum",
           "enumType": "AnthropicModel",
           "possibleValues": [
+            {
+              "name": "ClaudeFable51",
+              "value": "ClaudeFable51"
+            },
+            {
+              "name": "ClaudeOpus55",
+              "value": "ClaudeOpus55"
+            },
+            {
+              "name": "ClaudeSonnet55",
+              "value": "ClaudeSonnet55"
+            },
+            {
+              "name": "ClaudeHaiku55",
+              "value": "ClaudeHaiku55"
+            },
+            {
+              "name": "ClaudeOpus5",
+              "value": "ClaudeOpus5"
+            },
             {
               "name": "ClaudeFable5",
               "value": "ClaudeFable5"
@@ -2190,7 +2226,7 @@
         {
           "property": "AiFilterUseEnvironmentApiKeys",
           "displayName": "Use Environment API Keys",
-          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY)",
+          "description": "When enabled, reads API keys from environment variables (FLUXTRADE_OPENAI_API_KEY / FLUXTRADE_ANTHROPIC_API_KEY / FLUXTRADE_TYPESAFE_API_KEY)",
           "order": 7,
           "type": "boolean",
           "possibleValues": [
@@ -2216,10 +2252,18 @@
           "default": ""
         },
         {
+          "property": "AiFilterTypeSafeApiKey",
+          "displayName": "TypeSafe API Key",
+          "description": "API key for TypeSafe.ai Jev (env: FLUXTRADE_TYPESAFE_API_KEY when Use Environment API Keys is enabled)",
+          "order": 10,
+          "type": "string",
+          "default": ""
+        },
+        {
           "property": "AiFilterMaxCompletionTokens",
           "displayName": "Max Completion Tokens",
           "description": "Maximum tokens for AI filter completion response",
-          "order": 10,
+          "order": 11,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -2231,7 +2275,7 @@
           "property": "AiFilterUsePredictionCache",
           "displayName": "Use Prediction Cache",
           "description": "Cache AI filter results to avoid duplicate API calls",
-          "order": 11,
+          "order": 12,
           "type": "boolean",
           "possibleValues": [
             true,
@@ -2243,7 +2287,7 @@
           "property": "AiFilterBarEntryDelaySeconds",
           "displayName": "Bar Entry Delay (seconds)",
           "description": "Wait this many seconds before making AI filter API call (for cascading multiple accounts)",
-          "order": 12,
+          "order": 13,
           "type": "integer",
           "constraints": {
             "min": 0,
@@ -2254,5 +2298,5 @@
       ]
     }
   ],
-  "totalParameters": 175
+  "totalParameters": 176
 }
