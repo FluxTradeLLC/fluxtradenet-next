@@ -1,9 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiError, apiFetch } from "@/lib/api";
 import { AuthError, authInputClassName } from "@/components/auth/auth-ui";
+import { useProtectedApiReady } from "@/hooks/useProtectedApiReady";
+import { type BillingPeriod, TRIAL, getBillingPeriodLabel } from "@/lib/pricing";
+
+type CheckoutSummary = {
+  isTrial: boolean;
+  trialEndsAt: number | null;
+  recurringAmountCents: number;
+  currency: string;
+  billingFrequency: BillingPeriod;
+};
+
+function formatMoney(cents: number, currency: string) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
+  }).format(cents / 100);
+}
 
 export function PaymentSuccessContent() {
   const [discordName, setDiscordName] = useState("");
@@ -14,6 +32,40 @@ export function PaymentSuccessContent() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const apiReady = useProtectedApiReady();
+  const [checkout, setCheckout] = useState<CheckoutSummary | null>(null);
+
+  useEffect(() => {
+    const sessionId = new URLSearchParams(window.location.search).get(
+      "session_id",
+    );
+    if (!apiReady || !sessionId) {
+      return;
+    }
+
+    let cancelled = false;
+
+    apiFetch<CheckoutSummary>(
+      `/payment/checkout-session/${encodeURIComponent(sessionId)}`,
+    )
+      .then((data) => {
+        if (!cancelled) {
+          setCheckout(data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error loading checkout details:", err);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [apiReady]);
+
+  const trialEndsAt =
+    checkout?.isTrial && checkout.trialEndsAt
+      ? new Date(checkout.trialEndsAt)
+      : null;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -51,7 +103,9 @@ export function PaymentSuccessContent() {
 
       <div className="relative mx-auto max-w-xl px-6 text-center lg:px-8">
         <h1 className="text-4xl font-extrabold tracking-tight text-flux-green sm:text-5xl">
-          Congrats, your purchase is complete! 🎉
+          {trialEndsAt
+            ? `Your ${TRIAL.DAYS}-day trial has started! 🎉`
+            : "Congrats, your purchase is complete! 🎉"}
         </h1>
         {!success ? (
           <a
@@ -77,11 +131,32 @@ export function PaymentSuccessContent() {
             </span>
           </a>
         ) : null}
-        <p className="mt-4 text-lg text-muted">
-          Thank you for joining FluxTrade! Your subscription is now active and you have
-          full access to all premium features. Check your email for a receipt and onboarding
-          instructions. If you have any questions, our support team is here to help.
-        </p>
+        {trialEndsAt && checkout ? (
+          <p className="mt-4 text-lg text-muted">
+            Thank you for joining FluxTrade! You have full access to your strategies
+            until{" "}
+            <span className="font-semibold text-white">
+              {trialEndsAt.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
+            . After that, you&apos;ll be billed{" "}
+            <span className="font-semibold text-white">
+              {formatMoney(checkout.recurringAmountCents, checkout.currency)}
+              {getBillingPeriodLabel(checkout.billingFrequency)}
+            </span>{" "}
+            unless you cancel from your account before then. Check your email for a
+            receipt and onboarding instructions.
+          </p>
+        ) : (
+          <p className="mt-4 text-lg text-muted">
+            Thank you for joining FluxTrade! Your subscription is now active and you have
+            full access to all premium features. Check your email for a receipt and onboarding
+            instructions. If you have any questions, our support team is here to help.
+          </p>
+        )}
         <p className="mt-4 text-sm text-muted">
           You can manage your account, view your subscription, and get started with our
           tools from your account dashboard.
