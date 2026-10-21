@@ -5,6 +5,7 @@ import { useAppAuth } from "@/hooks/useAppAuth";
 import { useProtectedApiReady } from "@/hooks/useProtectedApiReady";
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { readWebhookTestFlag } from "@/lib/webhook-test-flag";
 import {
   type BillingPeriod,
   type Currency,
@@ -113,6 +114,7 @@ type StrategyCardProps = {
   currency: Currency;
   selected: boolean;
   showTrial: boolean;
+  trialFee: number;
   onToggle: () => void;
 };
 
@@ -124,6 +126,7 @@ function StrategyCard({
   currency,
   selected,
   showTrial,
+  trialFee,
   onToggle,
 }: StrategyCardProps) {
   const monthlyPrice = PRICING.MONTHLY.STRATEGY;
@@ -171,7 +174,7 @@ function StrategyCard({
         {showTrial ? (
           <p className="mt-2 text-sm font-semibold text-[#02C064]">
             {TRIAL.DAYS}-day trial for{" "}
-            {formatCurrency(TRIAL.FEE, currency, true)}
+            {formatCurrency(trialFee, currency, true)}
           </p>
         ) : null}
       </div>
@@ -234,6 +237,8 @@ export function PricingContent() {
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const apiReady = useProtectedApiReady();
   const [trialEligible, setTrialEligible] = useState<boolean | null>(null);
+  // Allowlisted testers get the trial for $0; the API reports the real fee.
+  const [trialFee, setTrialFee] = useState<number>(TRIAL.FEE);
 
   useEffect(() => {
     if (!apiReady) {
@@ -242,10 +247,14 @@ export function PricingContent() {
 
     let cancelled = false;
 
-    apiFetch<{ eligible: boolean }>("/payment/trial-eligibility")
+    const testerQuery = readWebhookTestFlag() ? "?tester=1" : "";
+    apiFetch<{ eligible: boolean; trialFeeCents: number }>(
+      `/payment/trial-eligibility${testerQuery}`,
+    )
       .then((data) => {
         if (!cancelled) {
           setTrialEligible(data.eligible);
+          setTrialFee(data.trialFeeCents / 100);
         }
       })
       .catch((error) => {
@@ -313,6 +322,7 @@ export function PricingContent() {
             priceIds,
             subscription: true,
             billingPeriod,
+            ...(readWebhookTestFlag() ? { testerTrial: true } : {}),
             referral:
               typeof window !== "undefined"
                 ? (window as Window & { promotekit_referral?: string })
@@ -427,6 +437,7 @@ export function PricingContent() {
                   STRATEGY_NAME_TO_KEY[strategy.name],
                 )}
                 showTrial={showTrial}
+                trialFee={trialFee}
                 onToggle={() => toggleStrategy(strategy.name)}
               />
             ))}
@@ -445,7 +456,7 @@ export function PricingContent() {
               {showTrial ? (
                 <>
                   <p className="text-2xl font-bold text-white">
-                    {formatCurrency(TRIAL.FEE, currency, currency !== "USD")}
+                    {formatCurrency(trialFee, currency, currency !== "USD")}
                     <span className="text-base font-normal text-muted">
                       {" "}today
                     </span>

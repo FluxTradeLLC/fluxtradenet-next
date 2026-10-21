@@ -4,19 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 import { useAppAuth } from "@/hooks/useAppAuth";
 import { ApiError, apiFetch } from "@/lib/api";
 import { AuthError } from "@/components/auth/auth-ui";
-
-// Set in the console to reveal the page:
-//   localStorage.setItem("fluxtrade:webhook-test", "1")
-// This only hides the UI; the API allowlists who can buy the test product.
-const WEBHOOK_TEST_FLAG = "fluxtrade:webhook-test";
-
-function readFlag() {
-  try {
-    return localStorage.getItem(WEBHOOK_TEST_FLAG) === "1";
-  } catch {
-    return false;
-  }
-}
+import { readWebhookTestFlag } from "@/lib/webhook-test-flag";
 
 function subscribeFlag(onStoreChange: () => void) {
   window.addEventListener("storage", onStoreChange);
@@ -24,7 +12,7 @@ function subscribeFlag(onStoreChange: () => void) {
 }
 
 export function WebhookTestContent() {
-  const enabled = useSyncExternalStore(subscribeFlag, readFlag, () => false);
+  const enabled = useSyncExternalStore(subscribeFlag, readWebhookTestFlag, () => false);
   const { isLoaded, isAuthenticated } = useAppAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
