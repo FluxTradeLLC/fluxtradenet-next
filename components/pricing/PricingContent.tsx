@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useAppAuth } from "@/hooks/useAppAuth";
-import { useMemo, useState } from "react";
+import { useProtectedApiReady } from "@/hooks/useProtectedApiReady";
+import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import {
   type BillingPeriod,
@@ -13,6 +14,7 @@ import {
   CURRENCY_RATES,
   PRICING,
   STRATEGY_NAME_TO_KEY,
+  TRIAL,
   formatCurrency,
   getBillingPeriodLabel,
   getDiscountPercent,
@@ -110,6 +112,7 @@ type StrategyCardProps = {
   billingPeriod: BillingPeriod;
   currency: Currency;
   selected: boolean;
+  showTrial: boolean;
   onToggle: () => void;
 };
 
@@ -120,6 +123,7 @@ function StrategyCard({
   billingPeriod,
   currency,
   selected,
+  showTrial,
   onToggle,
 }: StrategyCardProps) {
   const monthlyPrice = PRICING.MONTHLY.STRATEGY;
@@ -164,6 +168,12 @@ function StrategyCard({
           billingPeriod={billingPeriod}
           currency={currency}
         />
+        {showTrial ? (
+          <p className="mt-2 text-sm font-semibold text-[#02C064]">
+            {TRIAL.DAYS}-day trial for{" "}
+            {formatCurrency(TRIAL.FEE, currency, true)}
+          </p>
+        ) : null}
       </div>
 
       <ul className="mb-2 flex-1 space-y-2">
@@ -222,6 +232,34 @@ export function PricingContent() {
   const [selectedStrategies, setSelectedStrategies] = useState<StrategyKey[]>([]);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const apiReady = useProtectedApiReady();
+  const [trialEligible, setTrialEligible] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!apiReady) {
+      return;
+    }
+
+    let cancelled = false;
+
+    apiFetch<{ eligible: boolean }>("/payment/trial-eligibility")
+      .then((data) => {
+        if (!cancelled) {
+          setTrialEligible(data.eligible);
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking trial eligibility:", error);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [apiReady]);
+
+  // Signed-out visitors see the offer; signed-in users only once the backend
+  // confirms they haven't subscribed before.
+  const showTrial = isAuthenticated ? trialEligible === true : true;
 
   const periods: { key: BillingPeriod; label: string; badge?: string }[] = [
     { key: "monthly", label: "Monthly" },
@@ -313,6 +351,12 @@ export function PricingContent() {
             Each automated strategy is {formatCurrency(PRICING.MONTHLY.STRATEGY, "USD")}/mo.
             Subscribe to only what you need — all indicators are free.
           </p>
+          {showTrial ? (
+            <p className="mx-auto mt-6 inline-flex rounded-full border border-[#02C064]/40 bg-[#02C064]/10 px-4 py-2 text-sm font-semibold text-[#02C064]">
+              New here? Try any strategy for {TRIAL.DAYS} days for{" "}
+              {formatCurrency(TRIAL.FEE, "USD")}.
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -382,6 +426,7 @@ export function PricingContent() {
                 selected={selectedStrategies.includes(
                   STRATEGY_NAME_TO_KEY[strategy.name],
                 )}
+                showTrial={showTrial}
                 onToggle={() => toggleStrategy(strategy.name)}
               />
             ))}
@@ -397,12 +442,28 @@ export function PricingContent() {
                 {selectedStrategies.length} strateg
                 {selectedStrategies.length === 1 ? "y" : "ies"} selected
               </p>
-              <p className="text-2xl font-bold text-white">
-                {formatCurrency(Math.round(selectedTotal), currency, currency !== "USD")}
-                <span className="text-base font-normal text-muted">
-                  {getBillingPeriodLabel(billingPeriod)}
-                </span>
-              </p>
+              {showTrial ? (
+                <>
+                  <p className="text-2xl font-bold text-white">
+                    {formatCurrency(TRIAL.FEE, currency, currency !== "USD")}
+                    <span className="text-base font-normal text-muted">
+                      {" "}today
+                    </span>
+                  </p>
+                  <p className="text-sm text-muted">
+                    {TRIAL.DAYS}-day trial, then{" "}
+                    {formatCurrency(Math.round(selectedTotal), currency, currency !== "USD")}
+                    {getBillingPeriodLabel(billingPeriod)}. Cancel anytime.
+                  </p>
+                </>
+              ) : (
+                <p className="text-2xl font-bold text-white">
+                  {formatCurrency(Math.round(selectedTotal), currency, currency !== "USD")}
+                  <span className="text-base font-normal text-muted">
+                    {getBillingPeriodLabel(billingPeriod)}
+                  </span>
+                </p>
+              )}
               {checkoutError ? (
                 <p className="mt-1 text-sm text-red-400" role="alert">
                   {checkoutError}
@@ -418,9 +479,13 @@ export function PricingContent() {
             >
               {checkoutLoading
                 ? "Starting checkout..."
-                : isAuthenticated
-                  ? "Subscribe"
-                  : "Sign in to subscribe"}
+                : !isAuthenticated
+                  ? showTrial
+                    ? "Sign in to start trial"
+                    : "Sign in to subscribe"
+                  : showTrial
+                    ? `Start ${TRIAL.DAYS}-day trial`
+                    : "Subscribe"}
             </button>
           </div>
         </div>

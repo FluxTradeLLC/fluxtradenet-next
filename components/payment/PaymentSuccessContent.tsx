@@ -53,6 +53,30 @@ export function PaymentSuccessContent() {
         <h1 className="text-4xl font-extrabold tracking-tight text-flux-green sm:text-5xl">
           Congrats, your purchase is complete! 🎉
         </h1>
+        {!success ? (
+          <a
+            href="#setup-form"
+            className="mx-auto mt-6 flex max-w-md items-center gap-3 rounded-2xl border border-amber-400/60 bg-amber-400/10 px-5 py-4 text-left transition-colors hover:bg-amber-400/15"
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-400 text-lg font-bold text-black"
+              aria-hidden="true"
+            >
+              !
+            </span>
+            <span>
+              <span className="block text-base font-bold text-amber-300">
+                Action required: fill out the form below
+              </span>
+              <span className="block text-sm text-white/80">
+                It tells us which NinjaTrader account to license.
+              </span>
+            </span>
+            <span className="ml-auto text-xl text-amber-300" aria-hidden="true">
+              ↓
+            </span>
+          </a>
+        ) : null}
         <p className="mt-4 text-lg text-muted">
           Thank you for joining FluxTrade! Your subscription is now active and you have
           full access to all premium features. Check your email for a receipt and onboarding
@@ -66,7 +90,17 @@ export function PaymentSuccessContent() {
           Go to My Account
         </Link>
 
-        <div className="glass-card mx-auto mt-12 max-w-md rounded-2xl p-6 text-left shadow-lg">
+        <div
+          id="setup-form"
+          className={`glass-card mx-auto mt-12 max-w-md scroll-mt-28 rounded-2xl p-6 text-left shadow-lg ${
+            success ? "" : "ring-2 ring-amber-400/70"
+          }`}
+        >
+          {!success ? (
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-amber-300">
+              Action required
+            </p>
+          ) : null}
           <h2 className="text-2xl font-bold text-white">Get Started</h2>
 
           {success ? (

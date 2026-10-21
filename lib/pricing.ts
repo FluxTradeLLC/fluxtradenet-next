@@ -34,6 +34,14 @@ export const PRICING = {
   },
 } as const;
 
+// Matches TRIAL_PERIOD_DAYS / TRIAL_FEE_CENTS in fluxtradenet-node. The backend
+// decides who actually gets the trial (first-time subscribers only). The fee
+// is a flat $1 however many strategies are selected.
+export const TRIAL = {
+  DAYS: 7,
+  FEE: 1,
+} as const;
+
 export const STRIPE_PRICE_IDS = {
   LOCAL: {
     MONTHLY: {
