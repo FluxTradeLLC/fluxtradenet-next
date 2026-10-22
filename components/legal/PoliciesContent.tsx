@@ -20,16 +20,33 @@ export function PoliciesContent() {
           {s("policy.refundDescription")}
         </p>
         <div className="space-y-4">
-          <p className={contentBodyClass}>- {s("policy.refundPoint1")}</p>
-          <p className={contentBodyClass}>- {s("policy.refundPoint2")}</p>
           <p className={contentBodyClass}>
-            - {s("policy.refundPoint3")}{" "}
-            <a href="mailto:grant@fluxtrade.net" className={contentLinkClass}>
-              {s("policy.refundPoint3Support")}
-            </a>{" "}
-            {s("policy.refundPoint3Details")}
+            -{" "}
+            <strong className="text-white">
+              {s("policy.refundFirstPaymentBold")}
+            </strong>{" "}
+            {s("policy.refundFirstPayment")}
           </p>
-          <p className={contentBodyClass}>- {s("policy.refundPoint4")}</p>
+          <p className={contentBodyClass}>
+            -{" "}
+            <strong className="text-white">{s("policy.refundProratedBold")}</strong>{" "}
+            {s("policy.refundProrated")}
+          </p>
+          <p className={contentBodyClass}>
+            -{" "}
+            <strong className="text-white">
+              {s("policy.refundEndsAccessBold")}
+            </strong>{" "}
+            {s("policy.refundEndsAccess")}
+          </p>
+          <p className={contentBodyClass}>
+            - {s("policy.refundContact")}{" "}
+            <a href="mailto:grant@fluxtrade.net" className={contentLinkClass}>
+              {s("policy.refundContactSupport")}
+            </a>{" "}
+            {s("policy.refundContactDetails")}
+          </p>
+          <p className={contentBodyClass}>- {s("policy.refundProcessing")}</p>
         </div>
       </section>
 
