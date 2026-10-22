@@ -65,6 +65,7 @@ export function ClerkSessionSync() {
               email,
               firstname: user.firstName ?? undefined,
               lastname: user.lastName ?? undefined,
+              list: "account",
             }),
           }).catch((err) => {
             console.error("Failed to sync signup to Sender:", err);
